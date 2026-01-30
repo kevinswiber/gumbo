@@ -13,6 +13,18 @@ thoughts/
 ├── init.sh              # Project initialization script
 ├── rules/
 │   └── AGENTS.local.md  # Shared agent rules symlinked into each project
+├── skills/              # Claude Skills (version-controlled source of truth)
+│   ├── plan-create/
+│   ├── plan-resume/
+│   ├── plan-archive/
+│   ├── plan-cancel/
+│   ├── plan-findings-create/
+│   ├── plan-findings-resume/
+│   ├── research-create/
+│   ├── research-resume/
+│   ├── research-archive/
+│   ├── research-cancel/
+│   └── thoughts-init/
 ├── template/            # Template copied to new projects
 │   ├── plans/
 │   │   └── CLAUDE.md
@@ -62,7 +74,7 @@ This will:
 
 ## Claude Skills
 
-User-scoped Claude Skills in `~/.claude/skills` drive this workflow:
+The `skills/` directory is the version-controlled source of truth for Claude Skills. These are installed as user-scoped skills in `~/.claude/skills`.
 
 - `/plan:create` -- Create an implementation plan
 - `/plan:resume` -- Resume an in-progress plan
@@ -74,6 +86,7 @@ User-scoped Claude Skills in `~/.claude/skills` drive this workflow:
 - `/research:resume` -- Resume or synthesize research
 - `/research:archive` -- Archive completed research
 - `/research:cancel` -- Cancel research
+- `/thoughts:init` -- Initialize a thoughts directory for a project
 
 These skills read the `CLAUDE.md` files in each directory to understand conventions.
 
