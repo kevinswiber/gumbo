@@ -10,7 +10,7 @@ Find and resume work on an in-progress implementation plan.
 ## Process
 
 1. **Scan for in-progress plans:**
-   - Look for `.thoughts/plans/*/task-list.md` files (exclude `.thoughts/plans/archive/`)
+   - Look for `.gumbo/plans/*/task-list.md` files (exclude `.gumbo/plans/archive/`)
    - A plan is "in-progress" if it has unchecked task boxes: `- [ ]`
 
 2. **For each in-progress plan found, gather context:**
@@ -30,7 +30,7 @@ Find and resume work on an in-progress implementation plan.
 
    **No plans found:**
    ```
-   No in-progress plans found in `.thoughts/plans/`.
+   No in-progress plans found in `.gumbo/plans/`.
 
    To create a new plan, use `/plan:create <feature description>`.
    ```
@@ -43,8 +43,8 @@ Find and resume work on an in-progress implementation plan.
    ```
    Found multiple in-progress plans:
 
-   1. `.thoughts/plans/0006-rust-parser/` - 3/12 tasks (25%)
-   2. `.thoughts/plans/0007-output-formats/` - 0/8 tasks (0%)
+   1. `.gumbo/plans/0006-rust-parser/` - 3/12 tasks (25%)
+   2. `.gumbo/plans/0007-output-formats/` - 0/8 tasks (0%)
 
    Which plan would you like to resume? Enter the number or plan name.
    ```
@@ -52,7 +52,7 @@ Find and resume work on an in-progress implementation plan.
 
 4. **Display resume output:**
    ```
-   **Resuming plan:** `.thoughts/plans/NNNN-feature-name/`
+   **Resuming plan:** `.gumbo/plans/NNNN-feature-name/`
 
    **Progress:** N/M tasks complete (X%)
    **Created:** YYYY-MM-DD HH:MM UTC
@@ -113,7 +113,7 @@ Find and resume work on an in-progress implementation plan.
 
 ---
 
-**Resuming plan:** `.thoughts/plans/0008-rust-parser/`
+**Resuming plan:** `.gumbo/plans/0008-rust-parser/`
 
 **Progress:** 3/12 tasks complete (25%)
 **Created:** 2026-01-22 14:30 UTC
@@ -134,8 +134,8 @@ Find and resume work on an in-progress implementation plan.
 
 Found multiple in-progress plans:
 
-1. `.thoughts/plans/0006-rust-parser/` - 3/12 tasks (25%)
-2. `.thoughts/plans/0007-output-formats/` - 0/8 tasks (0%)
+1. `.gumbo/plans/0006-rust-parser/` - 3/12 tasks (25%)
+2. `.gumbo/plans/0007-output-formats/` - 0/8 tasks (0%)
 
 Which plan would you like to resume? Enter the number or plan name.
 
@@ -145,9 +145,9 @@ Which plan would you like to resume? Enter the number or plan name.
 
 ---
 
-No in-progress plans found in `.thoughts/plans/`.
+No in-progress plans found in `.gumbo/plans/`.
 
-All plans are either completed (in `.thoughts/plans/archive/`) or none exist yet.
+All plans are either completed (in `.gumbo/plans/archive/`) or none exist yet.
 
 To create a new plan, use `/plan:create <feature description>`.
 

@@ -49,12 +49,12 @@ Cancel an implementation plan that is no longer being pursued.
 
 4. **Move to archive:**
    ```bash
-   mv .thoughts/plans/NNNN-feature-name .thoughts/plans/archive/
+   mv .gumbo/plans/NNNN-feature-name .gumbo/plans/archive/
    ```
 
 5. **Confirm to user:**
    ```
-   **Cancelled:** `.thoughts/plans/archive/NNNN-feature-name/`
+   **Cancelled:** `.gumbo/plans/archive/NNNN-feature-name/`
    **Status:** ❌ CANCELLED
    **Reason:** [reason]
    **Progress at cancellation:** X/Y tasks (Z%)
@@ -74,7 +74,7 @@ Claude: Is this superseded by plan 0005-dagre-module? (y/n)
 
 User: yes
 
-**Cancelled:** `.thoughts/plans/archive/0004-declaration-order-layout/`
+**Cancelled:** `.gumbo/plans/archive/0004-declaration-order-layout/`
 **Status:** ❌ CANCELLED
 **Reason:** Superseded by 0005-dagre-module
 **Progress at cancellation:** 0/14 tasks (0%)
@@ -89,6 +89,6 @@ Update status to CANCELLED? (y/n)
 
 User: yes
 
-**Updated:** `.thoughts/plans/archive/0004-declaration-order-layout/`
+**Updated:** `.gumbo/plans/archive/0004-declaration-order-layout/`
 **Status:** ❌ CANCELLED
 ```

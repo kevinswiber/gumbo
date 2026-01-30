@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-29T01:26:22Z",
-  "updated_at": "2026-01-29T02:25:00Z",
-  "planning_agent_id": "a2fba0d",
-  "agent_ids": ["a1caa8d", "ae4f7c7", "a9492bc", "a176894", "a8b975a"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "Synthesis complete. 5 findings, 5 recommendations. 4 distinct root causes identified plus 1 downstream issue. Priority order: A (LR routing) > D (centering) > C (attachment) > E (labels) > B (BK stagger)."
-}

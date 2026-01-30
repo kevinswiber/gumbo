@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-30T00:15:00Z",
-  "updated_at": "2026-01-30T00:20:00Z",
-  "planning_agent_id": "a8b7743",
-  "agent_ids": ["a14bf6f", "aa4f757", "a014af7", "acc6b9f", "a00a5df"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "Synthesis complete. 5 key findings, 6 recommendations. All 5 questions answered. 10 overlap/clipping issues cataloged in Q3."
-}

@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-29T00:00:00Z",
-  "updated_at": "2026-01-29T00:00:00Z",
-  "planning_agent_id": null,
-  "agent_ids": [],
-  "synthesis_agent_id": null,
-  "last_session_notes": "Research conducted in ~/src/mermaid repo. All findings are current as of the develop branch at commit 09d06501c. Grammar files were inventoried, migration status was checked via GitHub issues/PRs, and syntax differences were documented from PR descriptions."
-}

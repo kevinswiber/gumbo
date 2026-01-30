@@ -10,7 +10,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 ## Process
 
 1. **Scan for research plans:**
-   - Look for `.thoughts/research/NNNN-*/research-plan.md` files (exclude `.thoughts/research/archive/`)
+   - Look for `.gumbo/research/NNNN-*/research-plan.md` files (exclude `.gumbo/research/archive/`)
    - A research plan is active if its `.research-state.json` has `status` other than `"complete"` or `"archived"`
    - If no state file exists, treat as active if the research-plan.md exists
 
@@ -18,7 +18,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 
    **No active research found:**
    ```
-   No active research plans found in `.thoughts/research/`.
+   No active research plans found in `.gumbo/research/`.
 
    To create a new research plan, use `/research:create <topic description>`.
    ```
@@ -28,8 +28,8 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    ```
    Found multiple active research plans:
 
-   1. `.thoughts/research/0001-edge-routing/` - Status: in_progress (3/5 questions complete)
-   2. `.thoughts/research/0002-layout-algo/` - Status: planned (not started)
+   1. `.gumbo/research/0001-edge-routing/` - Status: in_progress (3/5 questions complete)
+   2. `.gumbo/research/0002-layout-algo/` - Status: planned (not started)
 
    Which research plan would you like to resume?
    ```
@@ -51,7 +51,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
      - The where/what/how/why framework from the research plan
      - The sources to consult
      - Instructions to write findings to the output file using the findings template
-     - The full path to the output file: `.thoughts/research/NNNN-topic/qN-filename.md`
+     - The full path to the output file: `.gumbo/research/NNNN-topic/qN-filename.md`
    - **Run agents in the background** using `run_in_background: true` so they execute in parallel
 4. **Collect agent IDs** from all Task results
 5. **Update `.research-state.json`:**
@@ -66,7 +66,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 6. **Update `research-plan.md`** status to `IN PROGRESS` and update the Expected Outputs table statuses
 7. Display:
    ```
-   **Research started:** `.thoughts/research/NNNN-topic-name/`
+   **Research started:** `.gumbo/research/NNNN-topic-name/`
    **Agents spawned:** N parallel investigations
    **Agent IDs:** `id1`, `id2`, `id3`
 
@@ -80,7 +80,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 3. **Update `research-plan.md`** Expected Outputs table with current status
 4. Display progress:
    ```
-   **Research progress:** `.thoughts/research/NNNN-topic-name/`
+   **Research progress:** `.gumbo/research/NNNN-topic-name/`
    **Questions:** X/N complete
 
    **Complete:**
@@ -163,7 +163,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 4. **Update `research-plan.md`** status to `SYNTHESIZED` and mark synthesis as complete in Expected Outputs
 5. Display:
    ```
-   **Research synthesized:** `.thoughts/research/NNNN-topic-name/`
+   **Research synthesized:** `.gumbo/research/NNNN-topic-name/`
    **Findings:** N questions answered
    **Synthesis:** `synthesis.md`
 
@@ -175,7 +175,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    - [Recommendation 1]
    - [Recommendation 2]
 
-   To create an implementation plan based on this research, run `/plan:create` and reference `.thoughts/research/NNNN-topic-name/`.
+   To create an implementation plan based on this research, run `/plan:create` and reference `.gumbo/research/NNNN-topic-name/`.
 
    To archive this research, run `/research:archive NNNN`.
    ```
@@ -192,7 +192,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 
 If the user wants to investigate a subtopic further:
 
-1. Create `.thoughts/research/NNNN-topic/subtopic-name/` subdirectory
+1. Create `.gumbo/research/NNNN-topic/subtopic-name/` subdirectory
 2. Create a new `research-plan.md` and `.research-state.json` inside it
 3. The parent research's synthesis should note the child investigation
 4. Follow the same create/resume lifecycle for the child

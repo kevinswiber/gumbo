@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-29T20:00:00Z",
-  "updated_at": "2026-01-29T20:15:00Z",
-  "planning_agent_id": "acedcd7",
-  "agent_ids": ["af9e55c", "a58b15d", "ac18d27", "a92f236"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "Synthesis complete. 4 findings, 4 recommendations. Root cause identified: layer_starts midpoint formula uses left-edge-to-left-edge instead of right-edge-to-left-edge."
-}

@@ -1,5 +1,5 @@
 {
-  "name": "thoughts",
+  "name": "gumbo",
   "owner": {
     "name": "Kevin Swiber"
   },
@@ -22,10 +22,10 @@
       "keywords": ["research", "investigation", "exploration"]
     },
     {
-      "name": "thoughts",
-      "source": "./plugins/thoughts",
-      "description": "Project initialization for the thoughts knowledge management system",
-      "keywords": ["thoughts", "initialization", "project-setup"]
+      "name": "gumbo",
+      "source": "./plugins/gumbo",
+      "description": "Project initialization for the gumbo knowledge management system",
+      "keywords": ["gumbo", "initialization", "project-setup"]
     }
   ]
 }

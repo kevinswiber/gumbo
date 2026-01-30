@@ -14,11 +14,11 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
    - If the user provides a plan number (e.g., `/plan:findings-create 0018`), use that plan directly
    - If no number is provided, scan for in-progress plans:
-     - Look for `.thoughts/plans/*/task-list.md` files (exclude `.thoughts/plans/archive/`)
+     - Look for `.gumbo/plans/*/task-list.md` files (exclude `.gumbo/plans/archive/`)
      - Check which plans have completed tasks but no `findings/` directory (or sparse findings)
      - If one plan qualifies, use it
      - If multiple plans qualify, list them and ask the user to choose
-     - If no plans qualify, check `.thoughts/plans/archive/` and offer those
+     - If no plans qualify, check `.gumbo/plans/archive/` and offer those
 
 2. **Gather implementation context:**
 
@@ -61,7 +61,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
 5. **Present findings to the user:**
    ```
-   **Plan:** `.thoughts/plans/NNNN-feature-name/`
+   **Plan:** `.gumbo/plans/NNNN-feature-name/`
    **Phases reviewed:** N completed phases (M commits)
    **Findings identified:** K total
 
@@ -71,7 +71,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
    | 2 | [Short title] | todo | Phase 3 / Task 3.2 | TODO in src/foo.rs:42 |
    | 3 | [Short title] | discovery | Phase 1 / Task 1.3 | Commit def5678 |
 
-   Should I write these as finding files in `.thoughts/plans/NNNN-name/findings/`?
+   Should I write these as finding files in `.gumbo/plans/NNNN-name/findings/`?
    You can adjust, add, or remove findings before I write them.
    ```
 
@@ -79,7 +79,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
 7. **Write finding files:**
 
-   - Create `.thoughts/plans/NNNN-name/findings/` directory if it doesn't exist
+   - Create `.gumbo/plans/NNNN-name/findings/` directory if it doesn't exist
    - Write each finding as an individual markdown file
    - Use descriptive filenames: `findings/todo-cleanup-unused-helpers.md`
    - Follow the standard finding format:
@@ -104,7 +104,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
 8. **Report results:**
    ```
-   **Findings written:** N files in `.thoughts/plans/NNNN-name/findings/`
+   **Findings written:** N files in `.gumbo/plans/NNNN-name/findings/`
 
    - findings/diversion-changed-routing-approach.md
    - findings/todo-cleanup-unused-helpers.md
@@ -124,7 +124,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
 ---
 
-**Plan:** `.thoughts/plans/0018-lr-rl-remaining-fixes/`
+**Plan:** `.gumbo/plans/0018-lr-rl-remaining-fixes/`
 **Phases reviewed:** 3 completed phases (3 commits)
 **Findings identified:** 4 total
 
@@ -135,6 +135,6 @@ Retroactively extract findings from completed plan phases when findings weren't 
 | 3 | Plan assumed waypoints always ordered top-to-bottom | plan-error | Phase 2 / Task 2.3 | Commit 7b7e7f0 |
 | 4 | Diamond attachment points need rank-aware sorting | discovery | Phase 1 / Task 1.2 | Commit 0d66d6c |
 
-Should I write these as finding files in `.thoughts/plans/0018-lr-rl-remaining-fixes/findings/`?
+Should I write these as finding files in `.gumbo/plans/0018-lr-rl-remaining-fixes/findings/`?
 
 ---

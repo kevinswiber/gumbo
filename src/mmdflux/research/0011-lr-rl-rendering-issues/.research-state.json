@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-28T20:00:00Z",
-  "updated_at": "2026-01-28T20:15:00Z",
-  "planning_agent_id": "a0c80eb",
-  "agent_ids": ["a857c39", "a42fa7b", "a935b74", "ac7a557"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "All 4 questions answered and synthesized. 7 issues mapped to 4 root causes across 3 severity levels. Issues 4+7 already fixed in 83d4877. Remaining: canvas trim (Issue 1), label placement (Issues 5+6), dagre params (Issues 2+3)."
-}

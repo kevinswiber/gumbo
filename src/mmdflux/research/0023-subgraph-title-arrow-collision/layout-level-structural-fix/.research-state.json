@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-29T20:25:00Z",
-  "updated_at": "2026-01-29T20:45:00Z",
-  "planning_agent_id": "a7623c3",
-  "agent_ids": ["a825e26", "aa4732b", "a1cf73d", "a419a47", "a503acc"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "All 5 questions answered and synthesized. Key finding: title node follows existing border pattern with two targeted fixes needed (ordering single-child ranks, render bounds adjustment). Cross-subgraph edges and BK are unaffected."
-}

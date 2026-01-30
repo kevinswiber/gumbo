@@ -1,1 +1,0 @@
-../../plugins/thoughts/AGENTS.local.md

@@ -1,0 +1,11 @@
+{
+  "name": "gumbo",
+  "version": "1.0.0",
+  "description": "Project initialization for the gumbo knowledge management system",
+  "author": {
+    "name": "Kevin Swiber"
+  },
+  "repository": "https://github.com/kevinswiber/gumbo",
+  "license": "MIT",
+  "keywords": ["gumbo", "initialization", "project-setup"]
+}

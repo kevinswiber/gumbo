@@ -44,12 +44,12 @@ Cancel a research plan that is no longer being pursued.
 
 4. **Move to archive:**
    ```bash
-   mv .thoughts/research/NNNN-topic-name .thoughts/research/archive/
+   mv .gumbo/research/NNNN-topic-name .gumbo/research/archive/
    ```
 
 5. **Confirm to user:**
    ```
-   **Cancelled:** `.thoughts/research/archive/NNNN-topic-name/`
+   **Cancelled:** `.gumbo/research/archive/NNNN-topic-name/`
    **Status:** CANCELLED
    **Reason:** [reason]
    **Questions answered:** X/Y at time of cancellation

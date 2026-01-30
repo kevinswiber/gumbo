@@ -22,9 +22,9 @@ Design a research plan that decomposes a topic into parallel investigation tasks
    - The output file name for findings
    - Which sources to consult (local code, external repos, docs, web)
 
-3. **Find the next research number** by checking both `.thoughts/research/` and `.thoughts/research/archive/` for the highest `NNNN-*` prefix. Unnumbered directories are legacy and should be ignored when determining the next number.
+3. **Find the next research number** by checking both `.gumbo/research/` and `.gumbo/research/archive/` for the highest `NNNN-*` prefix. Unnumbered directories are legacy and should be ignored when determining the next number.
 
-4. **Create the research directory:** `.thoughts/research/NNNN-topic-name/`
+4. **Create the research directory:** `.gumbo/research/NNNN-topic-name/`
 
 5. **Write `research-plan.md`** with this format:
 
@@ -108,7 +108,7 @@ Design a research plan that decomposes a topic into parallel investigation tasks
 8. **Present the plan** to the user:
 
    ```
-   **Research plan created:** `.thoughts/research/NNNN-topic-name/`
+   **Research plan created:** `.gumbo/research/NNNN-topic-name/`
    **Created:** YYYY-MM-DD HH:MM UTC
    **Questions:** N questions defined
    **Planning agent:** `{agentId}` (resume for additional context)
@@ -164,6 +164,6 @@ Each subagent should produce findings following this structure:
 ## Hierarchical Research
 
 If a research plan needs deeper investigation on a subtopic:
-- Create a subdirectory: `.thoughts/research/NNNN-topic-name/subtopic-name/`
+- Create a subdirectory: `.gumbo/research/NNNN-topic-name/subtopic-name/`
 - The subdirectory gets its own `research-plan.md` and `.research-state.json`
 - The parent's synthesis should reference the child research

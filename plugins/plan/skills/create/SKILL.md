@@ -13,13 +13,13 @@ Plan the requested feature or change using the project's planning conventions.
 1. **Invoke the Plan subagent** using the Task tool with `subagent_type=Plan` to thoroughly research the codebase and design an implementation approach. The prompt should include the user's feature request and ask for a complete implementation plan. **Capture the `agentId`** from the Task result - this allows resuming the planning agent for additional context.
 
 2. **After planning is complete**, save the plan to the project's plans directory:
-   - Find the next plan number by checking both `.thoughts/plans/` and `.thoughts/plans/archive/` for the highest `NNNN-*` prefix
-   - Create `.thoughts/plans/NNNN-feature-name/` directory (use lowercase kebab-case)
+   - Find the next plan number by checking both `.gumbo/plans/` and `.gumbo/plans/archive/` for the highest `NNNN-*` prefix
+   - Create `.gumbo/plans/NNNN-feature-name/` directory (use lowercase kebab-case)
    - Write `implementation-plan.md` with the full plan
    - Write `task-list.md` with checkboxes for each task (each linking to a task file)
    - Create `tasks/` subdirectory with detailed task files (see format below)
    - Write `.plan-state.json` with initial state (see format below)
-   - Check `.thoughts/research/` at the project root for prior research relevant to this plan and link to it
+   - Check `.gumbo/research/` at the project root for prior research relevant to this plan and link to it
 
 3. **Use this format for implementation-plan.md:**
    ```markdown
@@ -51,8 +51,8 @@ Plan the requested feature or change using the project's planning conventions.
    | 1.2  | Task description | [tasks/1.2-task-name.md](./tasks/1.2-task-name.md) |
 
    ## Research References
-   [If prior research exists in the project's .thoughts/research/ directory, link to relevant documents here]
-   - [research-doc-name.md](../../.thoughts/research/topic/research-doc-name.md)
+   [If prior research exists in the project's .gumbo/research/ directory, link to relevant documents here]
+   - [research-doc-name.md](../../.gumbo/research/topic/research-doc-name.md)
 
    ## Testing Strategy
    [How to test the changes — all tasks follow TDD Red/Green/Refactor]
@@ -93,7 +93,7 @@ Plan the requested feature or change using the project's planning conventions.
    | Resource             | Path                                                 |
    | -------------------- | ---------------------------------------------------- |
    | Implementation Plan  | [implementation-plan.md](./implementation-plan.md)   |
-   | Research: Topic Name | [.thoughts/research/topic/doc.md](../../.thoughts/research/topic/doc.md) |
+   | Research: Topic Name | [.gumbo/research/topic/doc.md](../../.gumbo/research/topic/doc.md) |
    ```
 
    Each task item links to a detailed task file in `tasks/`. The Quick Links section at the bottom provides easy access to the implementation plan and any relevant research documents.
@@ -155,7 +155,7 @@ Plan the requested feature or change using the project's planning conventions.
 
    ## Context
    [Any additional notes: imports needed, related functions, edge cases to handle.
-   Link to research docs if relevant: see [research-doc.md](../../../.thoughts/research/topic/doc.md)]
+   Link to research docs if relevant: see [research-doc.md](../../../.gumbo/research/topic/doc.md)]
 
    ## Acceptance Criteria
    - [ ] Failing test written and confirmed red
@@ -171,7 +171,7 @@ Plan the requested feature or change using the project's planning conventions.
    - The Refactor phase should identify concrete cleanup opportunities
    - Include enough code detail that implementation can proceed without re-reading the full codebase
    - Show specific file paths, function signatures, struct definitions, and key logic
-   - Reference related research documents from `.thoughts/research/` when applicable
+   - Reference related research documents from `.gumbo/research/` when applicable
    - Not every task-list item needs a task file — small or self-explanatory tasks (e.g., "run tests") can be described inline in the task list with `*(Covered in X.Y)*` or a brief note
 
 6. **Use this format for .plan-state.json:**
@@ -205,7 +205,7 @@ Plan the requested feature or change using the project's planning conventions.
 
    Output format:
    ```
-   **Plan saved to:** `.thoughts/plans/NNNN-feature-name/`
+   **Plan saved to:** `.gumbo/plans/NNNN-feature-name/`
    **Created:** YYYY-MM-DD HH:MM UTC
    **Tasks:** 0/N complete
    **Planning agent:** `{agentId}` (resume for additional context)
@@ -224,7 +224,7 @@ Plan the requested feature or change using the project's planning conventions.
 
 10. **Use this continuation prompt template:**
    ````
-   Continue implementing the plan in .thoughts/plans/NNNN-feature-name/
+   Continue implementing the plan in .gumbo/plans/NNNN-feature-name/
 
    Read the implementation-plan.md and task-list.md files, then read the detailed task file in tasks/ for the first incomplete task before beginning implementation.
 
@@ -252,7 +252,7 @@ Plan the requested feature or change using the project's planning conventions.
 
 ---
 
-**Plan saved to:** `.thoughts/plans/0006-rust-parser/`
+**Plan saved to:** `.gumbo/plans/0006-rust-parser/`
 **Created:** 2026-01-24 10:30 UTC
 **Tasks:** 0/12 complete
 **Planning agent:** `a1b2c3d4-e5f6-7890-abcd-ef1234567890` (resume for additional context)
@@ -265,7 +265,7 @@ Plan the requested feature or change using the project's planning conventions.
 To continue with implementation, run `/clear` and then `/plan:resume` or paste:
 
 ```
-Continue implementing the plan in .thoughts/plans/0006-rust-parser/
+Continue implementing the plan in .gumbo/plans/0006-rust-parser/
 
 Read the implementation-plan.md and task-list.md files, then begin with the first incomplete task.
 

@@ -11,7 +11,7 @@ Archive a completed research plan after findings have been synthesized and consu
 
 1. **Identify the research to archive:**
    - If the user specifies a number/name, use that
-   - Otherwise, scan `.thoughts/research/NNNN-*/` (exclude `archive/` and unnumbered legacy directories) for research with status `"synthesized"` in `.research-state.json`
+   - Otherwise, scan `.gumbo/research/NNNN-*/` (exclude `archive/` and unnumbered legacy directories) for research with status `"synthesized"` in `.research-state.json`
    - If multiple candidates, ask user to choose
 
 2. **Verify completion:**
@@ -40,12 +40,12 @@ Archive a completed research plan after findings have been synthesized and consu
 
 4. **Move to archive:**
    ```bash
-   mv .thoughts/research/NNNN-topic-name .thoughts/research/archive/
+   mv .gumbo/research/NNNN-topic-name .gumbo/research/archive/
    ```
 
 5. **Confirm to user:**
    ```
-   **Archived:** `.thoughts/research/archive/NNNN-topic-name/`
+   **Archived:** `.gumbo/research/archive/NNNN-topic-name/`
    **Status:** ARCHIVED
    **Questions:** N answered
    **Synthesis:** Yes/No
@@ -54,5 +54,5 @@ Archive a completed research plan after findings have been synthesized and consu
 
 ## Notes
 
-- Research referenced by implementation plans (via relative paths like `../../.thoughts/research/NNNN-topic/`) will have broken links after archiving. The archive path becomes `../../.thoughts/research/archive/NNNN-topic/`. Consider this before archiving research that active plans reference.
+- Research referenced by implementation plans (via relative paths like `../../.gumbo/research/NNNN-topic/`) will have broken links after archiving. The archive path becomes `../../.gumbo/research/archive/NNNN-topic/`. Consider this before archiving research that active plans reference.
 - Unnumbered legacy research directories (e.g., `dagre-layout/`, `edge-routing-deep-dive/`) should not be archived through this skill — they predate the numbering convention.

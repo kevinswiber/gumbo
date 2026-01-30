@@ -1,9 +1,0 @@
-{
-  "status": "synthesized",
-  "created_at": "2026-01-29T20:00:00Z",
-  "updated_at": "2026-01-29T20:30:00Z",
-  "planning_agent_id": "aa93e60",
-  "agent_ids": ["a530162", "a3d2879", "a482ec9", "a3a20b7"],
-  "synthesis_agent_id": null,
-  "last_session_notes": "Synthesis complete. 4 findings, 5 recommendations. Key insight: dagre already supports multi-level nesting; main work is builder parent tracking and inside-out bounds computation."
-}

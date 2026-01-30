@@ -1,68 +1,70 @@
-# thoughts
+# gumbo
 
 Version-controlled development thoughts, plans, research, and issues -- separated from code repos.
 
 ## Why
 
-Keep your inner dev loop artifacts (implementation plans, research, issue tracking) out of your code repos while still version-controlling them. Each project gets a `.thoughts` symlink pointing into this repo.
+Keep your inner dev loop artifacts (implementation plans, research, issue tracking) out of your code repos while still version-controlling them. Each project gets a `.gumbo` symlink pointing to a per-project directory under `~/.gumbo`.
 
 ## Structure
 
 ```
-thoughts/
-├── .claude-plugin/
-│   └── marketplace.json    # Plugin marketplace catalog
-├── plugins/
-│   ├── plan/               # Implementation planning plugin
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
-│   │   └── skills/
-│   │       ├── create/
-│   │       ├── resume/
-│   │       ├── archive/
-│   │       ├── cancel/
-│   │       ├── findings-create/
-│   │       └── findings-resume/
-│   ├── research/           # Research investigation plugin
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
-│   │   └── skills/
-│   │       ├── create/
-│   │       ├── resume/
-│   │       ├── archive/
-│   │       └── cancel/
-│   └── thoughts/           # Project initialization plugin
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       ├── AGENTS.local.md # Shared agent rules symlinked into each project
-│       └── skills/
-│           └── init/
-│               ├── SKILL.md
-│               ├── scripts/
-│               │   └── init.sh
-│               └── template/
-│                   ├── plans/
-│                   ├── research/
-│                   └── issues/
-└── src/                    # Per-project thought directories
+~/.gumbo/                        # Data root (version-controllable)
+└── projects/
     └── mmdflux/
-        ├── AGENTS.local.md -> ../../plugins/thoughts/AGENTS.local.md
+        ├── AGENTS.local.md -> <plugin-root>/plugins/gumbo/AGENTS.local.md
         ├── plans/
         ├── research/
         └── issues/
+
+gumbo/                           # Plugin/marketplace repo
+├── .claude-plugin/
+│   └── marketplace.json         # Plugin marketplace catalog
+└── plugins/
+    ├── plan/                    # Implementation planning plugin
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json
+    │   └── skills/
+    │       ├── create/
+    │       ├── resume/
+    │       ├── archive/
+    │       ├── cancel/
+    │       ├── findings-create/
+    │       └── findings-resume/
+    ├── research/                # Research investigation plugin
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json
+    │   └── skills/
+    │       ├── create/
+    │       ├── resume/
+    │       ├── archive/
+    │       └── cancel/
+    └── gumbo/                   # Project initialization plugin
+        ├── .claude-plugin/
+        │   └── plugin.json
+        ├── AGENTS.local.md      # Shared agent rules symlinked into each project
+        └── skills/
+            └── init/
+                ├── SKILL.md
+                ├── scripts/
+                │   └── init.sh
+                └── template/
+                    ├── plans/
+                    ├── research/
+                    └── issues/
 ```
 
 ## Setup
 
-Each directory in `src/` corresponds to a repo in `~/src/`. For example:
+Each directory in `~/.gumbo/projects/` corresponds to a code repo. For example:
 
-- `~/src/thoughts/src/mmdflux/` serves `~/src/mmdflux/`
-- `~/src/thoughts/src/myapp/` serves `~/src/myapp/`
+- `~/.gumbo/projects/mmdflux/` serves `~/src/mmdflux/`
+- `~/.gumbo/projects/myapp/` serves `~/src/myapp/`
 
-The code repo has `.thoughts` in its `.gitignore` and a symlink:
+The code repo has `.gumbo` in its `.gitignore` and a symlink:
 
 ```
-~/src/mmdflux/.thoughts -> ~/src/thoughts/src/mmdflux
+~/src/mmdflux/.gumbo -> ~/.gumbo/projects/mmdflux
 ```
 
 ## Install plugins
@@ -70,27 +72,27 @@ The code repo has `.thoughts` in its `.gitignore` and a symlink:
 Add the marketplace and install plugins:
 
 ```bash
-claude plugin marketplace add kevinswiber/thoughts
-claude plugin install plan@thoughts
-claude plugin install research@thoughts
-claude plugin install thoughts@thoughts
+claude plugin marketplace add kevinswiber/gumbo
+claude plugin install plan@gumbo
+claude plugin install research@gumbo
+claude plugin install gumbo@gumbo
 ```
 
 ## Initialize a project
 
-Use the `/thoughts:init` skill or run the script directly:
+Use the `/gumbo:init` skill or run the script directly:
 
 ```bash
-plugins/thoughts/skills/init/scripts/init.sh ~/src/myproject
+plugins/gumbo/skills/init/scripts/init.sh ~/.gumbo ~/src/myproject
 ```
 
 This will:
 
-1. Create `~/src/thoughts/src/myproject/` (if it doesn't exist)
+1. Create `~/.gumbo/projects/myproject/` (if it doesn't exist)
 2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `CLAUDE.md` files
-3. Symlink `AGENTS.local.md` to the shared copy in the thoughts plugin
-4. Create a symlink at `~/src/myproject/.thoughts` pointing to the thoughts directory
-5. Add `.thoughts` to the project's `.gitignore`
+3. Symlink `AGENTS.local.md` to the shared copy in the gumbo plugin
+4. Create a symlink at `~/src/myproject/.gumbo` pointing to the gumbo directory
+5. Add `.gumbo` to the project's `.gitignore`
 
 ## Skills
 
@@ -110,13 +112,13 @@ This will:
 - `/research:archive` -- Archive completed research
 - `/research:cancel` -- Cancel research
 
-### thoughts
+### gumbo
 
-- `/thoughts:init` -- Initialize a thoughts directory for a project
+- `/gumbo:init` -- Initialize a gumbo directory for a project
 
 ## AGENTS.local.md
 
-`plugins/thoughts/AGENTS.local.md` contains shared agent instructions (planning, research, and issue workflows) that apply to all projects. Each project gets a symlink at `.thoughts/AGENTS.local.md` pointing to this single source of truth, so updates propagate to every project automatically.
+`plugins/gumbo/AGENTS.local.md` contains shared agent instructions (planning, research, and issue workflows) that apply to all projects. Each project gets a symlink at `.gumbo/AGENTS.local.md` pointing to this single source of truth, so updates propagate to every project automatically.
 
 ## Directories
 

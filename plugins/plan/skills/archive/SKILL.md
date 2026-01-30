@@ -11,7 +11,7 @@ Archive a completed implementation plan after successful implementation.
 
 1. **Identify the plan to archive:**
    - If the user specifies a plan number/name, use that
-   - Otherwise, scan `.thoughts/plans/*/` (exclude `archive/`) for plans that appear complete:
+   - Otherwise, scan `.gumbo/plans/*/` (exclude `archive/`) for plans that appear complete:
      - All task checkboxes marked done (`- [x]`)
      - Or user explicitly states it's complete
    - If multiple candidates found, ask user to specify which one
@@ -54,12 +54,12 @@ Archive a completed implementation plan after successful implementation.
 
 4. **Move to archive:**
    ```bash
-   mv .thoughts/plans/NNNN-feature-name .thoughts/plans/archive/
+   mv .gumbo/plans/NNNN-feature-name .gumbo/plans/archive/
    ```
 
 5. **Confirm to user:**
    ```
-   **Archived:** `.thoughts/plans/archive/NNNN-feature-name/`
+   **Archived:** `.gumbo/plans/archive/NNNN-feature-name/`
    **Status:** ✅ COMPLETE
    **Tasks:** X/Y complete
    **Completed:** YYYY-MM-DD

@@ -5,7 +5,7 @@
   "author": {
     "name": "Kevin Swiber"
   },
-  "repository": "https://github.com/kevinswiber/thoughts",
+  "repository": "https://github.com/kevinswiber/gumbo",
   "license": "MIT",
   "keywords": ["planning", "tdd", "implementation", "task-tracking"]
 }
