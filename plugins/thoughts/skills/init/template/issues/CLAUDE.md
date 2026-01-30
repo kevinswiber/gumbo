@@ -8,7 +8,7 @@ When working on this project, follow these guidelines for creating and managing 
 
 Issues come from two primary sources:
 
-1. **Plan findings** — Discoveries, TODOs, and problems recorded in `plans/NNNN-name/findings/` during implementation. Use `/plan:findings:resume` to triage findings into issues.
+1. **Plan findings** — Discoveries, TODOs, and problems recorded in `plans/NNNN-name/findings/` during implementation. Use `/plan:findings-resume` to triage findings into issues.
 2. **Direct observation** — Issues identified through testing, visual comparison, or user reports.
 
 ## Directory Structure

@@ -1,5 +1,5 @@
 ---
-name: findings:resume
+name: findings-resume
 description: Triage findings from a plan into issues and research. Reads findings/ from a plan directory, decides what becomes an issue or research update, and writes them to the appropriate locations.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
@@ -12,7 +12,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 1. **Identify the target plan:**
 
-   - If the user provides a plan number (e.g., `/plan:findings:resume 0018`), use that plan directly: `.thoughts/plans/NNNN-*/`
+   - If the user provides a plan number (e.g., `/plan:findings-resume 0018`), use that plan directly: `.thoughts/plans/NNNN-*/`
    - If no number is provided, scan for plans with findings:
      - Look for `.thoughts/plans/*/findings/` directories (exclude `.thoughts/plans/archive/`)
      - Read `.plan-state.json` for each to check status
@@ -26,7 +26,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
        Which plan's findings should I triage?
        ```
-     - If no plans have findings, report that and suggest `/plan:findings:create`
+     - If no plans have findings, report that and suggest `/plan:findings-create`
 
 2. **Read all findings:**
    - Read every `.md` file in `.thoughts/plans/NNNN-name/findings/`

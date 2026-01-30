@@ -1,5 +1,5 @@
 ---
-name: findings:create
+name: findings-create
 description: Retroactively create findings for a plan by reviewing completed phases. Use when findings weren't recorded during implementation and need to be extracted after the fact.
 allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git show:*)
 ---
@@ -12,7 +12,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
 
 1. **Identify the target plan:**
 
-   - If the user provides a plan number (e.g., `/plan:findings:create 0018`), use that plan directly
+   - If the user provides a plan number (e.g., `/plan:findings-create 0018`), use that plan directly
    - If no number is provided, scan for in-progress plans:
      - Look for `.thoughts/plans/*/task-list.md` files (exclude `.thoughts/plans/archive/`)
      - Check which plans have completed tasks but no `findings/` directory (or sparse findings)
@@ -110,7 +110,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
    - findings/todo-cleanup-unused-helpers.md
    - findings/discovery-diamond-attachment-behavior.md
 
-   Run `/plan:findings:resume NNNN` to triage these into issues and research.
+   Run `/plan:findings-resume NNNN` to triage these into issues and research.
    ```
 
 ## When to Use This Skill
