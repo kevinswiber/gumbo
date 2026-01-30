@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-THOUGHTS_ROOT="$HOME/src/thoughts"
-TEMPLATE_DIR="$THOUGHTS_ROOT/template"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+THOUGHTS_ROOT="$(cd "$SCRIPT_DIR/../../../../.." && pwd)"
+TEMPLATE_DIR="$SCRIPT_DIR/../template"
 
 usage() {
     echo "Usage: $0 <project-path>"
