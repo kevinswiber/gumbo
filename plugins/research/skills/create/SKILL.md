@@ -1,5 +1,5 @@
 ---
-name: research:create
+name: create
 description: Create a research plan with parallel investigation tasks. Use when exploring a topic, analyzing external code, or gathering information to inform an implementation plan.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---

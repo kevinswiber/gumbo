@@ -1,5 +1,5 @@
 ---
-name: plan:create
+name: create
 description: Create implementation plans following project conventions. Use when planning new features, refactors, or significant changes.
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*)
 ---

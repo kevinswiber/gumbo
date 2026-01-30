@@ -1,5 +1,5 @@
 ---
-name: research:archive
+name: archive
 description: Archive completed research. Moves the research to archive/ and updates its status.
 ---
 

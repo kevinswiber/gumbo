@@ -1,5 +1,5 @@
 ---
-name: research:resume
+name: resume
 description: Resume a research plan. Spawns parallel agents if not started, checks progress, or synthesizes findings.
 ---
 

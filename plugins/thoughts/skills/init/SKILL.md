@@ -1,5 +1,5 @@
 ---
-name: thoughts:init
+name: init
 description: Initialize a thoughts directory for the current project, creating a template in ~/src/thoughts and a symlink in the project repo
 allowed-tools: Bash(~/src/thoughts/init.sh:*), Read, Write, Edit
 ---

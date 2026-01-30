@@ -1,5 +1,5 @@
 ---
-name: plan:findings:create
+name: findings:create
 description: Retroactively create findings for a plan by reviewing completed phases. Use when findings weren't recorded during implementation and need to be extracted after the fact.
 allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git show:*)
 ---

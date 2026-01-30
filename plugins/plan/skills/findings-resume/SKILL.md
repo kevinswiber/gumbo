@@ -1,5 +1,5 @@
 ---
-name: plan:findings:resume
+name: findings:resume
 description: Triage findings from a plan into issues and research. Reads findings/ from a plan directory, decides what becomes an issue or research update, and writes them to the appropriate locations.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
