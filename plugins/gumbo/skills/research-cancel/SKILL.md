@@ -1,5 +1,5 @@
 ---
-name: cancel
+name: research:cancel
 description: Cancel a research plan. Updates status to CANCELLED and moves to archive/. Use when research is no longer needed or has been superseded.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: init
+name: gumbo:init
 description: Initialize a gumbo directory for the current project, creating a template in ~/.gumbo and a symlink in the project repo
 allowed-tools: Bash(./scripts/init.sh:*), Read, Write, Edit
 ---

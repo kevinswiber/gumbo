@@ -1,5 +1,5 @@
 ---
-name: archive
+name: plan:archive
 description: Archive a completed implementation plan. Moves the plan to archive/ and updates its status to COMPLETE.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: cancel
+name: plan:cancel
 description: Cancel an implementation plan. Moves the plan to archive/ with CANCELLED status. Use when a plan is superseded, abandoned, or no longer needed.
 ---
 

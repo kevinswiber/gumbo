@@ -1,5 +1,5 @@
 ---
-name: resume
+name: plan:resume
 description: Resume working on an in-progress implementation plan. Finds incomplete plans and provides context to continue.
 ---
 

@@ -10,22 +10,10 @@
   },
   "plugins": [
     {
-      "name": "plan",
-      "source": "./plugins/plan",
-      "description": "Implementation planning with TDD workflows, task tracking, and findings management",
-      "keywords": ["planning", "tdd", "implementation", "task-tracking"]
-    },
-    {
-      "name": "research",
-      "source": "./plugins/research",
-      "description": "Research investigations with parallel question-based exploration and synthesis",
-      "keywords": ["research", "investigation", "exploration"]
-    },
-    {
       "name": "gumbo",
       "source": "./plugins/gumbo",
-      "description": "Project initialization for the gumbo knowledge management system",
-      "keywords": ["gumbo", "initialization", "project-setup"]
+      "description": "Knowledge management for Claude Code — planning, research, and project initialization",
+      "keywords": ["gumbo", "planning", "research", "tdd", "initialization", "project-setup"]
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "name": "gumbo",
   "version": "1.0.0",
-  "description": "Project initialization for the gumbo knowledge management system",
+  "description": "Knowledge management for Claude Code — planning, research, and project initialization",
   "author": {
     "name": "Kevin Swiber"
   },
   "repository": "https://github.com/kevinswiber/gumbo",
   "license": "MIT",
-  "keywords": ["gumbo", "initialization", "project-setup"]
+  "keywords": ["gumbo", "planning", "research", "tdd", "initialization", "project-setup"]
 }
