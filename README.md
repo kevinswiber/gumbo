@@ -2,6 +2,10 @@
 
 Version-controlled development thoughts, plans, research, and issues -- separated from code repos.
 
+This is my personal workflow tool. If you're here, you should watch a clip from this cooking show I grew up with:
+
+[![Gumbo clip](https://img.youtube.com/vi/oScmodG_riM/0.jpg)](https://youtu.be/oScmodG_riM?si=TJcdd51-S5djM0oC)
+
 ## Why
 
 Keep your inner dev loop artifacts (implementation plans, research, issue tracking) out of your code repos while still version-controlling them. Each project gets a `.gumbo` symlink pointing to a per-project directory under `~/.gumbo`.
