@@ -1,0 +1,11 @@
+{
+  "name": "thoughts",
+  "version": "1.0.0",
+  "description": "Project initialization for the thoughts knowledge management system",
+  "author": {
+    "name": "Kevin Swiber"
+  },
+  "repository": "https://github.com/kevinswiber/thoughts",
+  "license": "MIT",
+  "keywords": ["thoughts", "initialization", "project-setup"]
+}

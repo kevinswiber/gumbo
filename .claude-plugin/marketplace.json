@@ -1,0 +1,31 @@
+{
+  "name": "thoughts",
+  "owner": {
+    "name": "Kevin Swiber"
+  },
+  "metadata": {
+    "description": "Knowledge management plugins for Claude Code — planning, research, and project initialization",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "plan",
+      "source": "./plugins/plan",
+      "description": "Implementation planning with TDD workflows, task tracking, and findings management",
+      "keywords": ["planning", "tdd", "implementation", "task-tracking"]
+    },
+    {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "Research investigations with parallel question-based exploration and synthesis",
+      "keywords": ["research", "investigation", "exploration"]
+    },
+    {
+      "name": "thoughts",
+      "source": "./plugins/thoughts",
+      "description": "Project initialization for the thoughts knowledge management system",
+      "keywords": ["thoughts", "initialization", "project-setup"]
+    }
+  ]
+}

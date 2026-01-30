@@ -1,1 +1,1 @@
-../../rules/AGENTS.local.md
+../../plugins/thoughts/AGENTS.local.md

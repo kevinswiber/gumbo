@@ -51,7 +51,7 @@ else
     echo "Creating thoughts directory: $THOUGHTS_PROJECT_DIR"
     mkdir -p "$THOUGHTS_PROJECT_DIR"
     cp -r "$TEMPLATE_DIR"/* "$THOUGHTS_PROJECT_DIR/"
-    ln -s ../../rules/AGENTS.local.md "$THOUGHTS_PROJECT_DIR/AGENTS.local.md"
+    ln -s "${CLAUDE_PLUGIN_ROOT}/AGENTS.local.md" "$THOUGHTS_PROJECT_DIR/AGENTS.local.md"
     echo "Copied template to $THOUGHTS_PROJECT_DIR"
 fi
 
