@@ -1,0 +1,1 @@
+../../rules/AGENTS.local.md
