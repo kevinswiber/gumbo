@@ -33,40 +33,46 @@ PROJECT_NAME="$(basename "$PROJECT_PATH")"
 GUMBO_PROJECT_DIR="$GUMBO_ROOT/projects/$PROJECT_NAME"
 SYMLINK_PATH="$PROJECT_PATH/.gumbo"
 
-# Check if symlink already exists and points to the right place
+# Check if .gumbo exists but is not a symlink
+if [[ -e "$SYMLINK_PATH" && ! -L "$SYMLINK_PATH" ]]; then
+    echo "Error: $SYMLINK_PATH exists but is not a symlink."
+    echo "Move or remove it before running init."
+    exit 1
+fi
+
+# Check if symlink exists and points somewhere unexpected
 if [[ -L "$SYMLINK_PATH" ]]; then
     existing_target="$(readlink "$SYMLINK_PATH")"
-    if [[ "$existing_target" == "$GUMBO_PROJECT_DIR" ]]; then
-        echo "Already initialized: $SYMLINK_PATH -> $GUMBO_PROJECT_DIR"
-        exit 0
-    else
+    if [[ "$existing_target" != "$GUMBO_PROJECT_DIR" ]]; then
         echo "Error: $SYMLINK_PATH already exists but points to $existing_target"
         echo "Expected: $GUMBO_PROJECT_DIR"
         exit 1
     fi
 fi
 
-# Check if .gumbo exists but is not a symlink
-if [[ -e "$SYMLINK_PATH" ]]; then
-    echo "Error: $SYMLINK_PATH exists but is not a symlink."
-    echo "Move or remove it before running init."
-    exit 1
-fi
-
 # Create the gumbo project directory if it doesn't exist
-if [[ -d "$GUMBO_PROJECT_DIR" ]]; then
-    echo "Gumbo directory already exists: $GUMBO_PROJECT_DIR"
-else
-    echo "Creating gumbo directory: $GUMBO_PROJECT_DIR"
-    mkdir -p "$GUMBO_PROJECT_DIR"
-    cp -r "$TEMPLATE_DIR"/* "$GUMBO_PROJECT_DIR/"
+mkdir -p "$GUMBO_PROJECT_DIR"
+
+# Ensure all template files/directories are present (don't overwrite existing)
+for item in "$TEMPLATE_DIR"/*; do
+    name="$(basename "$item")"
+    if [[ ! -e "$GUMBO_PROJECT_DIR/$name" ]]; then
+        cp -r "$item" "$GUMBO_PROJECT_DIR/$name"
+        echo "Added missing template item: $name"
+    fi
+done
+
+# Ensure AGENTS.local.md symlink exists
+if [[ ! -e "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
     ln -s "${CLAUDE_PLUGIN_ROOT}/AGENTS.local.md" "$GUMBO_PROJECT_DIR/AGENTS.local.md"
-    echo "Copied template to $GUMBO_PROJECT_DIR"
+    echo "Added AGENTS.local.md symlink"
 fi
 
-# Create the symlink
-ln -s "$GUMBO_PROJECT_DIR" "$SYMLINK_PATH"
-echo "Created symlink: $SYMLINK_PATH -> $GUMBO_PROJECT_DIR"
+# Create the project symlink if it doesn't exist
+if [[ ! -L "$SYMLINK_PATH" ]]; then
+    ln -s "$GUMBO_PROJECT_DIR" "$SYMLINK_PATH"
+    echo "Created symlink: $SYMLINK_PATH -> $GUMBO_PROJECT_DIR"
+fi
 
 # Add .gumbo to project's .gitignore if not already there
 GITIGNORE="$PROJECT_PATH/.gitignore"
