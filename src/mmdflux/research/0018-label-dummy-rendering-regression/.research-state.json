@@ -1,0 +1,9 @@
+{
+  "status": "synthesized",
+  "created_at": "2026-01-29T20:00:00Z",
+  "updated_at": "2026-01-29T20:25:00Z",
+  "planning_agent_id": "a768362",
+  "agent_ids": ["a9e76bf", "ad459a2", "a92f012", "af1c921"],
+  "synthesis_agent_id": null,
+  "last_session_notes": "Synthesis complete. 4 findings, 5 recommendations. Root cause: selective minlen=2 breaks global invariant that dagre.js maintains."
+}

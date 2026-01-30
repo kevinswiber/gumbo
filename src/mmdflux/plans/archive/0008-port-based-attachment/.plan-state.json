@@ -1,0 +1,15 @@
+{
+  "status": "cancelled",
+  "created_at": "2026-01-26T20:30:00Z",
+  "updated_at": "2026-01-28T10:40:00Z",
+  "cancelled_at": "2026-01-28T10:40:00Z",
+  "cancellation_reason": "Superseded by 0015-attachment-point-spreading, which is based on deeper research (research 0009) into how dagre/mermaid handle attachment spreading.",
+  "superseded_by": "0015-attachment-point-spreading",
+  "planning_agent_id": "a91388d",
+  "current_task": null,
+  "last_session_notes": "Created baseline test fixtures and documented current collision behavior in baseline-renders.md. Key fixtures: stacked_fan_in.mmd (hidden edge), skip_edge_collision.mmd (overlap), double_skip.mmd (stacking). Ready to begin Phase 1 implementation.",
+  "progress": {
+    "total": 22,
+    "completed": 1
+  }
+}

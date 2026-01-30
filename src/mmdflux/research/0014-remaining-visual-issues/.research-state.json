@@ -1,0 +1,9 @@
+{
+  "status": "synthesized",
+  "created_at": "2026-01-28T21:00:00Z",
+  "updated_at": "2026-01-28T21:05:00Z",
+  "planning_agent_id": "a8d96db",
+  "agent_ids": ["a2974ba", "a5607d7", "a5c3203", "a13f5e6"],
+  "synthesis_agent_id": null,
+  "last_session_notes": "Synthesis complete. 4 findings, 4 recommendations. Q1 and Q4 are high-priority fixes; Q3 is hardening; Q2 is deferred."
+}
