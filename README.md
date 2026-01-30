@@ -58,13 +58,13 @@ gumbo/                           # Plugin/marketplace repo
 
 Each directory in `~/.gumbo/projects/` corresponds to a code repo. For example:
 
-- `~/.gumbo/projects/mmdflux/` serves `~/src/mmdflux/`
 - `~/.gumbo/projects/myapp/` serves `~/src/myapp/`
+- `~/.gumbo/projects/webapp/` serves `~/src/webapp/`
 
 The code repo has `.gumbo` in its `.gitignore` and a symlink:
 
 ```
-~/src/mmdflux/.gumbo -> ~/.gumbo/projects/mmdflux
+~/src/myapp/.gumbo -> ~/.gumbo/projects/myapp
 ```
 
 ## Install plugins
