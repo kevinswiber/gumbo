@@ -2,7 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-TEMPLATE_DIR="$SCRIPT_DIR/../template"
+SKILL_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+PLUGIN_ROOT="$(cd "$SKILL_DIR/../.." && pwd)"
+TEMPLATE_DIR="$SKILL_DIR/template"
 
 usage() {
     echo "Usage: $0 <gumbo-root> <project-path>"
@@ -64,7 +66,7 @@ done
 
 # Ensure AGENTS.local.md symlink exists
 if [[ ! -e "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
-    ln -s "${CLAUDE_PLUGIN_ROOT}/AGENTS.local.md" "$GUMBO_PROJECT_DIR/AGENTS.local.md"
+    ln -s "$PLUGIN_ROOT/AGENTS.local.md" "$GUMBO_PROJECT_DIR/AGENTS.local.md"
     echo "Added AGENTS.local.md symlink"
 fi
 
