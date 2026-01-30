@@ -6,51 +6,65 @@ Version-controlled development thoughts, plans, research, and issues -- separate
 
 Keep your inner dev loop artifacts (implementation plans, research, issue tracking) out of your code repos while still version-controlling them. Each project gets a `.gumbo` symlink pointing to a per-project directory under `~/.gumbo`.
 
-## Structure
+## Workflow
+
+The file system acts as scratch space for each phase of the inner dev loop so you don't lose context between `/clear` calls. Each skill runs independently -- `/clear` between steps.
+
+### 1. Research
+
+Run `/research:create` to create a research plan. This produces a list of research tasks -- things like searching the web for an issue, reviewing codebases, combing through git logs, or going through issues and PRs. Research is instructed to find info on the what, where, how, and why.
+
+Run `/research:resume` to execute the plan. This launches subagents in parallel to carry out each research task. Each subagent writes its findings to a file in the research subdirectory. From there, you can edit, refine, have conversations, or do more research.
+
+### 2. Plan
+
+Run `/plan:create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes.
+
+You can base a plan on previous research: `/plan:create research 0044`.
+
+### 3. Implement
+
+Run `/clear` if you haven't already, then `/plan:resume` to start implementation. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
+
+### 4. Triage findings
+
+After everything's committed, run `/plan:findings-resume` to create issues in `.gumbo/issues/` from the findings. Those issues might spawn more research plans or direct fixes.
+
+### 5. Archive
+
+When done, run `/research:archive` or `/plan:archive` to move completed work into the `.gumbo/{research,plans}/archive/` directory.
+
+### Running in parallel
+
+No phase depends on another. You can have multiple research and implementation plans running at the same time, or nest them -- research informing plans informing more research. Each has its own state file tracking progress.
+
+## Project structure
+
+Run `/gumbo:init` from your code directory to set things up. Each code repo gets a `.gumbo` symlink that points to a project directory under `~/.gumbo`:
 
 ```
-~/.gumbo/                        # Data root (version-controllable)
+~/src/myapp/
+├── .gumbo -> ~/.gumbo/projects/myapp   # Symlink to data directory
+├── .gitignore                          # Contains ".gumbo"
+└── ...
+```
+
+The data lives outside the code repo so it can be version-controlled separately:
+
+```
+~/.gumbo/                               # Data root (version-controllable)
 └── projects/
-    └── mmdflux/
+    └── myapp/
+        ├── config.json                 # Project metadata and backlink
         ├── AGENTS.local.md -> <plugin-root>/plugins/gumbo/AGENTS.local.md
         ├── plans/
         ├── research/
         └── issues/
-
-gumbo/                           # Plugin/marketplace repo
-├── .claude-plugin/
-│   └── marketplace.json         # Plugin marketplace catalog
-└── plugins/
-    └── gumbo/                   # All skills in one plugin
-        ├── .claude-plugin/
-        │   └── plugin.json
-        ├── AGENTS.local.md      # Shared agent rules symlinked into each project
-        └── skills/
-            ├── gumbo-init/      # Project initialization
-            ├── plan-create/     # Implementation planning
-            ├── plan-resume/
-            ├── plan-archive/
-            ├── plan-cancel/
-            ├── plan-findings-create/
-            ├── plan-findings-resume/
-            ├── research-create/ # Research investigations
-            ├── research-resume/
-            ├── research-archive/
-            └── research-cancel/
 ```
+
+`config.json` stores the project name, working directory, and data root so you can trace in both directions.
 
 ## Setup
-
-Each directory in `~/.gumbo/projects/` corresponds to a code repo. For example:
-
-- `~/.gumbo/projects/myapp/` serves `~/src/myapp/`
-- `~/.gumbo/projects/webapp/` serves `~/src/webapp/`
-
-The code repo has `.gumbo` in its `.gitignore` and a symlink:
-
-```
-~/src/myapp/.gumbo -> ~/.gumbo/projects/myapp
-```
 
 ## Install plugins
 
@@ -63,19 +77,27 @@ claude plugin install gumbo@gumbo
 
 ## Initialize a project
 
-Use the `/gumbo:init` skill or run the script directly:
+Run `/gumbo:init` from your code directory. You can optionally pass a project name:
+
+```
+/gumbo:init myapp
+```
+
+Without a name, it uses the directory name. You can also run the script directly:
 
 ```bash
 plugins/gumbo/skills/gumbo-init/scripts/init.sh ~/.gumbo ~/src/myproject
+plugins/gumbo/skills/gumbo-init/scripts/init.sh ~/.gumbo ~/src/myproject myapp
 ```
 
 This will:
 
-1. Create `~/.gumbo/projects/myproject/` (if it doesn't exist)
+1. Create `~/.gumbo/projects/myapp/` (if it doesn't exist)
 2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `CLAUDE.md` files
-3. Symlink `AGENTS.local.md` to the shared copy in the gumbo plugin
-4. Create a symlink at `~/src/myproject/.gumbo` pointing to the gumbo directory
-5. Add `.gumbo` to the project's `.gitignore`
+3. Write `config.json` with the project name, working directory, and data root
+4. Symlink `AGENTS.local.md` to the shared copy in the gumbo plugin
+5. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
+6. Add `.gumbo` to the project's `.gitignore`
 
 ## Skills
 
