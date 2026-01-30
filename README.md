@@ -21,37 +21,22 @@ gumbo/                           # Plugin/marketplace repo
 ├── .claude-plugin/
 │   └── marketplace.json         # Plugin marketplace catalog
 └── plugins/
-    ├── plan/                    # Implementation planning plugin
-    │   ├── .claude-plugin/
-    │   │   └── plugin.json
-    │   └── skills/
-    │       ├── create/
-    │       ├── resume/
-    │       ├── archive/
-    │       ├── cancel/
-    │       ├── findings-create/
-    │       └── findings-resume/
-    ├── research/                # Research investigation plugin
-    │   ├── .claude-plugin/
-    │   │   └── plugin.json
-    │   └── skills/
-    │       ├── create/
-    │       ├── resume/
-    │       ├── archive/
-    │       └── cancel/
-    └── gumbo/                   # Project initialization plugin
+    └── gumbo/                   # All skills in one plugin
         ├── .claude-plugin/
         │   └── plugin.json
         ├── AGENTS.local.md      # Shared agent rules symlinked into each project
         └── skills/
-            └── init/
-                ├── SKILL.md
-                ├── scripts/
-                │   └── init.sh
-                └── template/
-                    ├── plans/
-                    ├── research/
-                    └── issues/
+            ├── gumbo-init/      # Project initialization
+            ├── plan-create/     # Implementation planning
+            ├── plan-resume/
+            ├── plan-archive/
+            ├── plan-cancel/
+            ├── plan-findings-create/
+            ├── plan-findings-resume/
+            ├── research-create/ # Research investigations
+            ├── research-resume/
+            ├── research-archive/
+            └── research-cancel/
 ```
 
 ## Setup
@@ -73,8 +58,6 @@ Add the marketplace and install plugins:
 
 ```bash
 claude plugin marketplace add kevinswiber/gumbo
-claude plugin install plan@gumbo
-claude plugin install research@gumbo
 claude plugin install gumbo@gumbo
 ```
 
@@ -83,7 +66,7 @@ claude plugin install gumbo@gumbo
 Use the `/gumbo:init` skill or run the script directly:
 
 ```bash
-plugins/gumbo/skills/init/scripts/init.sh ~/.gumbo ~/src/myproject
+plugins/gumbo/skills/gumbo-init/scripts/init.sh ~/.gumbo ~/src/myproject
 ```
 
 This will:
