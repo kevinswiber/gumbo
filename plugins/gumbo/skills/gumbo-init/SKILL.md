@@ -26,4 +26,6 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 @.gumbo/AGENTS.local.md
 ```
 
+5. Check the project's `.gitignore` for `CLAUDE.local.md` and `AGENTS.local.md`. If either is missing from `.gitignore`, add it. These are local/private files that shouldn't be committed to the code repo.
+
 Report the output to the user. Do not use any other tools or do anything else.
