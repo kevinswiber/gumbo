@@ -28,4 +28,12 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 
 5. Check the project's `.gitignore` for `CLAUDE.local.md` and `AGENTS.local.md`. If either is missing from `.gitignore`, add it. These are local/private files that shouldn't be committed to the code repo.
 
+6. After successful initialization, remind the user to add the gumbo data directory to their Claude Code context so it's available across sessions. Tell them to run:
+
+```
+/add-dir ~/.gumbo
+```
+
+They can add it to either the current project or to their user-scoped settings (`~/.claude/settings.json`) if they want it available in all projects.
+
 Report the output to the user. Do not use any other tools or do anything else.
