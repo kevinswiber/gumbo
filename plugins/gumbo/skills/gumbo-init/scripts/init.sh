@@ -98,16 +98,16 @@ if [[ ! -L "$SYMLINK_PATH" ]]; then
     echo "Created symlink: $SYMLINK_PATH -> $GUMBO_PROJECT_DIR"
 fi
 
-# Add .gumbo to project's .gitignore if not already there
+# Add /.gumbo to project's .gitignore if not already there
 GITIGNORE="$PROJECT_PATH/.gitignore"
 if [[ -f "$GITIGNORE" ]]; then
-    if ! grep -qx '.gumbo' "$GITIGNORE"; then
-        echo '.gumbo' >> "$GITIGNORE"
-        echo "Added .gumbo to $GITIGNORE"
+    if ! grep -qx '/.gumbo' "$GITIGNORE"; then
+        echo '/.gumbo' >> "$GITIGNORE"
+        echo "Added /.gumbo to $GITIGNORE"
     fi
 else
-    echo '.gumbo' > "$GITIGNORE"
-    echo "Created $GITIGNORE with .gumbo entry"
+    echo '/.gumbo' > "$GITIGNORE"
+    echo "Created $GITIGNORE with /.gumbo entry"
 fi
 
 echo "Done. Project '$PROJECT_NAME' is ready."

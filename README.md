@@ -49,7 +49,7 @@ Run `/gumbo:init` from your code directory to set things up. Each code repo gets
 ```
 ~/src/myapp/
 ├── .gumbo -> ~/.gumbo/projects/myapp   # Symlink to data directory
-├── .gitignore                          # Contains ".gumbo"
+├── .gitignore                          # Contains "/.gumbo"
 └── ...
 ```
 
@@ -101,7 +101,7 @@ This will:
 3. Write `config.json` with the project name, working directory, and data root
 4. Symlink `AGENTS.local.md` to the shared copy in the gumbo plugin
 5. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
-6. Add `.gumbo` to the project's `.gitignore`
+6. Add `/.gumbo` to the project's `.gitignore`
 
 ## Skills
 
