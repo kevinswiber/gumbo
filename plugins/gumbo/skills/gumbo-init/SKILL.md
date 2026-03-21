@@ -1,12 +1,12 @@
 ---
-name: gumbo:init
+name: gumbo-init
 description: Initialize a gumbo directory for the current project, creating a template in ~/.gumbo and a symlink in the project repo
 allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 ---
 
 ## Your task
 
-1. Check if the user provided a project name (e.g. `/gumbo:init myapp`). If they did, pass it as the third argument to the init script. If not, omit the third argument and the script will default to the directory name.
+1. Check if the user provided a project name (e.g. `/gumbo-init myapp`). If they did, pass it as the third argument to the init script. If not, omit the third argument and the script will default to the directory name.
 
 2. Run the gumbo init script:
 

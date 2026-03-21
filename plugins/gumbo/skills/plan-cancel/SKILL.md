@@ -1,5 +1,5 @@
 ---
-name: plan:cancel
+name: plan-cancel
 description: Cancel an implementation plan. Moves the plan to archive/ with CANCELLED status. Use when a plan is superseded, abandoned, or no longer needed.
 ---
 
@@ -64,7 +64,7 @@ Cancel an implementation plan that is no longer being pursued.
 
 ### Cancel with reason
 ```
-User: /plan:cancel 0004
+User: /plan-cancel 0004
 
 Claude: Why is plan 0004-declaration-order-layout being cancelled?
 
@@ -82,7 +82,7 @@ User: yes
 
 ### Cancel already-archived plan (update status only)
 ```
-User: /plan:cancel 0004
+User: /plan-cancel 0004
 
 Claude: Plan 0004 is already in archive/ but shows status IN PROGRESS.
 Update status to CANCELLED? (y/n)

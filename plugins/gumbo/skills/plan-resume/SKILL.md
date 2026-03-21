@@ -1,5 +1,5 @@
 ---
-name: plan:resume
+name: plan-resume
 description: Resume working on an in-progress implementation plan. Finds incomplete plans and provides context to continue.
 ---
 
@@ -32,7 +32,7 @@ Find and resume work on an in-progress implementation plan.
    ```
    No in-progress plans found in `.gumbo/plans/`.
 
-   To create a new plan, use `/plan:create <feature description>`.
+   To create a new plan, use `/plan-create <feature description>`.
    ```
 
    **One plan found:**
@@ -149,6 +149,6 @@ No in-progress plans found in `.gumbo/plans/`.
 
 All plans are either completed (in `.gumbo/plans/archive/`) or none exist yet.
 
-To create a new plan, use `/plan:create <feature description>`.
+To create a new plan, use `/plan-create <feature description>`.
 
 ---

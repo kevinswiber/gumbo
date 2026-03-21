@@ -1,5 +1,5 @@
 ---
-name: research:create
+name: research-create
 description: Create a research plan with parallel investigation tasks. Use when exploring a topic, analyzing external code, or gathering information to inform an implementation plan.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
@@ -100,10 +100,10 @@ Design a research plan that decomposes a topic into parallel investigation tasks
 
    - `status`: `"planned"` — research plan created but agents not yet spawned
    - `planning_agent_id`: agentId from the Explore subagent
-   - `agent_ids`: empty array, populated when `/research:resume` spawns agents
+   - `agent_ids`: empty array, populated when `/research-resume` spawns agents
    - `synthesis_agent_id`: null until synthesis is performed
 
-7. **Do not spawn research agents yet.** The plan should be reviewed first. Agents are spawned by `/research:resume`.
+7. **Do not spawn research agents yet.** The plan should be reviewed first. Agents are spawned by `/research-resume`.
 
 8. **Present the plan** to the user:
 
@@ -118,7 +118,7 @@ Design a research plan that decomposes a topic into parallel investigation tasks
    - Q2: [Title] -> `q2-output-file.md`
    - Q3: [Title] -> `q3-output-file.md`
 
-   Review the research plan, then run `/research:resume` to spawn parallel investigation agents.
+   Review the research plan, then run `/research-resume` to spawn parallel investigation agents.
 
    *Research summary: Brief description of what we're investigating*
    ```

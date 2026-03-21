@@ -1,5 +1,5 @@
 ---
-name: plan:archive
+name: plan-archive
 description: Archive a completed implementation plan. Moves the plan to archive/ and updates its status to COMPLETE.
 ---
 
@@ -70,19 +70,19 @@ Archive a completed implementation plan after successful implementation.
 
 ### Archive a specific plan
 ```
-User: /plan:archive 0005
+User: /plan-archive 0005
 ```
 
 ### Archive with auto-detection
 ```
-User: /plan:archive
+User: /plan-archive
 
 (Claude finds the plan with all tasks complete and archives it)
 ```
 
 ### Confirm incomplete plan
 ```
-User: /plan:archive 0003
+User: /plan-archive 0003
 
 Claude: Plan 0003-backward-edge-routing has 8/12 tasks complete.
 Archive as complete anyway? (y/n)

@@ -1,5 +1,5 @@
 ---
-name: plan:create
+name: plan-create
 description: Create implementation plans following project conventions. Use when planning new features, refactors, or significant changes.
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*), Bash(git diff:*), Bash(git log:*), Bash(git branch:*)
 ---
@@ -215,7 +215,7 @@ Plan the requested feature or change using the project's planning conventions.
    - [ ] **1.2** Second task description
    - [ ] **1.3** Third task description
 
-   To continue with implementation, run `/clear` then run `/plan:resume` or paste:
+   To continue with implementation, run `/clear` then run `/plan-resume` or paste:
 
    [continuation prompt code block]
 
@@ -262,7 +262,7 @@ Plan the requested feature or change using the project's planning conventions.
 - [ ] **1.2** Add Rust variant to Language enum
 - [ ] **1.3** Implement panic message regex patterns
 
-To continue with implementation, run `/clear` and then `/plan:resume` or paste:
+To continue with implementation, run `/clear` and then `/plan-resume` or paste:
 
 ```
 Continue implementing the plan in .gumbo/plans/0006-rust-parser/

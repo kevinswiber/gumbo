@@ -192,10 +192,10 @@ When a research plan reveals subtopics needing deeper investigation:
 ## Lifecycle
 
 ```
-/research:create  ->  PLANNED  (research plan designed, questions defined)
-/research:resume  ->  IN PROGRESS  (parallel agents spawned)
-/research:resume  ->  SYNTHESIZED  (findings combined into synthesis.md)
-/research:archive ->  ARCHIVED  (moved to research/archive/)
+/research-create  ->  PLANNED  (research plan designed, questions defined)
+/research-resume  ->  IN PROGRESS  (parallel agents spawned)
+/research-resume  ->  SYNTHESIZED  (findings combined into synthesis.md)
+/research-archive ->  ARCHIVED  (moved to research/archive/)
 ```
 
 ## Cross-References

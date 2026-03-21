@@ -16,27 +16,27 @@ The file system acts as scratch space for each phase of the inner dev loop so yo
 
 ### 1. Research
 
-Run `/research:create` to create a research plan. This produces a list of research tasks -- things like searching the web for an issue, reviewing codebases, combing through git logs, or going through issues and PRs. Research is instructed to find info on the what, where, how, and why.
+Run `/research-create` to create a research plan. This produces a list of research tasks -- things like searching the web for an issue, reviewing codebases, combing through git logs, or going through issues and PRs. Research is instructed to find info on the what, where, how, and why.
 
-Run `/research:resume` to execute the plan. This launches subagents in parallel to carry out each research task. Each subagent writes its findings to a file in the research subdirectory. From there, you can edit, refine, have conversations, or do more research.
+Run `/research-resume` to execute the plan. This launches subagents in parallel to carry out each research task. Each subagent writes its findings to a file in the research subdirectory. From there, you can edit, refine, have conversations, or do more research.
 
 ### 2. Plan
 
-Run `/plan:create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes.
+Run `/plan-create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes.
 
-You can base a plan on previous research: `/plan:create research 0044`.
+You can base a plan on previous research: `/plan-create research 0044`.
 
 ### 3. Implement
 
-Run `/clear` if you haven't already, then `/plan:resume` to start implementation. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
+Run `/clear` if you haven't already, then `/plan-resume` to start implementation. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
 
 ### 4. Triage findings
 
-After everything's committed, run `/plan:findings-resume` to create issues in `.gumbo/issues/` from the findings. Those issues might spawn more research plans or direct fixes.
+After everything's committed, run `/plan-findings-resume` to create issues in `.gumbo/issues/` from the findings. Those issues might spawn more research plans or direct fixes.
 
 ### 5. Archive
 
-When done, run `/research:archive` or `/plan:archive` to move completed work into the `.gumbo/{research,plans}/archive/` directory.
+When done, run `/research-archive` or `/plan-archive` to move completed work into the `.gumbo/{research,plans}/archive/` directory.
 
 ### Running in parallel
 
@@ -44,7 +44,7 @@ No phase depends on another. You can have multiple research and implementation p
 
 ## Project structure
 
-Run `/gumbo:init` from your code directory to set things up. Each code repo gets a `.gumbo` symlink that points to a project directory under `~/.gumbo`:
+Run `/gumbo-init` from your code directory to set things up. Each code repo gets a `.gumbo` symlink that points to a project directory under `~/.gumbo`:
 
 ```
 ~/src/myapp/
@@ -81,10 +81,10 @@ claude plugin install gumbo@gumbo
 
 ## Initialize a project
 
-Run `/gumbo:init` from your code directory. You can optionally pass a project name:
+Run `/gumbo-init` from your code directory. You can optionally pass a project name:
 
 ```
-/gumbo:init myapp
+/gumbo-init myapp
 ```
 
 Without a name, it uses the directory name. You can also run the script directly:
@@ -107,23 +107,23 @@ This will:
 
 ### plan
 
-- `/plan:create` -- Create an implementation plan
-- `/plan:resume` -- Resume an in-progress plan
-- `/plan:archive` -- Archive a completed plan
-- `/plan:cancel` -- Cancel a plan
-- `/plan:findings-create` -- Extract findings from completed phases
-- `/plan:findings-resume` -- Triage findings into issues/research
+- `/plan-create` -- Create an implementation plan
+- `/plan-resume` -- Resume an in-progress plan
+- `/plan-archive` -- Archive a completed plan
+- `/plan-cancel` -- Cancel a plan
+- `/plan-findings-create` -- Extract findings from completed phases
+- `/plan-findings-resume` -- Triage findings into issues/research
 
 ### research
 
-- `/research:create` -- Create a research plan with parallel investigation
-- `/research:resume` -- Resume or synthesize research
-- `/research:archive` -- Archive completed research
-- `/research:cancel` -- Cancel research
+- `/research-create` -- Create a research plan with parallel investigation
+- `/research-resume` -- Resume or synthesize research
+- `/research-archive` -- Archive completed research
+- `/research-cancel` -- Cancel research
 
 ### gumbo
 
-- `/gumbo:init` -- Initialize a gumbo directory for a project
+- `/gumbo-init` -- Initialize a gumbo directory for a project
 
 ## AGENTS.local.md
 

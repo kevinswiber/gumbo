@@ -20,7 +20,7 @@ plugins/gumbo/
     research-{create,resume,archive,cancel}/
 ```
 
-Directory names use hyphens. Skill names in SKILL.md front matter use colons (e.g., `name: plan:create`).
+Directory names and skill names both use hyphens (e.g., `name: plan-create`).
 
 ## Skill structure
 
@@ -28,7 +28,7 @@ Each skill is a directory containing `SKILL.md` with YAML front matter:
 
 ```yaml
 ---
-name: plan:create
+name: plan-create
 description: What this skill does
 allowed-tools: Bash(git add:*), Read, Write, Edit
 ---

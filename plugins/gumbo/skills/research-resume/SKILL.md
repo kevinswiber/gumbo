@@ -1,5 +1,5 @@
 ---
-name: research:resume
+name: research-resume
 description: Resume a research plan. Spawns parallel agents if not started, checks progress, or synthesizes findings.
 ---
 
@@ -20,7 +20,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    ```
    No active research plans found in `.gumbo/research/`.
 
-   To create a new research plan, use `/research:create <topic description>`.
+   To create a new research plan, use `/research-create <topic description>`.
    ```
 
    **Multiple active research plans:**
@@ -70,7 +70,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    **Agents spawned:** N parallel investigations
    **Agent IDs:** `id1`, `id2`, `id3`
 
-   Agents are running in the background. Run `/research:resume` to check progress and synthesize findings when complete.
+   Agents are running in the background. Run `/research-resume` to check progress and synthesize findings when complete.
    ```
 
 ### State: `in_progress` (agents spawned, awaiting completion)
@@ -93,7 +93,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 
 5. **If all questions complete**, proceed to synthesis (see below)
 6. **If some are pending**, offer to:
-   - Wait and check again later (`/research:resume`)
+   - Wait and check again later (`/research-resume`)
    - Proceed to partial synthesis with available findings
    - Re-spawn failed agents
 
@@ -175,9 +175,9 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    - [Recommendation 1]
    - [Recommendation 2]
 
-   To create an implementation plan based on this research, run `/plan:create` and reference `.gumbo/research/NNNN-topic-name/`.
+   To create an implementation plan based on this research, run `/plan-create` and reference `.gumbo/research/NNNN-topic-name/`.
 
-   To archive this research, run `/research:archive NNNN`.
+   To archive this research, run `/research-archive NNNN`.
    ```
 
 ### State: `synthesized` (synthesis complete)

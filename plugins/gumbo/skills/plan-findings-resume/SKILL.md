@@ -1,5 +1,5 @@
 ---
-name: plan:findings-resume
+name: plan-findings-resume
 description: Triage findings from a plan into issues and research. Reads findings/ from a plan directory, decides what becomes an issue or research update, and writes them to the appropriate locations.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
@@ -12,7 +12,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 1. **Identify the target plan:**
 
-   - If the user provides a plan number (e.g., `/plan:findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`
+   - If the user provides a plan number (e.g., `/plan-findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`
    - If no number is provided, scan for plans with findings:
      - Look for `.gumbo/plans/*/findings/` directories (exclude `.gumbo/plans/archive/`)
      - Read `.plan-state.json` for each to check status
@@ -26,7 +26,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
        Which plan's findings should I triage?
        ```
-     - If no plans have findings, report that and suggest `/plan:findings-create`
+     - If no plans have findings, report that and suggest `/plan-findings-create`
 
 2. **Read all findings:**
    - Read every `.md` file in `.gumbo/plans/NNNN-name/findings/`
@@ -88,7 +88,7 @@ Triage findings recorded during plan implementation into issues and research upd
    - Find the next research number by checking both `.gumbo/research/` and `.gumbo/research/archive/`
    - Create `.gumbo/research/NNNN-topic-name/` with a research plan
    - Follow `.gumbo/research/CLAUDE.md` conventions
-   - Set status to `PLANNED` — the user can run `/research:resume` to investigate
+   - Set status to `PLANNED` — the user can run `/research-resume` to investigate
 
 7. **Report results:**
    ```
@@ -102,7 +102,7 @@ Triage findings recorded during plan implementation into issues and research upd
    - Added: `from-plan-MMMM-description.md`
 
    **Research created:** `.gumbo/research/NNNN-new-topic/`
-   - Status: PLANNED — run `/research:resume` to investigate
+   - Status: PLANNED — run `/research-resume` to investigate
 
    **No action:** 2 findings (informational)
 
