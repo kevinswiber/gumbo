@@ -215,38 +215,8 @@ Plan the requested feature or change using the project's planning conventions.
    - [ ] **1.2** Second task description
    - [ ] **1.3** Third task description
 
-   To continue with implementation, run `/clear` then run `/plan-resume` or paste:
-
-   [continuation prompt code block]
-
    *Plan summary: Brief description of what the plan is about*
    ```
-
-10. **Use this continuation prompt template:**
-   ````
-   Continue implementing the plan in .gumbo/plans/NNNN-feature-name/
-
-   Read the implementation-plan.md and task-list.md files, then read the detailed task file in tasks/ for the first incomplete task before beginning implementation.
-
-   As you work:
-   - Read the task file in tasks/ for each task before starting it
-   - Follow strict TDD for each task: 🔴 Red (write failing test, run it) → 🟢 Green (minimal implementation, run test) → 🔵 Refactor (clean up, run tests, commit)
-   - Update task-list.md checkboxes (change `- [ ]` to `- [x]`) when completing tasks
-   - Update .plan-state.json with current_task and progress.completed count
-
-   When completing a phase:
-   - Create a commit with message: "feat(plan-NNNN): Phase N - <phase description>"
-   - Add the commit SHA to the `commits` array in .plan-state.json
-
-   Record findings during implementation:
-   - Write discoveries, diversions from the plan, things the plan got wrong, important notes, TODOs, and cleanup items to `findings/` in the plan directory
-   - Use descriptive filenames like `findings/edge-case-diamond-routing.md` or `findings/todo-cleanup-unused-helpers.md`
-   - These findings will be used to create issues and provide feedback to research
-
-   Before ending the session, update .plan-state.json with last_session_notes about progress and next steps.
-
-   If you need additional context from the original planning discussion, the planning agent ID is stored in .plan-state.json and can be resumed.
-   ````
 
 ## Example Output
 
@@ -261,26 +231,6 @@ Plan the requested feature or change using the project's planning conventions.
 - [ ] **1.1** Create RustParser struct implementing ErrorParser trait
 - [ ] **1.2** Add Rust variant to Language enum
 - [ ] **1.3** Implement panic message regex patterns
-
-To continue with implementation, run `/clear` and then `/plan-resume` or paste:
-
-```
-Continue implementing the plan in .gumbo/plans/0006-rust-parser/
-
-Read the implementation-plan.md and task-list.md files, then begin with the first incomplete task.
-
-As you work:
-- Update task-list.md checkboxes (change `- [ ]` to `- [x]`) when completing tasks
-- Update .plan-state.json with current_task and progress.completed count
-
-When completing a phase:
-- Create a commit with message: "feat(plan-0006): Phase N - <phase description>"
-- Add the commit SHA to the `commits` array in .plan-state.json
-
-Before ending the session, update .plan-state.json with last_session_notes about progress and next steps.
-
-If you need additional context from the original planning discussion, the planning agent ID is stored in .plan-state.json and can be resumed.
-```
 
 *Plan summary: Add support for parsing Rust panic stack traces*
 
