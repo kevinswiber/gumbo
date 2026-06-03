@@ -69,7 +69,7 @@ Triage findings recorded during plan implementation into issues and research upd
      - Description derived from the finding
      - Reproduction steps (from finding details or plan context)
      - Link back to the source finding: `.gumbo/plans/NNNN-name/findings/finding-name.md`
-   - Follow the format conventions in `.gumbo/issues/CLAUDE.md`
+   - Follow the format conventions in `.gumbo/issues/AGENTS.md`
 
 6. **Route research findings** to the appropriate location:
 
@@ -87,7 +87,7 @@ Triage findings recorded during plan implementation into issues and research upd
    **Create new research** if the finding opens a new topic not covered by existing research:
    - Find the next research number by checking both `.gumbo/research/` and `.gumbo/research/archive/`
    - Create `.gumbo/research/NNNN-topic-name/` with a research plan
-   - Follow `.gumbo/research/CLAUDE.md` conventions
+   - Follow `.gumbo/research/AGENTS.md` conventions
    - Set status to `PLANNED` — the user can run `/research-resume` to investigate
 
 7. **Report results:**

@@ -18,17 +18,7 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 ./scripts/init.sh ~/.gumbo "$PWD"
 ```
 
-3. Ensure `CLAUDE.local.md` exists in the project root (`$PWD/CLAUDE.local.md`). If it doesn't exist, create it.
-
-4. Ensure `CLAUDE.local.md` contains a reference to `.gumbo/AGENTS.local.md`. If the file already has this reference, leave it alone. Otherwise, add the following line:
-
-```
-@.gumbo/AGENTS.local.md
-```
-
-5. Check the project's `.gitignore` for `CLAUDE.local.md` and `AGENTS.local.md`. If either is missing from `.gitignore`, add it. These are local/private files that shouldn't be committed to the code repo.
-
-6. After successful initialization, remind the user to add the gumbo data directory to their Claude Code context so it's available across sessions. Tell them to run:
+3. After successful initialization, remind the user to add the gumbo data directory to their Claude Code context so it's available across sessions. Tell them to run:
 
 ```
 /add-dir ~/.gumbo

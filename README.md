@@ -49,7 +49,9 @@ Run `/gumbo-init` from your code directory to set things up. Each code repo gets
 ```
 ~/src/myapp/
 ├── .gumbo -> ~/.gumbo/projects/myapp   # Symlink to data directory
-├── .gitignore                          # Contains "/.gumbo"
+├── AGENTS.local.md                      # Local agent context, ignored
+├── CLAUDE.local.md -> AGENTS.local.md   # Claude compatibility symlink
+├── .gitignore                          # Contains "/.gumbo" and local instruction files
 └── ...
 ```
 
@@ -61,6 +63,7 @@ The data lives outside the code repo so it can be version-controlled separately:
     └── myapp/
         ├── config.json                 # Project metadata and backlink
         ├── AGENTS.local.md -> <plugin-root>/plugins/gumbo/AGENTS.local.md
+        ├── CLAUDE.local.md -> AGENTS.local.md
         ├── plans/
         ├── research/
         └── issues/
@@ -97,11 +100,12 @@ plugins/gumbo/skills/gumbo-init/scripts/init.sh ~/.gumbo ~/src/myproject myapp
 This will:
 
 1. Create `~/.gumbo/projects/myapp/` (if it doesn't exist)
-2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `CLAUDE.md` files
+2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `AGENTS.md` files and `CLAUDE.md` compatibility symlinks
 3. Write `config.json` with the project name, working directory, and data root
-4. Symlink `AGENTS.local.md` to the shared copy in the gumbo plugin
-5. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
-6. Add `/.gumbo` to the project's `.gitignore`
+4. Symlink `.gumbo/AGENTS.local.md` to the shared copy in the gumbo plugin
+5. Create or update project-local `AGENTS.local.md`, with `CLAUDE.local.md` as a compatibility symlink
+6. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
+7. Add `/.gumbo`, `AGENTS.local.md`, and `CLAUDE.local.md` to the project's `.gitignore`
 
 ## Skills
 
@@ -127,18 +131,18 @@ This will:
 
 ## AGENTS.local.md
 
-`plugins/gumbo/AGENTS.local.md` contains shared agent instructions (planning, research, and issue workflows) that apply to all projects. Each project gets a symlink at `.gumbo/AGENTS.local.md` pointing to this single source of truth, so updates propagate to every project automatically.
+`plugins/gumbo/AGENTS.local.md` contains shared agent instructions (planning, research, and issue workflows) that apply to all projects. Each project gets a symlink at `.gumbo/AGENTS.local.md` pointing to this single source of truth, so updates propagate to every project automatically. `CLAUDE.local.md` is kept as a compatibility symlink for Claude-specific tooling.
 
 ## Directories
 
 ### plans/
 
-Implementation plans with task lists, TDD workflows, and progress tracking. See the template `plans/CLAUDE.md` for conventions.
+Implementation plans with task lists, TDD workflows, and progress tracking. See the template `plans/AGENTS.md` for conventions.
 
 ### research/
 
-Research investigations with parallel question-based exploration. See the template `research/CLAUDE.md` for conventions.
+Research investigations with parallel question-based exploration. See the template `research/AGENTS.md` for conventions.
 
 ### issues/
 
-Issue sets sourced from plan findings or direct observation. See the template `issues/CLAUDE.md` for conventions.
+Issue sets sourced from plan findings or direct observation. See the template `issues/AGENTS.md` for conventions.
