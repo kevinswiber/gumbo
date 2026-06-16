@@ -37,6 +37,16 @@ Plan the requested feature or change using the project's planning conventions.
    ## Current State
    [Analysis of existing code]
 
+   ## Load-bearing invariants (single source of truth)
+   [OPTIONAL but strongly recommended when the plan has cross-cutting rules that would otherwise be
+   restated across many tasks — an API contract or return-type shape, a visibility/boundary rule, a
+   "never do X" safety rule, a shared test convention. State each such rule ONCE here, canonically,
+   with exact symbol names and signatures, and declare this section authoritative: "task files apply
+   these in context but must not restate them differently; if a task snippet disagrees, this section
+   wins and the snippet is stale." A single referent stops the same rule drifting between a task's
+   Green snippet, its Context, and its acceptance criteria — the most common source of
+   contradict-and-patch churn.]
+
    ## Implementation Approach
    [Detailed plan with phases]
 
@@ -173,6 +183,9 @@ Plan the requested feature or change using the project's planning conventions.
    - Show specific file paths, function signatures, struct definitions, and key logic
    - Reference related research documents from `.gumbo/research/` when applicable
    - Not every task-list item needs a task file — small or self-explanatory tasks (e.g., "run tests") can be described inline in the task list with `*(Covered in X.Y)*` or a brief note
+   - **Single-source each shared rule and symbol.** When a rule or a symbol (a function name, signature, type, or visibility) is introduced in one task and consumed by others, fix exactly one spelling for it — in the plan's invariants section or its owning task — and have other tasks *reference* it rather than restate it. Restated copies drift: a later edit fixes one and leaves the others contradicting, which an implementer then copies verbatim.
+   - **Verify cross-boundary visibility.** When a plan spans a package/crate or binary↔library boundary, state explicitly which symbols are public vs internal, and confirm every symbol a task consumes is visible from the consumer's location (e.g. a binary/CLI crate cannot see a library's `pub(crate)`/private items; a sibling module can). Getting this wrong produces won't-compile plans that look fine on the page.
+   - **Every consumed symbol must be defined by some task.** If task B uses `foo()`/`Bar`, some task must actually create it (don't write "owned by an earlier phase" against a symbol no task defines). Reconcile the producer and the consumer on one name, signature, and visibility.
 
 6. **Use this format for .plan-state.json:**
    ```json
@@ -197,11 +210,19 @@ Plan the requested feature or change using the project's planning conventions.
    - `current_task` and `last_session_notes` start as null
    - `commits` is an array that will accumulate commit SHAs as phases complete
 
-7. **Do not commit the plan files**
+7. **Run a self-consistency pass before presenting.** A plan is read top-to-bottom and copy-pasted by an implementer, so an internal contradiction becomes a bug or a wasted review round. After all files are written and before presenting, sweep for self-contradictions rather than leaving them for review to find:
+   - For each load-bearing invariant, search **every** task file for its *anti-pattern* (the wrong return type, a private symbol called from a layer that can't see it, a forbidden fallback, a test doing something a test rule forbids) and reconcile every hit — the rule must read the same in the Green snippet, the Context, and the acceptance criteria.
+   - Verify shared symbols agree across tasks: one name, one signature, one visibility, one file path. A symbol defined in one task and used in another must match exactly and be visible from the consumer.
+   - Confirm no task references a symbol that no task defines.
+   - When code snippets are in a known language, sanity-check they would plausibly compile (variant shapes, argument arity, import paths, visibility) — these are the errors reviewers catch most often.
 
-8. **Present the plan** to the user for approval before any implementation begins
+   Fix every contradiction now. The goal is a copy-paste-safe plan, not one that survives one reviewer pass.
 
-9. **Provide enhanced continuation output** after saving the plan:
+8. **Do not commit the plan files**
+
+9. **Present the plan** to the user for approval before any implementation begins
+
+10. **Provide enhanced continuation output** after saving the plan:
 
    Output format:
    ```
