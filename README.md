@@ -18,13 +18,15 @@ The file system acts as scratch space for each phase of the inner dev loop so yo
 
 Run `/research-create` to create a research plan. This produces a list of research tasks -- things like searching the web for an issue, reviewing codebases, combing through git logs, or going through issues and PRs. Research is instructed to find info on the what, where, how, and why.
 
-Run `/research-resume` to execute the plan. This launches subagents in parallel to carry out each research task. Each subagent writes its findings to a file in the research subdirectory. From there, you can edit, refine, have conversations, or do more research.
+Run `/research-resume` to execute the plan. It runs the investigations in parallel (subagents by default, or whatever coordination capability best fits) -- each writes its findings to a file in the research subdirectory -- then synthesizes them. From there you can edit, refine, have conversations, or do more research. `/research-review` checks the result for grounding, internal consistency, and synthesis fidelity before you rely on it.
+
+When research reaches a conclusion worth recording, `/adr-create` turns the synthesis into a durable Architecture Decision Record -- the *what, why, and what-was-rejected* of a decision. ADR drafts live in the research dir and land in the code repo's `docs/adr/` via an implementation plan; a landed decision is extended with an appended amendment, never rewritten.
 
 ### 2. Plan
 
-Run `/plan-create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes.
+Run `/plan-create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes. For large or multi-module plans, it can also write an `architecture-brief.md` (module map, task ownership, cross-task seams).
 
-You can base a plan on previous research: `/plan-create research 0044`.
+You can base a plan on previous research: `/plan-create research 0044`. `/plan-review` checks a plan for correctness, feasibility, and internal consistency before you implement it.
 
 ### 3. Implement
 
@@ -41,6 +43,16 @@ When done, run `/research-archive` or `/plan-archive` to move completed work int
 ### Running in parallel
 
 No phase depends on another. You can have multiple research and implementation plans running at the same time, or nest them -- research informing plans informing more research. Each has its own state file tracking progress.
+
+## Coordinating across plans, decisions, and projects
+
+The loop above is for one piece of work. When work spans many plans, research efforts, and decisions -- over many sessions, or across several repos -- three skills hold it together:
+
+- **`/roadmap-create`** -- a living roadmap that sequences the plans, research, and decisions into milestones, tracks per-row status, and records dependencies and risks. The single place "what's next and why" lives; rows link to the plan/research/ADR that fulfills them.
+- **`/coordinator`** -- operate or resume a long-lived coordinator role. You orchestrate and sequence the work -- creating plans/research/ADRs, processing external reviews against source, recording landings, keeping the roadmap true -- without implementing it yourself (implementation happens in separate `/plan-resume` sessions). The role survives across sessions through durable handoff, findings-ledger, and roadmap records.
+- **`/handoff`** -- when context grows large, generate a paste-ready resume prompt that flushes in-flight state to those durable records, then points a fresh session at them and names the single next action. A clean break beats a session running on fumes.
+
+Two cross-cutting habits keep all of this trustworthy: decisions are recorded as they're made (`/adr-create`), and artifacts are double-checked with `/plan-review` / `/research-review` -- both before they're relied on and as they're iterated, since a reference left stale by an edit is cheap to fix now and expensive later.
 
 ## Project structure
 
