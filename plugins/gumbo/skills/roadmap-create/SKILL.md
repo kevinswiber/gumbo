@@ -37,6 +37,7 @@ A roadmap has four parts:
 - Convert relative dates to absolute.
 - When a row's plan/research/ADR is created, link it; when it lands, mark it and note the merge.
 - Keep the *sequencing rationale* on the roadmap and the *implementation detail* in the linked artifacts — don't duplicate.
+- **Propagate every change across the roadmap (the anti-drift rule, same as `plan-resume` / `research-resume`).** When a milestone, a row's status, or a dependency changes, a roadmap echoes it in several places — the milestone table, the dependency/sequencing section, the risks, any per-project roadmap that defers to this one. Sweep them all and reconcile before moving on; a roadmap that contradicts itself misroutes the work it exists to sequence.
 
 ## Relationship to other skills
 

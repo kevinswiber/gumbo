@@ -81,6 +81,10 @@ When a decision produces more than one ADR (e.g. a shoreline ADR + a relay ADR, 
 
 Coupled ADRs (or a cross-repo pair) must agree on a shared seam — a vocabulary, a wire shape, a predicate. When fanning out parallel authoring agents, give **every** agent one identical **interface-contract block** verbatim (the shared verdicts, shapes, and constraints both ADRs must honor). Parallel agents cannot see each other's output; the contract is what keeps them aligned. After they return, verify the seam held across both drafts and reconcile any drift before presenting.
 
+## Revising a draft — propagate the change
+
+When you revise an ADR draft (a review applied, a decision sharpened), apply the **anti-drift rule** (same as `plan-resume` / `research-resume`): a changed value rarely lives in one place. Sweep the **whole** ADR — and, for a coupled set, **every** sibling draft plus the cover — for the old form and reconcile all of them before moving on. A value changed in the anchor ADR echoes in the dependents' interface-contract references, the cover's resolved-questions table, and the cross-reference lines; a cover that contradicts its drafts, or two coupled ADRs that disagree on a shared seam, is the classic ADR-set defect.
+
 ## Before approval — drift check
 
 Before recording approval, confirm nothing decided *since* the draft was written has changed its substrate (a format, an interface, a contract the ADR depends on). Verify load-bearing claims against current source. A decision approved against a moved foundation is a latent bug.
