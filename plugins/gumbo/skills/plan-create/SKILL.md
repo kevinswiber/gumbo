@@ -10,7 +10,7 @@ Plan the requested feature or change using the project's planning conventions.
 
 ## Process
 
-1. **Invoke the Plan subagent** using the Task tool with `subagent_type=Plan` to thoroughly research the codebase and design an implementation approach. The prompt should include the user's feature request and ask for a complete implementation plan. **Capture the `agentId`** from the Task result - this allows resuming the planning agent for additional context.
+1. **Research the codebase and design the implementation approach** — thoroughly, before writing any plan files. The common default is the Task tool with `subagent_type=Plan` (capture the returned `agentId` so the planning agent can be resumed for more context), but use whatever design/exploration capability best fits the context. The intent: a complete, codebase-grounded implementation approach driven from the user's request — not the specific tool that produces it.
 
 2. **After planning is complete**, save the plan to the project's plans directory:
    - Find the next plan number by checking both `.gumbo/plans/` and `.gumbo/plans/archive/` for the highest `NNNN-*` prefix

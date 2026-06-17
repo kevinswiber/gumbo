@@ -113,6 +113,7 @@ This will:
 
 - `/plan-create` -- Create an implementation plan
 - `/plan-resume` -- Resume an in-progress plan
+- `/plan-review` -- Review a plan for correctness, feasibility, and consistency
 - `/plan-archive` -- Archive a completed plan
 - `/plan-cancel` -- Cancel a plan
 - `/plan-findings-create` -- Extract findings from completed phases
@@ -122,6 +123,7 @@ This will:
 
 - `/research-create` -- Create a research plan with parallel investigation
 - `/research-resume` -- Resume or synthesize research
+- `/research-review` -- Review research for grounding, consistency, and synthesis fidelity
 - `/research-archive` -- Archive completed research
 - `/research-cancel` -- Cancel research
 

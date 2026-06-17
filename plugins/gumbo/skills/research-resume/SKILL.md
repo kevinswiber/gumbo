@@ -42,11 +42,8 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 
 1. Display the research plan summary
 2. Ask user to confirm they want to start the research
-3. **Spawn parallel subagents** using the Task tool:
-   - Use `subagent_type=Explore` for codebase investigation questions
-   - Use `subagent_type=general-purpose` for questions requiring web research or multi-source analysis
-   - **Launch all agents in a single message** with multiple Task tool calls for true parallelism
-   - Each agent's prompt should include:
+3. **Investigate the questions in parallel** — the *intent* is independent, concurrent investigations that each write findings to disk; choose whatever parallel-execution capability best fits the context. **Don't investigate serially.** Subagents are the common default — and if you use them: `subagent_type=Explore` for codebase questions, `general-purpose` for web/multi-source, launched together in one message for true parallelism. But a workflow/orchestration tool or any newer agent-coordination capability is equally valid; pick the best one available. Whatever the mechanism, hold the shape below.
+   - Each investigation's prompt should include:
      - The specific question to investigate
      - The where/what/how/why framework from the research plan
      - The sources to consult
@@ -55,8 +52,8 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
      - The full path to the output file: `.gumbo/research/NNNN-topic/qN-filename.md`
      - **Hard rules:** write the findings file end-to-end; do **not** edit source under the code repo (read-only — propose, don't change); do not commit; return only a terse summary (the file is the deliverable, which keeps the orchestrator's context lean)
    - **Sequence dependent questions:** a question that must read the others' outputs (e.g. a final "allocation / synthesis-input" question) is spawned *after* the independent ones land, not in the same batch — it reads their files. Independent questions go in one parallel batch; the dependent one follows.
-   - **Run agents in the background** using `run_in_background: true` so they execute in parallel
-4. **Collect agent IDs** from all Task results
+   - **Run the investigations concurrently** (e.g. subagents in the background via `run_in_background: true`) so they don't block each other.
+4. **Collect any agent/task IDs** the mechanism returns (for resuming or tracking)
 5. **Update `.research-state.json`:**
    ```json
    {
@@ -101,6 +98,14 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    - Re-spawn failed agents
 
 ### State: `in_progress` with all questions complete -> Synthesis
+
+> **Propagate every change across the research (the anti-drift rule).** Research is iterated — a review,
+> a late finding, or an owner direction changes a decided value, a vocabulary term, or a recommendation.
+> When that happens, it almost never lives in one file: a rule stated in Q5 is echoed in Q2's
+> takeaways, Q7's allocation, and the synthesis. Before moving on, search **every** question file *and*
+> `synthesis.md` for the OLD form and reconcile **all** of them — a synthesis that contradicts its own
+> question files (or two question files that disagree) is the most common research defect, and it is
+> cheap to fix now and expensive later. `/research-review` is the reactive net for what the sweep misses.
 
 1. **Read all findings files**
 2. **Synthesize findings** into `synthesis.md`:

@@ -77,6 +77,7 @@ Find and resume work on an in-progress implementation plan.
    - **When completing a phase:** Create a commit with message format:
      `feat(plan-NNNN): Phase N - <phase description>`
    - Add each commit SHA to the `commits` array in .plan-state.json
+   - **Propagate every change across the plan (the anti-drift rule).** When implementation forces a change to anything *shared* — a symbol name, a signature, a visibility, a decided value, a vocabulary term, a contract at a seam — it almost never lives in one place. Before moving on, search the **whole plan** for the OLD form and update **every** occurrence: the other task files, the load-bearing-invariants section, the architecture brief, acceptance criteria, the implementation-plan summary, and cross-references. Update the plan in lockstep with the code; a plan that lags the code becomes a trap for the next task (or the next session), which copies the stale form. Single-sourcing (one canonical referent, others pointing at it — see plan-create) shrinks this surface but rarely eliminates it, so still sweep. When in doubt, `/plan-review` catches what the sweep missed.
 
 6. **Record findings during implementation:**
    - Create a `findings/` subdirectory in the active plan directory
