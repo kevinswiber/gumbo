@@ -12,7 +12,7 @@ Keep your inner dev loop artifacts (implementation plans, research, issue tracki
 
 ## Workflow
 
-The file system acts as scratch space for each phase of the inner dev loop so you don't lose context between `/clear` calls. Each skill runs independently -- `/clear` between steps.
+The file system acts as scratch space for each phase of the inner dev loop, so you don't lose anything between steps -- each skill reads what it needs from disk and runs independently. You can start every step with a fresh context.
 
 ### 1. Research
 
@@ -30,11 +30,13 @@ You can base a plan on previous research: `/plan-create research 0044`. `/plan-r
 
 ### 3. Implement
 
-Run `/clear` if you haven't already, then `/plan-resume` to start implementation. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
+Run `/plan-resume` to start implementation -- ideally from a fresh context, since it reads the plan from disk. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
 
 ### 4. Triage findings
 
-After everything's committed, run `/plan-findings-resume` to create issues in `.gumbo/issues/` from the findings. Those issues might spawn more research plans or direct fixes.
+Findings accumulate in the plan's `findings/` subdirectory as you implement (step 3) -- deviations, new information, edges that surfaced. If they weren't captured along the way, `/plan-findings-create` reviews the completed phases and extracts them retroactively, so nothing is lost before triage.
+
+Run `/plan-findings-resume` to triage them. Each finding is routed to where it belongs: a tracked **issue** in `.gumbo/issues/` (a real bug or follow-up), a **research** update (a question that needs investigation before it can be acted on), or a recorded **no-action** note (a design decision worth keeping but needing no change). Issues might in turn spawn more research or direct fixes. Triaging is what keeps the signal from implementation from evaporating once the plan is archived -- the findings outlive the plan as durable issues and research.
 
 ### 5. Archive
 
