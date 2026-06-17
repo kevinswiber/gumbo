@@ -19,6 +19,7 @@ Plan the requested feature or change using the project's planning conventions.
    - Write `task-list.md` with checkboxes for each task (each linking to a task file)
    - Create `tasks/` subdirectory with detailed task files (see format below)
    - Write `.plan-state.json` with initial state (see format below)
+   - **Optionally** write `architecture-brief.md` for plans that warrant it (see "Architecture brief" below)
    - Check `.gumbo/research/` at the project root for prior research relevant to this plan and link to it
 
 3. **Use this format for implementation-plan.md:**
@@ -186,6 +187,16 @@ Plan the requested feature or change using the project's planning conventions.
    - **Single-source each shared rule and symbol.** When a rule or a symbol (a function name, signature, type, or visibility) is introduced in one task and consumed by others, fix exactly one spelling for it — in the plan's invariants section or its owning task — and have other tasks *reference* it rather than restate it. Restated copies drift: a later edit fixes one and leaves the others contradicting, which an implementer then copies verbatim.
    - **Verify cross-boundary visibility.** When a plan spans a package/crate or binary↔library boundary, state explicitly which symbols are public vs internal, and confirm every symbol a task consumes is visible from the consumer's location (e.g. a binary/CLI crate cannot see a library's `pub(crate)`/private items; a sibling module can). Getting this wrong produces won't-compile plans that look fine on the page.
    - **Every consumed symbol must be defined by some task.** If task B uses `foo()`/`Bar`, some task must actually create it (don't write "owned by an earlier phase" against a symbol no task defines). Reconcile the producer and the consumer on one name, signature, and visibility.
+
+5b. **Optionally write `architecture-brief.md`** — a spatial/ownership map of the change, complementing the *load-bearing invariants* section (which states the shared **rules**; the brief states the shared **shape**). Write one when the plan is large, spans multiple modules, has cross-task dependencies at shared seams, or will be implemented or task-authored by more than one agent in parallel. Skip it for small, single-module plans. It contains:
+   - **Module map** — the files/modules the plan touches and what each is for (a one-line orientation per module).
+   - **Task ownership** — which task owns which module/symbol/seam, so two tasks never edit the same seam without one being declared the owner. (This is what keeps parallel implementers from colliding.)
+   - **Cross-task seams** — every place two tasks meet (a shared trait/function signature, a new public API, a data shape passed between phases), with the exact contract at each seam stated once. A seam's contract is a load-bearing invariant; reference the invariants section rather than restating it.
+   - **Data/control flow** (optional) — a short narrative or diagram of how the pieces connect at runtime.
+
+   The brief is the map an implementer (or a reviewer) reads first to understand *where* things go before reading *what* each task does. Link it from `implementation-plan.md`'s Overview and from `task-list.md`'s Quick Links.
+
+5c. **Parallelizing authoring or implementation (optional, for large plans).** When fanning out task-file authoring or implementation across multiple agents, give **every** agent one identical **interface-contract block** in its prompt — the load-bearing invariants plus the relevant cross-task seams from the architecture brief, verbatim. Parallel agents cannot see each other's output, so a shared contract is the only thing that stops them drifting on a symbol name, a signature, or a seam's shape. After parallel work returns, run the self-consistency pass (step 7) across all outputs to verify the seam held, and reconcile any drift before presenting.
 
 6. **Use this format for .plan-state.json:**
    ```json

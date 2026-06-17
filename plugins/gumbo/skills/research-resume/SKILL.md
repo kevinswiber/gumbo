@@ -50,8 +50,11 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
      - The specific question to investigate
      - The where/what/how/why framework from the research plan
      - The sources to consult
+     - **A shared interface-contract block** (when the questions share decided constraints, a vocabulary, or an interface): paste the *same* block verbatim into every agent's prompt. Parallel agents cannot see each other's output, so a shared contract is the only thing that keeps them from drifting on a name, a verdict value, or a seam's shape. After they return, sweep the outputs for agreement on those shared terms and reconcile any drift before synthesizing.
      - Instructions to write findings to the output file using the findings template
      - The full path to the output file: `.gumbo/research/NNNN-topic/qN-filename.md`
+     - **Hard rules:** write the findings file end-to-end; do **not** edit source under the code repo (read-only — propose, don't change); do not commit; return only a terse summary (the file is the deliverable, which keeps the orchestrator's context lean)
+   - **Sequence dependent questions:** a question that must read the others' outputs (e.g. a final "allocation / synthesis-input" question) is spawned *after* the independent ones land, not in the same batch — it reads their files. Independent questions go in one parallel batch; the dependent one follows.
    - **Run agents in the background** using `run_in_background: true` so they execute in parallel
 4. **Collect agent IDs** from all Task results
 5. **Update `.research-state.json`:**

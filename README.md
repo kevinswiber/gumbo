@@ -125,6 +125,19 @@ This will:
 - `/research-archive` -- Archive completed research
 - `/research-cancel` -- Cancel research
 
+### decisions
+
+- `/adr-create` -- Draft or amend an Architecture Decision Record from a synthesis or design decision
+
+### roadmap
+
+- `/roadmap-create` -- Create and maintain a milestone roadmap that sequences plans, research, and decisions
+
+### coordination
+
+- `/coordinator` -- Operate or resume a long-lived cross-project coordinator role
+- `/handoff` -- Generate a paste-ready resume prompt for a fresh session when context grows large
+
 ### gumbo
 
 - `/gumbo-init` -- Initialize a gumbo directory for a project
