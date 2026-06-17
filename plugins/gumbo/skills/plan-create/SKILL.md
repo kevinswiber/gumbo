@@ -19,7 +19,7 @@ Plan the requested feature or change using the project's planning conventions.
    - Write `task-list.md` with checkboxes for each task (each linking to a task file)
    - Create `tasks/` subdirectory with detailed task files (see format below)
    - Write `.plan-state.json` with initial state (see format below)
-   - **Optionally** write `architecture-brief.md` for plans that warrant it (see "Architecture brief" below)
+   - **Optionally** write `architecture-brief.md` for plans that warrant it (see step 5b below)
    - Check `.gumbo/research/` at the project root for prior research relevant to this plan and link to it
 
 3. **Use this format for implementation-plan.md:**

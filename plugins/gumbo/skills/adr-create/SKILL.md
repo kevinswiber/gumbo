@@ -93,4 +93,4 @@ Before recording approval, confirm nothing decided *since* the draft was written
 4. Present for review. Apply review minimally; record the review and resolution in the research/findings ledger.
 5. On owner approval, set the status line(s) to `Accepted (owner-approved <date>)` and tick the cover.
 6. Land via `plan-create` — an implementation plan appends the ADR (or its `## Amendment`) into the repo's `docs/adr/`, with the ADR's status line naming that plan.
-7. Do **not** commit source-repo changes here; ADRs land through their implementation plan, not from this skill.
+7. Do **not** commit source-repo changes here — ADRs land through their implementation plan, not from this skill. (The gumbo-side drafts are committed per the project's gumbo git discipline; see `coordinator`.)
