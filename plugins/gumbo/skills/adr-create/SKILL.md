@@ -94,7 +94,7 @@ Before recording approval, confirm nothing decided *since* the draft was written
 1. Identify the source decision (a research synthesis, or a stated design choice) and the target repo + next free ADR number.
 2. Draft the ADR in `adr-drafts/` (or directly in `docs/adr/` if landing immediately), in the repo's ADR format, with a DRAFT status line naming the intended landing plan.
 3. For a multi-ADR set, write the cover memo. For coupled/parallel authoring, share one interface contract.
-4. Present for review. Apply review minimally; record the review and resolution in the research/findings ledger.
+4. Present for review (`adr-review` is the reviewer's pass — grounding, decisiveness, consistency across a coupled set + cover). Apply review minimally; record the review and resolution in the research/findings ledger.
 5. On owner approval, set the status line(s) to `Accepted (owner-approved <date>)` and tick the cover.
 6. Land via `plan-create` — an implementation plan appends the ADR (or its `## Amendment`) into the repo's `docs/adr/`, with the ADR's status line naming that plan.
 7. Do **not** commit source-repo changes here — ADRs land through their implementation plan, not from this skill. (The gumbo-side drafts are committed per the project's gumbo git discipline; see `coordinator`.)

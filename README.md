@@ -20,7 +20,7 @@ Run `/research-create` to create a research plan. This produces a list of resear
 
 Run `/research-resume` to execute the plan. It runs the investigations in parallel (subagents by default, or whatever coordination capability best fits) -- each writes its findings to a file in the research subdirectory -- then synthesizes them. From there you can edit, refine, have conversations, or do more research. `/research-review` checks the result for grounding, internal consistency, and synthesis fidelity before you rely on it.
 
-When research reaches a conclusion worth recording, `/adr-create` turns the synthesis into a durable Architecture Decision Record -- the *what, why, and what-was-rejected* of a decision. ADR drafts live in the research dir and land in the code repo's `docs/adr/` via an implementation plan; a landed decision is extended with an appended amendment, never rewritten.
+When research reaches a conclusion worth recording, `/adr-create` turns the synthesis into a durable Architecture Decision Record -- the *what, why, and what-was-rejected* of a decision. ADR drafts live in the research dir and land in the code repo's `docs/adr/` via an implementation plan; a landed decision is extended with an appended amendment, never rewritten. `/adr-review` checks a draft (or a coupled set and its cover) for grounding, decisiveness, and internal consistency before the owner approves it.
 
 ### 2. Plan
 
@@ -54,7 +54,7 @@ The loop above is for one piece of work. When work spans many plans, research ef
 - **`/coordinator`** -- operate or resume a long-lived coordinator role. You orchestrate and sequence the work -- creating plans/research/ADRs, processing external reviews against source, recording landings, keeping the roadmap true -- without implementing it yourself (implementation happens in separate `/plan-resume` sessions). The role survives across sessions through durable handoff, findings-ledger, and roadmap records.
 - **`/handoff`** -- when context grows large, generate a paste-ready resume prompt that flushes in-flight state to those durable records, then points a fresh session at them and names the single next action. A clean break beats a session running on fumes.
 
-Two cross-cutting habits keep all of this trustworthy: decisions are recorded as they're made (`/adr-create`), and artifacts are double-checked with `/plan-review` / `/research-review` -- both before they're relied on and as they're iterated, since a reference left stale by an edit is cheap to fix now and expensive later.
+Two cross-cutting habits keep all of this trustworthy: decisions are recorded as they're made (`/adr-create`), and artifacts are double-checked with `/plan-review` / `/research-review` / `/adr-review` -- both before they're relied on and as they're iterated, since a reference left stale by an edit is cheap to fix now and expensive later.
 
 ## Project structure
 
@@ -144,6 +144,7 @@ This will:
 ### decisions
 
 - `/adr-create` -- Draft or amend an Architecture Decision Record from a synthesis or design decision
+- `/adr-review` -- Review an ADR (or coupled set + cover) for grounding, decisiveness, and consistency
 
 ### roadmap
 

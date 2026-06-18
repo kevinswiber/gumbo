@@ -4,7 +4,7 @@ This file provides guidance to agents when working with code in this repository.
 
 ## What this is
 
-Gumbo is a Claude Code plugin that manages development workflow artifacts (plans, research, issues) outside of code repos. Data lives in `~/.gumbo/projects/<name>/` and gets symlinked into code repos as `.gumbo`. The plugin is distributed as a marketplace plugin with 11 skills.
+Gumbo is a Claude Code plugin that manages development workflow artifacts (plans, research, issues) outside of code repos. Data lives in `~/.gumbo/projects/<name>/` and gets symlinked into code repos as `.gumbo`. The plugin is distributed as a marketplace plugin with 18 skills.
 
 ## Repository layout
 
