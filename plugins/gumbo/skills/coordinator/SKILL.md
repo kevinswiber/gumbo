@@ -1,6 +1,6 @@
 ---
 name: coordinator
-description: Operate or resume a long-lived cross-project coordinator role over gumbo plans, research, issues, and ADRs. Use when you are tracking and sequencing work across one or more repos rather than implementing it — creating plans/research, processing external reviews, recording landings, and keeping roadmaps true.
+description: Coordinate plans, research, issues, and roadmaps across projects without taking over implementation.
 ---
 
 # Coordinator Skill

@@ -1,6 +1,6 @@
 ---
 name: adr-review
-description: Review an Architecture Decision Record (or coupled ADR set + cover) for grounding, decisiveness, completeness, and internal consistency before it is approved or landed — and to catch the drift that iteration introduces across coupled drafts and the cover. Reports findings; does not auto-fix unless asked.
+description: Review a draft ADR or coupled ADR set for grounding, consistency, and readiness for owner approval.
 ---
 
 # ADR Review Skill

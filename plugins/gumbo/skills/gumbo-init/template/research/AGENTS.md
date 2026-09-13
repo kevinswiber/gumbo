@@ -176,11 +176,12 @@ After all questions are answered, findings are synthesized:
 
 ## Parallel Execution
 
-Research questions are investigated in parallel by independent subagents:
-- Each agent gets one question and writes one findings file
-- Agents run in the background using `run_in_background: true`
-- Agent IDs are stored in `.research-state.json` for tracking
-- Synthesis happens after all agents complete
+Investigate independent questions concurrently when delegation is authorized and useful; serial investigation is also supported.
+- Each question produces one findings file under the shared decided constraints
+- Use the current environment's execution and wait capabilities
+- Store actual agent IDs in `.research-state.json`, or an empty array for local work
+- Verify completed, substantive outputs before synthesis; file existence alone is insufficient
+- Continue through synthesis when execution is authorized, unless a budget, blocker, or explicit handoff ends the work
 
 ## Hierarchical Research
 
@@ -193,7 +194,7 @@ When a research plan reveals subtopics needing deeper investigation:
 
 ```
 /research-create  ->  PLANNED  (research plan designed, questions defined)
-/research-resume  ->  IN PROGRESS  (parallel agents spawned)
+/research-resume  ->  IN PROGRESS  (investigation started)
 /research-resume  ->  SYNTHESIZED  (findings combined into synthesis.md)
 /research-archive ->  ARCHIVED  (moved to research/archive/)
 ```

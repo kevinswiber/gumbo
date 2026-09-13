@@ -51,8 +51,8 @@ The body of SKILL.md contains instructions the agent follows when the skill is i
 ## Conventions
 
 - Plans and research use `NNNN-kebab-case` numbered directories
-- Plans follow strict TDD (Red/Green/Refactor) with commits per phase
-- Research spawns parallel subagents, one per question, using a where/what/how/why framework
+- Plans define task-appropriate verification; use TDD for behavior changes when it adds useful evidence
+- Research uses a where/what/how/why framework; independent questions may run concurrently when delegation is authorized
 - State tracked in `.plan-state.json` and `.research-state.json`
 - Draft files prefixed with `draft-` are gitignored
 - `AGENTS.local.md` is the single source of truth symlinked into all projects; `CLAUDE.local.md` is only a compatibility symlink

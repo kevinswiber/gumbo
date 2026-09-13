@@ -10,7 +10,7 @@ Plan the requested feature or change using the project's planning conventions.
 
 ## Process
 
-1. **Research the codebase and design the implementation approach** — thoroughly, before writing any plan files. The common default is the Task tool with `subagent_type=Plan` (capture the returned `agentId` so the planning agent can be resumed for more context), but use whatever design/exploration capability best fits the context. The intent: a complete, codebase-grounded implementation approach driven from the user's request — not the specific tool that produces it.
+1. **Ground the implementation approach in the relevant code and constraints.** Read the areas needed for the requested change. Delegate bounded investigation only when authorized and useful; use available capabilities rather than assuming a particular agent API.
 
 2. **After planning is complete**, save the plan to the project's plans directory:
    - Find the next plan number by checking both `.gumbo/plans/` and `.gumbo/plans/archive/` for the highest `NNNN-*` prefix
@@ -63,10 +63,10 @@ Plan the requested feature or change using the project's planning conventions.
 
    ## Research References
    [If prior research exists in the project's .gumbo/research/ directory, link to relevant documents here]
-   - [research-doc-name.md](../../.gumbo/research/topic/research-doc-name.md)
+   - [research-doc-name.md](../../research/topic/research-doc-name.md)
 
    ## Testing Strategy
-   [How to test the changes — all tasks follow TDD Red/Green/Refactor]
+   [Verification appropriate to the change and repository gates; use TDD when required or useful for behavior evidence]
    ```
 
 4. **Use this format for task-list.md:**
@@ -104,86 +104,19 @@ Plan the requested feature or change using the project's planning conventions.
    | Resource             | Path                                                 |
    | -------------------- | ---------------------------------------------------- |
    | Implementation Plan  | [implementation-plan.md](./implementation-plan.md)   |
-   | Research: Topic Name | [.gumbo/research/topic/doc.md](../../.gumbo/research/topic/doc.md) |
+   | Research: Topic Name | [.gumbo/research/topic/doc.md](../../research/topic/doc.md) |
    ```
 
    Each task item links to a detailed task file in `tasks/`. The Quick Links section at the bottom provides easy access to the implementation plan and any relevant research documents.
 
-5. **Create a `tasks/` subdirectory** with a file for each substantive task. Use the naming convention `{task-number}-{kebab-case-name}.md`. Each task file follows strict **Test-Driven Development (TDD)** and must include explicit Red/Green/Refactor phases:
+5. **Create a `tasks/` subdirectory** with `{task-number}-{kebab-case-name}.md` files for substantive tasks. Describe the objective, affected paths, implementation approach, relevant context, acceptance criteria, and verification.
 
-   ```markdown
-   # Task 1.1: Short Task Title
-
-   ## Objective
-   [What this task accomplishes]
-
-   ## Location
-   [File(s) to create or modify, e.g. "New file: `src/module/foo.rs`" or "Modify: `src/module/bar.rs`"]
-
-   ## TDD Phases
-
-   ### 🔴 Red: Write Failing Tests
-
-   Write these test(s) first, before any implementation code:
-
-   ```rust
-   #[test]
-   fn test_expected_behavior() {
-       // Arrange
-       let input = ...;
-       // Act
-       let result = function_under_test(input);
-       // Assert - this defines the expected behavior
-       assert_eq!(result, expected_value);
-   }
-   ```
-
-   **What the failing test asserts:** [Describe what behavior the test defines]
-   **Expected failure reason:** [e.g., "function_under_test does not exist yet" or "returns wrong value because logic is missing"]
-
-   Run the test to confirm it fails for the expected reason. Do not write any implementation code during this phase.
-
-   ### 🟢 Green: Minimal Implementation
-
-   Write the minimum code necessary to make the test(s) pass:
-
-   ```rust
-   pub fn function_under_test(input: Type) -> OutputType {
-       // Minimal implementation — just enough to pass the test
-   }
-   ```
-
-   Run the test to confirm it passes. No more code than necessary.
-
-   ### 🔵 Refactor: Clean Up
-
-   [Describe refactoring opportunities, e.g.:]
-   - Extract helper function for [repeated logic]
-   - Rename [variable] for clarity
-   - Consolidate [duplicated code] with existing [function]
-
-   Run tests after refactoring to confirm they still pass. Commit after this phase.
-
-   ## Context
-   [Any additional notes: imports needed, related functions, edge cases to handle.
-   Link to research docs if relevant: see [research-doc.md](../../../.gumbo/research/topic/doc.md)]
-
-   ## Acceptance Criteria
-   - [ ] Failing test written and confirmed red
-   - [ ] Minimal implementation passes the test
-   - [ ] Code refactored with tests still green
-   - [ ] [Additional criteria specific to this task]
-   ```
+   Use TDD when the project requires it or a failing regression test usefully defines the behavior: specify the assertion and expected failure, implement the fix, and rerun affected checks. For documentation or mechanical tasks, specify suitable validation instead. Refactor only when a concrete clarity problem warrants it.
 
    **Guidelines for task files:**
-   - Every task with implementation code must have explicit Red/Green/Refactor phases
-   - The Red phase must specify what tests to write, what they assert, and why they should fail
-   - The Green phase must describe only the minimal code to pass — no extras
-   - The Refactor phase should identify concrete cleanup opportunities
-   - Include enough code detail that implementation can proceed without re-reading the full codebase
-   - Show specific file paths, function signatures, struct definitions, and key logic
-   - Reference related research documents from `.gumbo/research/` when applicable
-   - Not every task-list item needs a task file — small or self-explanatory tasks (e.g., "run tests") can be described inline in the task list with `*(Covered in X.Y)*` or a brief note
+   - Include exact symbols, signatures, or code snippets when they settle a load-bearing contract; otherwise let the implementer choose routine details.
+   - Reference relevant research and shared constraints rather than copying whole documents into every task.
+   - Small or self-explanatory tasks can be described inline in the task list with `*(Covered in X.Y)*` or a brief note.
    - **Single-source each shared rule and symbol.** When a rule or a symbol (a function name, signature, type, or visibility) is introduced in one task and consumed by others, fix exactly one spelling for it — in the plan's invariants section or its owning task — and have other tasks *reference* it rather than restate it. Restated copies drift: a later edit fixes one and leaves the others contradicting, which an implementer then copies verbatim.
    - **Verify cross-boundary visibility.** When a plan spans a package/crate or binary↔library boundary, state explicitly which symbols are public vs internal, and confirm every symbol a task consumes is visible from the consumer's location (e.g. a binary/CLI crate cannot see a library's `pub(crate)`/private items; a sibling module can). Getting this wrong produces won't-compile plans that look fine on the page.
    - **Every consumed symbol must be defined by some task.** If task B uses `foo()`/`Bar`, some task must actually create it (don't write "owned by an earlier phase" against a symbol no task defines). Reconcile the producer and the consumer on one name, signature, and visibility.

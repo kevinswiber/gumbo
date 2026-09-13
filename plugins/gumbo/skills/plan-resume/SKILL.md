@@ -9,11 +9,14 @@ Find and resume work on an in-progress implementation plan.
 
 ## Process
 
-1. **Scan for in-progress plans:**
+1. **Resolve the target:**
+   - Use the user-specified plan or unambiguous current-session cursor first.
+   - Scan for in-progress plans only when the target is unresolved:
    - Look for `.gumbo/plans/*/task-list.md` files (exclude `.gumbo/plans/archive/`)
    - A plan is "in-progress" if it has unchecked task boxes: `- [ ]`
 
-2. **For each in-progress plan found, gather context:**
+2. **Gather context for the resolved plan:**
+   - If selection is still unresolved, read only enough candidate metadata to distinguish the plans.
    - Read `.plan-state.json` if it exists:
      - `created_at` - when the plan was created
      - `updated_at` - last state update
@@ -38,8 +41,8 @@ Find and resume work on an in-progress implementation plan.
    **One plan found:**
    Display the resume output (see format below).
 
-   **Multiple plans found:**
-   List all plans and ask user to choose:
+   **Multiple plans found and no target resolved:**
+   List candidates and ask the user to choose:
    ```
    Found multiple in-progress plans:
 
@@ -66,17 +69,13 @@ Find and resume work on an in-progress implementation plan.
    - [ ] **2.3** Third incomplete task
    ```
 
-5. **Begin implementing the plan using strict TDD:**
-   - Read the task file in `tasks/` for each task before starting it
-   - For each task, follow the TDD cycle:
-     1. **🔴 Red:** Write the failing test(s) specified in the task file. Run them to confirm they fail for the expected reason. Do not write any implementation code.
-     2. **🟢 Green:** Write the minimum code to make the test(s) pass. Run tests to confirm.
-     3. **🔵 Refactor:** Clean up the code while keeping tests green. Commit after refactoring.
-   - Mark tasks complete in task-list.md after the full Red/Green/Refactor cycle
-   - Update .plan-state.json with current_task and progress.completed
-   - **When completing a phase:** Create a commit with message format:
-     `feat(plan-NNNN): Phase N - <phase description>`
-   - Add each commit SHA to the `commits` array in .plan-state.json
+5. **Continue the authorized work:**
+   - Honor planning-only and review-only requests. Plan approval alone does not authorize implementation.
+   - When implementation is authorized, read the current task and its load-bearing constraints; continue through implementation, appropriate verification, fixes, and state updates within the agreed scope and budget.
+   - Use TDD when required by the project or when a regression test provides useful behavior evidence. Documentation and mechanical changes may use focused validation without invented failing tests or mandatory refactors.
+   - Mark tasks complete only when their acceptance criteria and required checks are satisfied.
+   - Update `.plan-state.json` with `current_task` and `progress.completed`.
+   - Commit at coherent boundaries when authorized. Follow the source repository's commit conventions; keep private planning identifiers out of public commit messages. Record exact commit SHAs in the private state's `commits` array.
    - **Propagate every change across the plan (the anti-drift rule).** When implementation forces a change to anything *shared* — a symbol name, a signature, a visibility, a decided value, a vocabulary term, a contract at a seam — it almost never lives in one place. Before moving on, search the **whole plan** for the OLD form and update **every** occurrence: the other task files, the load-bearing-invariants section, the architecture brief, acceptance criteria, the implementation-plan summary, and cross-references. Update the plan in lockstep with the code; a plan that lags the code becomes a trap for the next task (or the next session), which copies the stale form. Single-sourcing (one canonical referent, others pointing at it — see plan-create) shrinks this surface but rarely eliminates it, so still sweep. When in doubt, `/plan-review` catches what the sweep missed.
 
 6. **Record findings during implementation:**

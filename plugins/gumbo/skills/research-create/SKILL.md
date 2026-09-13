@@ -1,6 +1,6 @@
 ---
 name: research-create
-description: Create a research plan with parallel investigation tasks. Use when exploring a topic, analyzing external code, or gathering information to inform an implementation plan.
+description: Create a question-based research plan for an investigation that will inform a decision or implementation plan.
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
 
@@ -118,7 +118,7 @@ Design a research plan that decomposes a topic into parallel investigation tasks
    - Q2: [Title] -> `q2-output-file.md`
    - Q3: [Title] -> `q3-output-file.md`
 
-   Review the research plan, then run `/research-resume` to spawn parallel investigation agents.
+   Review the research plan, then run `/research-resume` to investigate the questions using an authorized execution shape.
 
    *Research summary: Brief description of what we're investigating*
    ```

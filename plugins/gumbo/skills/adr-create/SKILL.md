@@ -1,6 +1,6 @@
 ---
 name: adr-create
-description: Draft or amend an Architecture Decision Record (ADR) from a research synthesis or a design decision. Use when a decision needs to become a durable, reviewable record — and when extending or correcting a decision that has already landed.
+description: Draft or amend a durable Architecture Decision Record for a design decision.
 ---
 
 # ADR Skill

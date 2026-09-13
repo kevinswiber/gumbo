@@ -1,6 +1,6 @@
 ---
 name: roadmap-create
-description: Create and maintain a roadmap that sequences milestones and the plans, research, and decisions that fulfill them. Use when work spans many artifacts over time and needs one living place that shows the sequence, status, dependencies, and risks.
+description: Create or update a roadmap that sequences milestones, dependencies, and supporting plans.
 ---
 
 # Roadmap Skill

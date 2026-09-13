@@ -1,6 +1,6 @@
 ---
 name: plan-review
-description: Review an implementation plan for correctness, feasibility, completeness, and internal consistency before it is approved or implemented — and to catch the reference drift that iteration introduces. Reports findings; does not auto-fix unless asked.
+description: Review an implementation plan for correctness, feasibility, completeness, and consistency.
 ---
 
 # Plan Review Skill
@@ -23,7 +23,7 @@ Verify each load-bearing claim against the actual plan and source before reporti
    - **Load-bearing invariants read the same everywhere** — for each invariant, search every task file for its *anti-pattern* (the wrong return type, a forbidden fallback, a private symbol called across a boundary, a test doing what a test rule forbids) and flag every hit. The rule must read identically in the Green snippet, the Context, and the acceptance criteria.
    - **No stale references.** Grep the whole plan for any value that was changed during iteration (an old symbol name, a superseded decision, a renamed field) — these are the leftovers iteration leaves behind. The architecture brief's seams must match the current task files.
 2. **Feasibility.** Would the code plausibly compile? Check visibility across package/crate or binary↔library boundaries, argument arity, import paths, variant shapes. Is each task's Green achievable from its Red?
-3. **Completeness.** Every task-list item has a task file or a justified inline note; the plan actually covers the request; TDD Red/Green/Refactor phases are present where there's implementation code.
+3. **Completeness.** Every task-list item has a task file or a justified inline note; the plan actually covers the request; verification matches each task's behavior and repository gates; TDD phases are present where required or justified.
 4. **Alignment.** The plan honors the research and ADRs it cites and the constraints/invariants it declares; it doesn't quietly contradict an approved decision.
 
 ## How

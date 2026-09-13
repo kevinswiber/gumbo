@@ -77,26 +77,21 @@ For work-in-progress notes that shouldn't be committed:
 - Draft files are gitignored and won't be committed
 - Rename to remove the `draft-` prefix when ready to commit
 
-## Test-Driven Development (TDD)
+## Verification
 
-All implementation tasks follow strict TDD. For each task:
+Choose verification that supports the task's acceptance criteria and follows the source repository's gates. Use TDD when the project requires it or a failing regression test usefully defines changed behavior: state the expected assertion and failure, implement the change, and rerun affected checks.
 
-1. **🔴 Red:** Write failing test(s) that define expected behavior. Run to confirm they fail for the expected reason. No implementation code in this phase.
-2. **🟢 Green:** Write the minimum code to make the test(s) pass. No more, no less. Run to confirm passing.
-3. **🔵 Refactor:** Clean up code while keeping tests green. Commit after refactoring.
+Documentation and mechanical tasks may use focused validation without a Red/Green cycle. Refactor only when a concrete clarity problem warrants it. Do not repeat passing checks unless edits, failures, or new evidence justify another run.
 
-Task files in `tasks/` must specify:
-- What test(s) to write first and what they assert
-- The expected failure reason
-- What minimal implementation satisfies the tests
-- What refactoring opportunities exist
+Commit at coherent boundaries when authorized, following the source repository's commit conventions. Keep private planning identifiers out of public commit messages; track the exact SHAs in private plan state.
 
 ## During Implementation
 
 - Update task list checkboxes as you complete tasks: `- [ ]` → `- [x]`
 - Keep the plan document updated if the approach changes
 - Update `.plan-state.json` with progress and session notes
-- Follow TDD Red/Green/Refactor for every task with implementation code
+- Complete the task-specific verification and record only checks that actually ran
+- Preserve planning-only and review-only scope; plan approval alone does not authorize implementation
 
 ## Findings
 

@@ -18,7 +18,7 @@ The file system acts as scratch space for each phase of the inner dev loop, so y
 
 Run `/research-create` to create a research plan. This produces a list of research tasks -- things like searching the web for an issue, reviewing codebases, combing through git logs, or going through issues and PRs. Research is instructed to find info on the what, where, how, and why.
 
-Run `/research-resume` to execute the plan. It runs the investigations in parallel (subagents by default, or whatever coordination capability best fits) -- each writes its findings to a file in the research subdirectory -- then synthesizes them. From there you can edit, refine, have conversations, or do more research. `/research-review` checks the result for grounding, internal consistency, and synthesis fidelity before you rely on it.
+Run `/research-resume` to execute the plan. It investigates each question and writes findings to a file in the research subdirectory, then synthesizes them. Independent questions may run in parallel when delegation is authorized and useful; serial investigation is also supported. From there you can edit, refine, have conversations, or do more research. `/research-review` checks the result for grounding, internal consistency, and synthesis fidelity before you rely on it.
 
 When research reaches a conclusion worth recording, `/adr-create` turns the synthesis into a durable Architecture Decision Record -- the *what, why, and what-was-rejected* of a decision. ADR drafts live in the research dir and land in the code repo's `docs/adr/` via an implementation plan; a landed decision is extended with an appended amendment, never rewritten. `/adr-review` checks a draft (or a coupled set and its cover) for grounding, decisiveness, and internal consistency before the owner approves it.
 
@@ -167,7 +167,7 @@ This will:
 
 ### plans/
 
-Implementation plans with task lists, TDD workflows, and progress tracking. See the template `plans/AGENTS.md` for conventions.
+Implementation plans with task lists, task-appropriate verification, and progress tracking. See the template `plans/AGENTS.md` for conventions.
 
 ### research/
 

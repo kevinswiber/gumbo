@@ -1,15 +1,17 @@
 ---
 name: research-resume
-description: Resume a research plan. Spawns parallel agents if not started, checks progress, or synthesizes findings.
+description: Resume a research plan through investigation, progress checks, and synthesis within the requested scope.
 ---
 
 # Research Resume Skill
 
-Resume work on a research plan. Handles three states: spawning agents, checking progress, and synthesizing findings.
+Resume work on a research plan through investigation, collection, and synthesis. Honor status-only requests; when execution is authorized, continue to the requested outcome within the agreed budget.
 
 ## Process
 
-1. **Scan for research plans:**
+1. **Resolve the target:**
+   - Use an explicit research plan or unambiguous current-session cursor first.
+   - Scan for active research only when the target is unresolved:
    - Look for `.gumbo/research/NNNN-*/research-plan.md` files (exclude `.gumbo/research/archive/`)
    - A research plan is active if its `.research-state.json` has `status` other than `"complete"` or `"archived"`
    - If no state file exists, treat as active if the research-plan.md exists
@@ -23,7 +25,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    To create a new research plan, use `/research-create <topic description>`.
    ```
 
-   **Multiple active research plans:**
+   **Multiple active research plans and no target resolved:**
    List all and ask user to choose:
    ```
    Found multiple active research plans:
@@ -36,24 +38,24 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 
    **Single plan found:** Proceed to state-based handling below.
 
-3. **Read `.research-state.json`** and handle based on status:
+3. **Read `.research-state.json`** and handle based on status. If it is missing, inspect existing findings and session context before choosing the initial state; do not assume completed work must be repeated.
 
-### State: `planned` (agents not yet spawned)
+### State: `planned` (investigation not started)
 
 1. Display the research plan summary
-2. Ask user to confirm they want to start the research
-3. **Investigate the questions in parallel** — the *intent* is independent, concurrent investigations that each write findings to disk; choose whatever parallel-execution capability best fits the context. **Don't investigate serially.** Subagents are the common default — and if you use them: `subagent_type=Explore` for codebase questions, `general-purpose` for web/multi-source, launched together in one message for true parallelism. But a workflow/orchestration tool or any newer agent-coordination capability is equally valid; pick the best one available. Whatever the mechanism, hold the shape below.
+2. Reuse existing execution authorization. A request to create or inspect a plan does not authorize investigation; ask only when starting remains outside the requested scope.
+3. **Investigate the questions using an appropriate execution shape.** Parallelize independent questions when delegation is authorized and useful; otherwise investigate serially. Use the active environment's capabilities, without assuming agent types or background flags. Each question produces its own findings file.
    - Each investigation's prompt should include:
      - The specific question to investigate
      - The where/what/how/why framework from the research plan
      - The sources to consult
-     - **A shared interface-contract block** (when the questions share decided constraints, a vocabulary, or an interface): paste the *same* block verbatim into every agent's prompt. Parallel agents cannot see each other's output, so a shared contract is the only thing that keeps them from drifting on a name, a verdict value, or a seam's shape. After they return, sweep the outputs for agreement on those shared terms and reconcile any drift before synthesizing.
+     - **A shared interface-contract block** (when the questions share decided constraints, a vocabulary, or an interface): paste the *same* block verbatim into every agent's prompt. Independent investigators need the same decided constraints to avoid drift in names, verdict values, or seams. After they return, sweep the outputs for agreement on those shared terms and reconcile any drift before synthesizing.
      - Instructions to write findings to the output file using the findings template
      - The full path to the output file: `.gumbo/research/NNNN-topic/qN-filename.md`
      - **Hard rules:** write the findings file end-to-end; do **not** edit source under the code repo (read-only — propose, don't change); do not commit; return only a terse summary (the file is the deliverable, which keeps the orchestrator's context lean)
-   - **Sequence dependent questions:** a question that must read the others' outputs (e.g. a final "allocation / synthesis-input" question) is spawned *after* the independent ones land, not in the same batch — it reads their files. Independent questions go in one parallel batch; the dependent one follows.
-   - **Run the investigations concurrently** (e.g. subagents in the background via `run_in_background: true`) so they don't block each other.
-4. **Collect any agent/task IDs** the mechanism returns (for resuming or tracking)
+   - **Sequence dependent questions:** a question that must read the others' outputs (e.g. a final "allocation / synthesis-input" question) is spawned *after* the independent ones land, not in the same batch — it reads their files. Independent questions may run concurrently; dependent questions follow their prerequisites.
+   - Keep agent tasks bounded and reuse existing agents where continuity matters. If working serially, apply the same findings contract locally.
+4. **Collect any agent/task IDs** the mechanism returns (for resuming or tracking); use an empty `agent_ids` array for local investigation.
 5. **Update `.research-state.json`:**
    ```json
    {
@@ -67,16 +69,16 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
 7. Display:
    ```
    **Research started:** `.gumbo/research/NNNN-topic-name/`
-   **Agents spawned:** N parallel investigations
+   **Investigations:** N questions; local or delegated as authorized
    **Agent IDs:** `id1`, `id2`, `id3`
 
-   Agents are running in the background. Run `/research-resume` to check progress and synthesize findings when complete.
+   Continue collecting results and synthesize when complete. If the user requested a background handoff, report the live task IDs and current state instead.
    ```
 
-### State: `in_progress` (agents spawned, awaiting completion)
+### State: `in_progress` (investigation underway)
 
-1. **Check each agent's output file** — if the file exists and has content, that question is complete
-2. **Read completed findings files** to verify they have substantive content
+1. **Check task status and question outputs.** File existence alone does not establish completion; a worker may still be writing.
+2. **Read completed findings files** and verify they answer the question substantively. For delegated work, also verify that the worker finished or explicitly handed off that output.
 3. **Update `research-plan.md`** Expected Outputs table with current status
 4. Display progress:
    ```
@@ -92,10 +94,7 @@ Resume work on a research plan. Handles three states: spawning agents, checking 
    ```
 
 5. **If all questions complete**, proceed to synthesis (see below)
-6. **If some are pending**, offer to:
-   - Wait and check again later (`/research-resume`)
-   - Proceed to partial synthesis with available findings
-   - Re-spawn failed agents
+6. **If some are pending**, continue collection within the authorized budget using the available wait mechanism. Repair or retry bounded failures when authorized. At a budget limit or external blocker, retain partial results and report the next action. Label a requested partial synthesis explicitly; do not present it as complete.
 
 ### State: `in_progress` with all questions complete -> Synthesis
 

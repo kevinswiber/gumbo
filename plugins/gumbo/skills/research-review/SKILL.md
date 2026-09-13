@@ -1,6 +1,6 @@
 ---
 name: research-review
-description: Review a research effort for grounding, internal consistency, and synthesis fidelity before its conclusions are relied on — and to catch the contradictions that iteration introduces across question files and the synthesis. Reports findings; does not auto-fix unless asked.
+description: Review research findings and synthesis for grounding, consistency, and fidelity to sources.
 ---
 
 # Research Review Skill

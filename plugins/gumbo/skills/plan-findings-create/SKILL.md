@@ -40,7 +40,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
    - Compare changes against what the task files specified
 
    If no commits are recorded but tasks are checked off:
-   - Use `git log --oneline` to find likely commits by message pattern (`feat(plan-NNNN)`)
+   - Use the private plan's evidence and changed paths to locate candidate commits with `git log`; do not assume public messages contain private plan identifiers
    - Review those commits instead
 
 4. **Identify findings by comparing plan vs. reality:**

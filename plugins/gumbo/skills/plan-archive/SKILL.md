@@ -30,8 +30,8 @@ Archive a completed implementation plan after successful implementation.
    **Completed:** YYYY-MM-DD
 
    **Commits:**
-   - `abc1234` - feat(plan-NNNN): Phase 1 - Description
-   - `def5678` - feat(plan-NNNN): Phase 2 - Description
+   - `abc1234` - feat: add the requested behavior
+   - `def5678` - test: cover the boundary case
    ```
    (Include commits section if the `commits` array in .plan-state.json is non-empty. List each SHA with its commit message.)
 

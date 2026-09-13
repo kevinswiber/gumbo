@@ -1,7 +1,7 @@
 ## Planning and Task Tracking
 
 Use `/plan-create` to create implementation plans and `/plan-resume` to continue in-progress work.
-Plans follow strict TDD (Red/Green/Refactor) and record findings during implementation.
+Plans define task-appropriate verification and record findings during implementation. Use TDD when it provides useful behavior evidence or the project requires it.
 Use `/plan-findings-create` to retroactively extract findings from completed phases.
 Use `/plan-findings-resume` to triage findings into issues and research updates.
 See `.gumbo/plans/AGENTS.md` for workflow details and conventions.
@@ -15,7 +15,7 @@ See `.gumbo/issues/AGENTS.md` for format conventions.
 ## Research
 
 Use `/research-create` to design a research plan with parallel investigation tasks.
-Use `/research-resume` to spawn agents, check progress, or synthesize findings.
+Use `/research-resume` to investigate questions, collect results, and synthesize findings within the authorized scope. Delegate independent questions only when authorized and useful.
 Use `/research-archive` to archive completed research.
 See `.gumbo/research/AGENTS.md` for workflow details and conventions.
 
