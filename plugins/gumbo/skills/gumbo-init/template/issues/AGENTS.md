@@ -1,8 +1,6 @@
-# Agent Instructions for Issues
+# Issues
 
-**IMPORTANT**: Do *not* commit issues to the git repo!
-
-When working on this project, follow these guidelines for creating and managing issues.
+Issue sets live here. Shared rules (git, privacy, the finding format) are in the project's `AGENTS.local.md`; issues are usually created by `/plan-findings-resume`. This file records the formats.
 
 ## Issue Sources
 

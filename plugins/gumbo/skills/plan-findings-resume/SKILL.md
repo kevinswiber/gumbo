@@ -4,9 +4,9 @@ description: Triage findings from a plan into issues and research. Reads finding
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
 
-# Plan Findings Resume Skill
+# Plan Findings Resume
 
-Triage findings recorded during plan implementation into issues and research updates.
+Triage findings recorded during plan implementation into issues and research updates. Shared rules are in `.gumbo/AGENTS.local.md`; finding and issue formats are there and in `.gumbo/issues/AGENTS.md`.
 
 ## Process
 
@@ -30,7 +30,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 2. **Read all findings:**
    - Read every `.md` file in `.gumbo/plans/NNNN-name/findings/`
-   - Parse the finding metadata: Type, Task, Date
+   - Parse the finding metadata: Type, Task, Date, Source
    - Group findings by type: discovery, diversion, plan-error, note, todo, cleanup
 
 3. **Present findings summary to the user:**

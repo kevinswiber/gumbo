@@ -206,17 +206,28 @@ else
     fi
 fi
 
-# Ensure AGENTS.local.md symlink exists
-if [[ -L "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
-    if [[ "$(readlink "$GUMBO_PROJECT_DIR/AGENTS.local.md")" != "$PLUGIN_ROOT/AGENTS.local.md" ]]; then
-        rm "$GUMBO_PROJECT_DIR/AGENTS.local.md"
-        ln -s "$PLUGIN_ROOT/AGENTS.local.md" "$GUMBO_PROJECT_DIR/AGENTS.local.md"
-        echo "Updated AGENTS.local.md symlink"
-    fi
-elif [[ ! -e "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
-    ln -s "$PLUGIN_ROOT/AGENTS.local.md" "$GUMBO_PROJECT_DIR/AGENTS.local.md"
-    echo "Added AGENTS.local.md symlink"
+# Keep one copy of the shared conventions at the gumbo root, refreshed from the plugin on every
+# run, and point each project at it with a relative symlink. (An absolute link into the plugin
+# cache breaks whenever the plugin is reinstalled or updated.)
+SHARED_CONVENTIONS="$GUMBO_ROOT/AGENTS.local.md"
+if [[ ! -f "$SHARED_CONVENTIONS" ]] || ! cmp -s "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"; then
+    cp "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"
+    echo "Refreshed $SHARED_CONVENTIONS from the plugin"
 fi
+if [[ -e "$GUMBO_PROJECT_DIR/AGENTS.local.md" && ! -L "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
+    echo "Warning: $GUMBO_PROJECT_DIR/AGENTS.local.md is a regular file; leaving it alone"
+else
+    ensure_relative_symlink "$GUMBO_PROJECT_DIR/AGENTS.local.md" "../../AGENTS.local.md" "AGENTS.local.md"
+fi
+
+# Project copies of the template AGENTS.md files are never overwritten (projects customize
+# them), so say when one has drifted from the plugin template.
+for section in plans research issues; do
+    if [[ -f "$GUMBO_PROJECT_DIR/$section/AGENTS.md" && ! -L "$GUMBO_PROJECT_DIR/$section/AGENTS.md" ]] \
+        && ! cmp -s "$TEMPLATE_DIR/$section/AGENTS.md" "$GUMBO_PROJECT_DIR/$section/AGENTS.md"; then
+        echo "Note: $section/AGENTS.md differs from the plugin template; diff against $TEMPLATE_DIR/$section/AGENTS.md to refresh it"
+    fi
+done
 
 ensure_relative_symlink "$GUMBO_PROJECT_DIR/CLAUDE.local.md" "AGENTS.local.md" "CLAUDE.local.md compatibility"
 

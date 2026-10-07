@@ -1,102 +1,56 @@
-# Agent Instructions for Research
+# Research
 
-**IMPORTANT**: Do *not* commit research to the git repo!
+Research investigations live here, one directory per topic. Shared rules are in the project's `AGENTS.local.md`; the skills are `/research-create`, `/research-resume`, `/research-review`, `/research-archive`, `/research-cancel`. This file records the formats those skills read and write.
 
-When working on this project, follow these guidelines for creating and managing research.
+## Layout
 
-## Creating Research
-
-When starting a research investigation:
-
-1. **Create a new numbered subdirectory** in `research/`:
-   - Find the highest existing number across both `research/NNNN-*` and `research/archive/NNNN-*`
-   - Ignore unnumbered legacy directories (e.g., `dagre-layout/`, `edge-routing-deep-dive/`)
-   - Increment for your new research (e.g., `0001-edge-attachment`)
-   - Use lowercase kebab-case for the topic name
-
-2. **Save your research plan** to the new directory:
-   - Research plan: `research/NNNN-topic-name/research-plan.md`
-   - State file: `research/NNNN-topic-name/.research-state.json`
-   - Findings files: `research/NNNN-topic-name/qN-descriptive-name.md`
-   - Synthesis: `research/NNNN-topic-name/synthesis.md`
-
-3. **Include a status header** at the top of the research plan:
-   ```markdown
-   ## Status: PLANNED
-   ```
-
-   Valid statuses:
-   - `PLANNED` — Research questions defined, agents not yet spawned
-   - `IN PROGRESS` — Investigation agents running
-   - `SYNTHESIZED` — All questions answered and findings synthesized
-   - `ARCHIVED` — Research complete and moved to archive
-
-## State File (.research-state.json)
-
-Each research plan has a `.research-state.json` file for tracking session state:
-
-```json
-{
-  "status": "planned",
-  "created_at": "2026-01-28T10:30:00Z",
-  "updated_at": "2026-01-28T10:30:00Z",
-  "planning_agent_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "agent_ids": [],
-  "synthesis_agent_id": null,
-  "last_session_notes": null
-}
+```
+research/
+├── NNNN-topic-name/
+│   ├── research-plan.md
+│   ├── .research-state.json
+│   ├── q1-descriptive-name.md     # one findings file per question
+│   ├── q2-descriptive-name.md
+│   ├── synthesis.md
+│   ├── shared-contract.md         # optional; decided constraints every investigator receives
+│   ├── adr-drafts/                # optional; decisions produced by this research
+│   └── subtopic-name/             # optional deeper research, with its own plan and state
+└── archive/
 ```
 
-**Fields:**
-- `status` — Research status: `"planned"`, `"in_progress"`, `"synthesized"`, or `"archived"`
-- `created_at` — When the research plan was created (UTC ISO 8601)
-- `updated_at` — Last time state was updated
-- `planning_agent_id` — Agent ID from the planning session (can be resumed for context)
-- `agent_ids` — Array of agent IDs from parallel investigation agents
-- `synthesis_agent_id` — Agent ID that performed synthesis (null if done inline)
-- `last_session_notes` — Notes from the last session about progress/next steps
+Numbers increase across active research and the archive; unnumbered directories are legacy and are ignored when numbering. Names are lowercase kebab-case.
 
-**Additional fields for archived research:**
-- `archived_at` — When the research was archived
+## Lifecycle
 
-## Research Plan Format
+`PLANNED` (`/research-create`) → `IN PROGRESS` → `SYNTHESIZED` (`/research-resume`) → `ARCHIVED` (`/research-archive`), or `CANCELLED`. The plan's `## Status:` header and the state file's `status` (`planned`, `in_progress`, `synthesized`, `archived`, `cancelled`) always agree.
+
+## research-plan.md
 
 ```markdown
 # Research: Topic Name
 
 ## Status: PLANNED
 
----
-
 ## Goal
-
-[What we're trying to learn and why]
-
 ## Context
-
-[Current state, what prompted this research]
 
 ## Questions
 
-### Q1: [Question title]
-
-**Where:** [Sources to investigate]
-**What:** [Specific information needed]
-**How:** [Methodology]
-**Why:** [Why this matters]
-
+### Q1: Title
+**Where:** sources
+**What:** the facts to extract
+**How:** read, run, compare
+**Why:** what it decides
+**Depends on:** (optional) Q2, Q3
 **Output file:** `q1-descriptive-name.md`
 
----
-
-### Q2: [Question title]
-...
+## Shared contract
+(optional) decided values, vocabulary, and seams every investigator receives verbatim
 
 ## Sources
 
 | Source | Location | Used by |
 |--------|----------|---------|
-| [Name] | [Path/URL] | Q1, Q2 |
 
 ## Expected Outputs
 
@@ -106,128 +60,29 @@ Each research plan has a `.research-state.json` file for tracking session state:
 | `synthesis.md` | Combined findings | Pending |
 ```
 
-## Findings File Format
+`/research-resume` reads the status header and the Expected Outputs table.
 
-Each investigation produces a findings file following the where/what/how/why framework:
+## Findings file (qN-*.md)
 
-```markdown
-# Q1: [Question Title]
+Summary (the answer in a few sentences); Where (sources consulted); What (the facts, cited to `file:line` or a precise reference); How (how it works); Why (rationale and tradeoffs); Key Takeaways; Open Questions. Keep each section proportionate to what the question needs; a short Why is fine. Headline numbers show the data they come from.
 
-## Summary
-[2-3 sentence answer]
+## synthesis.md
 
-## Where
-[Sources consulted — files, repos, docs]
+Summary; Key Findings (cross-cutting, each traceable to question files); Decisions (owner decisions made during the research, dated, and the questions still open for the owner); Recommendations (one per decision, with rationale); Next Steps (what a plan or ADR should do); Source Files (table of file and question).
 
-## What
-[Detailed factual findings]
+## .research-state.json
 
-## How
-[How the system/algorithm/feature works]
-
-## Why
-[Design rationale, tradeoffs, constraints]
-
-## Key Takeaways
-- [Takeaway 1]
-- [Takeaway 2]
-
-## Open Questions
-- [Follow-up questions that emerged]
+```json
+{
+  "status": "planned",
+  "created_at": "2026-01-28T10:30:00Z",
+  "updated_at": "2026-01-28T10:30:00Z",
+  "last_session_notes": null
+}
 ```
 
-## Synthesis Format
+Archived research adds `archived_at`; cancelled research adds `cancelled_at`, `cancellation_reason`, `superseded_by`. Extra keys are allowed. `planning_agent_id`, `agent_ids`, and `synthesis_agent_id` are legacy optional keys; omit them or write null.
 
-After all questions are answered, findings are synthesized:
+## Cross-references
 
-```markdown
-# Research Synthesis: Topic Name
-
-## Summary
-[Executive summary]
-
-## Key Findings
-### [Finding 1]
-[Cross-cutting finding from multiple questions]
-
-## Recommendations
-1. **[Recommendation]** — [Rationale]
-
-## Where/What/How/Why Summary
-
-| Aspect | Key Points |
-|--------|------------|
-| **Where** | [Key locations/sources] |
-| **What** | [Core facts] |
-| **How** | [Key mechanisms] |
-| **Why** | [Design rationale] |
-
-## Open Questions
-- [Questions for potential deeper research]
-
-## Next Steps
-- [ ] [Follow-up actions]
-
-## Source Files
-| File | Question |
-|------|----------|
-| `q1-file.md` | Q1: Title |
-```
-
-## Parallel Execution
-
-Investigate independent questions concurrently when delegation is authorized and useful; serial investigation is also supported.
-- Each question produces one findings file under the shared decided constraints
-- Use the current environment's execution and wait capabilities
-- Store actual agent IDs in `.research-state.json`, or an empty array for local work
-- Verify completed, substantive outputs before synthesis; file existence alone is insufficient
-- Continue through synthesis when execution is authorized, unless a budget, blocker, or explicit handoff ends the work
-
-## Hierarchical Research
-
-When a research plan reveals subtopics needing deeper investigation:
-- Create a subdirectory: `research/NNNN-topic/subtopic-name/`
-- The subdirectory gets its own `research-plan.md` and `.research-state.json`
-- The parent's synthesis should reference the child research
-
-## Lifecycle
-
-```
-/research-create  ->  PLANNED  (research plan designed, questions defined)
-/research-resume  ->  IN PROGRESS  (investigation started)
-/research-resume  ->  SYNTHESIZED  (findings combined into synthesis.md)
-/research-archive ->  ARCHIVED  (moved to research/archive/)
-```
-
-## Cross-References
-
-- Implementation plans in `plans/` reference research via relative paths: `../../research/NNNN-topic/doc.md`
-- Research plans should reference relevant existing research and plans
-- Synthesis documents should suggest next steps including potential implementation plans
-
-## Example Directory Structure
-
-```
-research/
-├── archive/                          # Archived research
-│   └── 0001-edge-routing/
-│       ├── research-plan.md
-│       ├── .research-state.json
-│       ├── q1-mermaid-behavior.md
-│       ├── q2-dagre-routing.md
-│       ├── q3-ascii-constraints.md
-│       └── synthesis.md
-├── 0002-layout-algorithm/            # Active research
-│   ├── research-plan.md
-│   ├── .research-state.json
-│   ├── q1-sugiyama-theory.md
-│   ├── q2-rust-libraries.md
-│   └── deeper-dive/                  # Hierarchical sub-research
-│       ├── research-plan.md
-│       ├── .research-state.json
-│       └── q1-network-simplex.md
-├── dagre-layout/                     # Legacy (unnumbered)
-├── edge-routing-deep-dive/           # Legacy (unnumbered)
-├── AGENTS.md
-└── README.md
-```
+Plans link research by relative path (`../../research/NNNN-topic/synthesis.md`). When research is archived, the path changes to `../../research/archive/NNNN-topic/`; `/research-archive` repoints links in the project.

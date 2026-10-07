@@ -6,24 +6,22 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 
 ## Your task
 
-1. Check if the user provided a project name (e.g. `/gumbo-init myapp`). If they did, pass it as the third argument to the init script. If not, omit the third argument and the script will default to the directory name.
+1. If the user gave a project name (`/gumbo-init myapp`), pass it as the third argument; otherwise omit it and the script uses the directory name.
 
-2. Run the gumbo init script:
+2. Run the init script from this skill's directory:
 
 ```
-# With project name:
-./scripts/init.sh ~/.gumbo "$PWD" <project-name>
-
-# Without project name (defaults to directory name):
-./scripts/init.sh ~/.gumbo "$PWD"
+./scripts/init.sh ~/.gumbo "$PWD" [project-name]
 ```
 
-3. After successful initialization, remind the user to add the gumbo data directory to their Claude Code context so it's available across sessions. Tell them to run:
+The script is idempotent. Running it again on an initialized project refreshes the shared conventions copy at `~/.gumbo/AGENTS.local.md` (every project symlinks to it) and reports when a project's `plans/`, `research/`, or `issues/AGENTS.md` has drifted from the plugin template; it never overwrites those project copies.
+
+3. After a first initialization, remind the user to add the gumbo data directory to their Claude Code context:
 
 ```
 /add-dir ~/.gumbo
 ```
 
-They can add it to either the current project or to their user-scoped settings (`~/.claude/settings.json`) if they want it available in all projects.
+They can add it to the current project or to their user settings (`~/.claude/settings.json`) for all projects.
 
-Report the output to the user. Do not use any other tools or do anything else.
+Report the script output to the user. Do not use any other tools or do anything else.
