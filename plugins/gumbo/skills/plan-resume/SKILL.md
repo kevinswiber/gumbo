@@ -9,7 +9,7 @@ Continue an implementation plan from disk. Shared rules are in `.gumbo/AGENTS.lo
 
 ## 1. Resolve the plan
 
-Use the plan the user named or the one this session is already on. Otherwise list `.gumbo/plans/NNNN-*/` (not `archive/`) whose `.plan-state.json` has `status: in_progress`; a plan whose state says complete belongs in the archive, not in the candidates, even if a box is unchecked. One candidate: resume it. Several: list them with progress and ask. None: say so and point at `/plan-create`.
+Use the plan the user named or the one this session is already on. Otherwise list `.gumbo/plans/NNNN-*/` (not `archive/`) whose `.plan-state.json` has `status: in_progress`; a plan whose state says complete belongs in the archive, not in the candidates, even if a box is unchecked. A plan with no state file is a candidate when its task list has unchecked boxes; rebuild the state file from the task list (`progress` from the boxes, `current_task` null) before continuing. One candidate: resume it. Several: list them with progress and ask. None: say so and point at `/plan-create`.
 
 ## 2. Orient
 
@@ -31,7 +31,7 @@ A probe or a live check will sometimes invalidate tasks. Amend the plan rather t
 1. Record the evidence as a finding (`discovery` or `plan-error`) and the resulting owner decision, dated, in the plan's Decisions list.
 2. Rewrite the invariants the evidence changed; they remain the single source of truth.
 3. Mark superseded tasks in the task list as `- [x] **1.2** … *(superseded by 1.4; see findings/…)*` and leave their files as history with a one-line banner at the top. Add the replacement tasks with their own files or inline spec.
-4. Update `progress.total`, the Task Details table, the brief if any, and `last_session_notes`.
+4. Recompute `progress.total` and `progress.completed` from the amended task list (superseded tasks count as done), clear or redirect `current_task` if it pointed at a superseded task, and update the Task Details table, the brief if any, and `last_session_notes`.
 5. Commit the amended plan to the gumbo repo before continuing. If the amendment is large, run `/plan-review` on it first.
 
 ## 5. End of session

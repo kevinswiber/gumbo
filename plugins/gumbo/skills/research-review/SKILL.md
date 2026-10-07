@@ -16,6 +16,10 @@ Review research as a skeptical reader who will act on it. Read every question fi
 5. **Completeness.** Each question is answered rather than deflected; open questions and owner decisions are surfaced; the research says what a plan should do next.
 6. **Corrections.** On a later round, re-read each corrected passage for overshoot: a fix that now overstates, or a sibling file that still says the old thing.
 
+## Reviewing a plan before investigation
+
+When the target is still `PLANNED` (no question files yet), apply checks 1, 2, and 4 to `research-plan.md` and any shared contract, and add: each question is answerable from the sources it names, independent or marked with its dependencies, and tied to the decision it informs; the Expected Outputs table has a row per question plus the synthesis; the Context section's claims are grounded; a question that one probe would answer more cheaply is called out.
+
 ## Output
 
 One finding per issue, with its location (`q5-….md:NN`, or two locations for a contradiction) and the minimal reconcile. Severity: `blocking` (a conclusion rests on it), `should-fix` (a reader would be misled), `nit`.

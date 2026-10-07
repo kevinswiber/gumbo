@@ -14,4 +14,4 @@ Archive an implementation plan after its work has landed. Shared rules are in `.
    - `task-list.md` header becomes `## Status: ✅ COMPLETE`.
    - `.plan-state.json`: `status: "complete"`, `completed_at`, `updated_at`; keep every other field, including `commits`.
 4. **Move** the directory to `.gumbo/plans/archive/` and commit the move to the gumbo repo.
-5. **Confirm** in a few lines: the archive path, task count, completion date, commit count. If findings were never triaged, point at `/plan-findings-resume`.
+5. **Confirm** in a few lines: the archive path, task count, completion date, commit count. If findings were never triaged, point at `/plan-findings-resume NNNN` (it resolves archived plans too).

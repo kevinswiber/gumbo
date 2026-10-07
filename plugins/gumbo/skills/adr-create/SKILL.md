@@ -62,4 +62,4 @@ Keep it as dense as the repo's landed ADRs, not longer. Because the text will la
 3. For a set, write the cover memo.
 4. Present for review (`/adr-review`, or a Codex loop). Apply review findings minimally and record the review in the research or plan findings.
 5. On owner approval, set the status line(s) and tick the cover.
-6. Land via `/plan-create`: an implementation plan appends the ADR or amendment into the repo's `docs/adr/`. This skill never edits the source repo; it commits the drafts to the gumbo repo.
+6. Land via `/plan-create`: an implementation plan appends the ADR or amendment into the repo's `docs/adr/`, with the status line reduced to `**Status:** Accepted (YYYY-MM-DD)`; the `pending in-repo landing via <plan>` clause is draft metadata and does not land. This skill never edits the source repo; it commits the drafts to the gumbo repo.

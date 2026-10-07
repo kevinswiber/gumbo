@@ -12,7 +12,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 1. **Identify the target plan:**
 
-   - If the user provides a plan number (e.g., `/plan-findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`
+   - If the user provides a plan number (e.g., `/plan-findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`, or `.gumbo/plans/archive/NNNN-*/` when it has been archived
    - If no number is provided, scan for plans with findings:
      - Look for `.gumbo/plans/*/findings/` directories (exclude `.gumbo/plans/archive/`)
      - Read `.plan-state.json` for each to check status
@@ -56,7 +56,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 5. **Create issues** from findings that warrant them:
 
-   - Find the next issue set number by checking `.gumbo/issues/` for the highest `NNNN-*` prefix
+   - Find the next issue set number by checking `.gumbo/issues/` for the highest `NNNN-*` prefix (issue sets are never archived)
    - Create `.gumbo/issues/NNNN-kebab-description/` directory
    - Write `issues.md` index file with:
      - Summary of how issues were identified (from plan findings)

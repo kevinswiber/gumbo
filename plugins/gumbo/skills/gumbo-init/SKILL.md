@@ -8,11 +8,13 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 
 1. If the user gave a project name (`/gumbo-init myapp`), pass it as the third argument; otherwise omit it and the script uses the directory name.
 
-2. Run the init script from this skill's directory:
+2. Run the init script by its absolute path, without changing directory, so `$PWD` is the user's project:
 
 ```
-./scripts/init.sh ~/.gumbo "$PWD" [project-name]
+"${CLAUDE_PLUGIN_ROOT}/skills/gumbo-init/scripts/init.sh" ~/.gumbo "$PWD" [project-name]
 ```
+
+If `CLAUDE_PLUGIN_ROOT` is unset, use the path this skill was loaded from (`<plugin root>/skills/gumbo-init/scripts/init.sh`).
 
 The script is idempotent. Running it again on an initialized project refreshes the shared conventions copy at `~/.gumbo/AGENTS.local.md` (every project symlinks to it) and reports when a project's `plans/`, `research/`, or `issues/AGENTS.md` has drifted from the plugin template; it never overwrites those project copies.
 

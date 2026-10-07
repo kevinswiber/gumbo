@@ -210,6 +210,11 @@ fi
 # run, and point each project at it with a relative symlink. (An absolute link into the plugin
 # cache breaks whenever the plugin is reinstalled or updated.)
 SHARED_CONVENTIONS="$GUMBO_ROOT/AGENTS.local.md"
+if [[ -L "$SHARED_CONVENTIONS" ]]; then
+    # A symlink here (into a plugin cache, possibly dangling) is what this copy replaces.
+    rm "$SHARED_CONVENTIONS"
+    echo "Replaced the $SHARED_CONVENTIONS symlink with a regular copy"
+fi
 if [[ ! -f "$SHARED_CONVENTIONS" ]] || ! cmp -s "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"; then
     cp "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"
     echo "Refreshed $SHARED_CONVENTIONS from the plugin"

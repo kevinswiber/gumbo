@@ -14,7 +14,7 @@ Review an ADR, or a coupled set with its cover memo, as the owner who will appro
 3. **Set consistency.** Coupled ADRs state their shared seam identically. The cover's list, resolved-questions table, and approval checklist match the drafts. Every `ADR-XXXX` and See-also link resolves, the status line names a real landing plan, and no number collides.
 4. **Faithfulness.** The ADR records the decision its source (a synthesis or a stated choice) made, without inventing, overstating, or closing a question the source left open, and it does not contradict an ADR it cites.
 5. **Amendments.** An amendment is appended; the original text is unchanged; it names each decision it extends or supersedes and says whether the original stands.
-6. **Public surface.** Text that will land in a public repo does not depend on private artifacts: no plan numbers, task ids, research paths, or gumbo references.
+6. **Public surface.** Text that will land in a public repo does not depend on private artifacts: no plan numbers, task ids, research paths, or gumbo references in the body. The draft status line's `pending in-repo landing via <plan>` clause is draft metadata that the landing plan removes; flag it only if it has leaked into the body or into an ADR that has already landed.
 
 ## Output
 
