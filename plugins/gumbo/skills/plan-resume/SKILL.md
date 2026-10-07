@@ -3,152 +3,37 @@ name: plan-resume
 description: Resume working on an in-progress implementation plan. Finds incomplete plans and provides context to continue.
 ---
 
-# Resume Skill
+# Plan Resume
 
-Find and resume work on an in-progress implementation plan.
+Continue an implementation plan from disk. Shared rules are in `.gumbo/AGENTS.local.md`.
 
-## Process
+## 1. Resolve the plan
 
-1. **Resolve the target:**
-   - Use the user-specified plan or unambiguous current-session cursor first.
-   - Scan for in-progress plans only when the target is unresolved:
-   - Look for `.gumbo/plans/*/task-list.md` files (exclude `.gumbo/plans/archive/`)
-   - A plan is "in-progress" if it has unchecked task boxes: `- [ ]`
+Use the plan the user named or the one this session is already on. Otherwise list `.gumbo/plans/NNNN-*/` (not `archive/`) whose `.plan-state.json` has `status: in_progress`; a plan whose state says complete belongs in the archive, not in the candidates, even if a box is unchecked. One candidate: resume it. Several: list them with progress and ask. None: say so and point at `/plan-create`.
 
-2. **Gather context for the resolved plan:**
-   - If selection is still unresolved, read only enough candidate metadata to distinguish the plans.
-   - Read `.plan-state.json` if it exists:
-     - `created_at` - when the plan was created
-     - `updated_at` - last state update
-     - `planning_agent_id` - agent ID from original planning session (for resumption)
-     - `current_task` - task that was in progress
-     - `last_session_notes` - notes from previous session
-     - `progress.completed` / `progress.total` - task counts
-   - If no state file, calculate progress by counting checkboxes in task-list.md:
-     - `- [x]` = completed
-     - `- [ ]` = incomplete
-   - Extract the first 3-5 uncompleted task descriptions
+## 2. Orient
 
-3. **Handle different scenarios:**
+Read `.plan-state.json` (`current_task`, `last_session_notes`, `progress`, `commits`), the task list, the plan's invariants, decisions, and unknowns, the current task file, and the newest findings. Compare the plan's claims about the code with the current head before touching the task; the plan may have aged since it was written.
 
-   **No plans found:**
-   ```
-   No in-progress plans found in `.gumbo/plans/`.
+Report in a few lines: the plan path, progress, last notes, the next tasks, and any unknowns still open. Then continue only within what the user authorized; a status check is not implementation, and plan approval alone does not authorize it either.
 
-   To create a new plan, use `/plan-create <feature description>`.
-   ```
+## 3. Implement
 
-   **One plan found:**
-   Display the resume output (see format below).
+- One task at a time. Set `current_task`; implement with the task's verification (where the plan says TDD, the Red fails for the stated reason before the change); record only checks that ran; then tick the box, bump `progress.completed`, clear `current_task`, and set `updated_at`.
+- Commit the code repo at coherent boundaries when authorized, in that repo's convention, and record the SHAs in `commits`. Private identifiers stay out of public commit messages.
+- Record findings as they happen (format in AGENTS.local.md), including corrections that arrive through a review.
+- Propagate every change. When implementation changes something shared (a symbol, a signature, a decided value, a contract at a seam), update every place in the plan that states or applies it in the same step: the invariants, other task files, the brief, acceptance criteria, the plan summary. A plan that lags the code is a trap for the next session.
 
-   **Multiple plans found and no target resolved:**
-   List candidates and ask the user to choose:
-   ```
-   Found multiple in-progress plans:
+## 4. Amend the plan when evidence supersedes it
 
-   1. `.gumbo/plans/0006-rust-parser/` - 3/12 tasks (25%)
-   2. `.gumbo/plans/0007-output-formats/` - 0/8 tasks (0%)
+A probe or a live check will sometimes invalidate tasks. Amend the plan rather than improvising around it:
 
-   Which plan would you like to resume? Enter the number or plan name.
-   ```
-   Then display resume output for the chosen plan.
+1. Record the evidence as a finding (`discovery` or `plan-error`) and the resulting owner decision, dated, in the plan's Decisions list.
+2. Rewrite the invariants the evidence changed; they remain the single source of truth.
+3. Mark superseded tasks in the task list as `- [x] **1.2** … *(superseded by 1.4; see findings/…)*` and leave their files as history with a one-line banner at the top. Add the replacement tasks with their own files or inline spec.
+4. Update `progress.total`, the Task Details table, the brief if any, and `last_session_notes`.
+5. Commit the amended plan to the gumbo repo before continuing. If the amendment is large, run `/plan-review` on it first.
 
-4. **Display resume output:**
-   ```
-   **Resuming plan:** `.gumbo/plans/NNNN-feature-name/`
+## 5. End of session
 
-   **Progress:** N/M tasks complete (X%)
-   **Created:** YYYY-MM-DD HH:MM UTC
-   **Last session:** YYYY-MM-DD HH:MM UTC (or "No previous session" if no state file)
-   **Planning agent:** `{agentId}` (or omit if not in state file)
-   **Last notes:** "Notes from previous session" (or omit if null)
-
-   **Next tasks:**
-   - [ ] **2.1** First incomplete task
-   - [ ] **2.2** Second incomplete task
-   - [ ] **2.3** Third incomplete task
-   ```
-
-5. **Continue the authorized work:**
-   - Honor planning-only and review-only requests. Plan approval alone does not authorize implementation.
-   - When implementation is authorized, read the current task and its load-bearing constraints; continue through implementation, appropriate verification, fixes, and state updates within the agreed scope and budget.
-   - Use TDD when required by the project or when a regression test provides useful behavior evidence. Documentation and mechanical changes may use focused validation without invented failing tests or mandatory refactors.
-   - Mark tasks complete only when their acceptance criteria and required checks are satisfied.
-   - Update `.plan-state.json` with `current_task` and `progress.completed`.
-   - Commit at coherent boundaries when authorized. Follow the source repository's commit conventions; keep private planning identifiers out of public commit messages. Record exact commit SHAs in the private state's `commits` array.
-   - **Propagate every change across the plan (the anti-drift rule).** When implementation forces a change to anything *shared* — a symbol name, a signature, a visibility, a decided value, a vocabulary term, a contract at a seam — it almost never lives in one place. Before moving on, search the **whole plan** for the OLD form and update **every** occurrence: the other task files, the load-bearing-invariants section, the architecture brief, acceptance criteria, the implementation-plan summary, and cross-references. Update the plan in lockstep with the code; a plan that lags the code becomes a trap for the next task (or the next session), which copies the stale form. Single-sourcing (one canonical referent, others pointing at it — see plan-create) shrinks this surface but rarely eliminates it, so still sweep. When in doubt, `/plan-review` catches what the sweep missed.
-
-6. **Record findings during implementation:**
-   - Create a `findings/` subdirectory in the active plan directory
-   - Write findings as individual markdown files with descriptive names
-   - Record any of the following as they arise:
-     - **Discoveries:** Unexpected behavior, undocumented assumptions, or new understanding of the codebase
-     - **Diversions:** Where the implementation diverged from the plan and why
-     - **Plan errors:** Things the plan got wrong — incorrect assumptions, missing steps, wrong approach
-     - **Important notes:** Context that future sessions or plans should know about
-     - **TODOs:** Work identified but deferred — cleanup, optimization, follow-up features
-     - **Cleanup items:** Technical debt introduced or discovered during implementation
-   - Use this format for finding files:
-     ```markdown
-     # Finding: Short Title
-
-     **Type:** discovery | diversion | plan-error | note | todo | cleanup
-     **Task:** 2.1 (which task surfaced this)
-     **Date:** YYYY-MM-DD
-
-     ## Details
-     [What was found/changed/wrong]
-
-     ## Impact
-     [How this affects the current plan or future work]
-
-     ## Action Items
-     - [ ] Concrete next step (if any)
-     ```
-   - These findings will be used to create issues and provide feedback to research
-
-## Example Outputs
-
-### Single Plan Found
-
----
-
-**Resuming plan:** `.gumbo/plans/0008-rust-parser/`
-
-**Progress:** 3/12 tasks complete (25%)
-**Created:** 2026-01-22 14:30 UTC
-**Last session:** 2026-01-23 16:45 UTC
-**Planning agent:** `a1b2c3d4-e5f6-7890-abcd-ef1234567890`
-**Last notes:** "Completed data model, starting parser implementation"
-
-**Next tasks:**
-- [ ] **2.1** Implement panic message regex
-- [ ] **2.2** Parse backtrace frame format
-- [ ] **2.3** Handle thread panic variants
-
----
-
-### Multiple Plans Found
-
----
-
-Found multiple in-progress plans:
-
-1. `.gumbo/plans/0006-rust-parser/` - 3/12 tasks (25%)
-2. `.gumbo/plans/0007-output-formats/` - 0/8 tasks (0%)
-
-Which plan would you like to resume? Enter the number or plan name.
-
----
-
-### No Plans Found
-
----
-
-No in-progress plans found in `.gumbo/plans/`.
-
-All plans are either completed (in `.gumbo/plans/archive/`) or none exist yet.
-
-To create a new plan, use `/plan-create <feature description>`.
-
----
+Set `last_session_notes` (what landed, what is mid-flight, the single next action) and `updated_at`, and commit the plan state to the gumbo repo. When every task is done, `/plan-archive`.

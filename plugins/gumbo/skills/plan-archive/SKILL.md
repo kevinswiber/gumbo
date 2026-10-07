@@ -3,91 +3,15 @@ name: plan-archive
 description: Archive a completed implementation plan. Moves the plan to archive/ and updates its status to COMPLETE.
 ---
 
-# Archive Skill
+# Plan Archive
 
-Archive a completed implementation plan after successful implementation.
+Archive an implementation plan after its work has landed. Shared rules are in `.gumbo/AGENTS.local.md`.
 
-## Process
-
-1. **Identify the plan to archive:**
-   - If the user specifies a plan number/name, use that
-   - Otherwise, scan `.gumbo/plans/*/` (exclude `archive/`) for plans that appear complete:
-     - All task checkboxes marked done (`- [x]`)
-     - Or user explicitly states it's complete
-   - If multiple candidates found, ask user to specify which one
-
-2. **Verify completion:**
-   - Read the `task-list.md` and count checkboxes
-   - If not all tasks are complete, ask user to confirm they want to archive anyway
-   - Display: "Plan has X/Y tasks complete. Archive anyway?"
-
-3. **Update plan files:**
-
-   **Update `implementation-plan.md` status header:**
-   ```markdown
-   ## Status: ✅ COMPLETE
-
-   **Completed:** YYYY-MM-DD
-
-   **Commits:**
-   - `abc1234` - feat: add the requested behavior
-   - `def5678` - test: cover the boundary case
-   ```
-   (Include commits section if the `commits` array in .plan-state.json is non-empty. List each SHA with its commit message.)
-
-   **Update `task-list.md` status:**
-   ```markdown
-   ## Status: ✅ COMPLETE
-   ```
-
-   **Update `.plan-state.json`:**
-   ```json
-   {
-     "status": "complete",
-     "completed_at": "2026-01-25T10:30:00Z",
-     "updated_at": "2026-01-25T10:30:00Z",
-     "commits": ["abc1234", "def5678"],
-     ...existing fields...
-   }
-   ```
-   (The `commits` array should already be populated during implementation. Preserve it in the final state.)
-
-4. **Move to archive:**
-   ```bash
-   mv .gumbo/plans/NNNN-feature-name .gumbo/plans/archive/
-   ```
-
-5. **Confirm to user:**
-   ```
-   **Archived:** `.gumbo/plans/archive/NNNN-feature-name/`
-   **Status:** ✅ COMPLETE
-   **Tasks:** X/Y complete
-   **Completed:** YYYY-MM-DD
-   **Commits:** N commits (list SHAs if present)
-   ```
-
-## Example Usage
-
-### Archive a specific plan
-```
-User: /plan-archive 0005
-```
-
-### Archive with auto-detection
-```
-User: /plan-archive
-
-(Claude finds the plan with all tasks complete and archives it)
-```
-
-### Confirm incomplete plan
-```
-User: /plan-archive 0003
-
-Claude: Plan 0003-backward-edge-routing has 8/12 tasks complete.
-Archive as complete anyway? (y/n)
-
-User: yes
-
-(Claude archives with status showing partial completion)
-```
+1. **Identify the plan.** The one the user named; otherwise scan `.gumbo/plans/NNNN-*/` (not `archive/`) for plans whose boxes are all checked or whose state says complete. Several candidates: ask.
+2. **Verify.** Count the task-list checkboxes. If any are open, show "X/Y tasks complete. Archive anyway?" and wait. Verify the landing (the merge, the PR) when the plan recorded one.
+3. **Update the files.**
+   - `implementation-plan.md` header becomes `## Status: ✅ COMPLETE`, followed by `**Completed:** YYYY-MM-DD` and, when `commits` is non-empty, a `**Commits:**` list of SHA and message.
+   - `task-list.md` header becomes `## Status: ✅ COMPLETE`.
+   - `.plan-state.json`: `status: "complete"`, `completed_at`, `updated_at`; keep every other field, including `commits`.
+4. **Move** the directory to `.gumbo/plans/archive/` and commit the move to the gumbo repo.
+5. **Confirm** in a few lines: the archive path, task count, completion date, commit count. If findings were never triaged, point at `/plan-findings-resume`.
