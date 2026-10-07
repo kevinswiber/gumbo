@@ -10,7 +10,7 @@ Shared rules for every project that uses gumbo. Skills link here instead of rest
 
 ## Git: the gumbo repo is separate from the code repo
 
-`~/.gumbo` is its own private git repo. Plans, research, issues, findings, ADR drafts, and review-loop records are committed there. The code repo never tracks `.gumbo`.
+`~/.gumbo` is its own private git repo. Plans, research, issues, findings, and ADR drafts are committed there; review-loop records under `loops/` are kept but gitignored. The code repo never tracks `.gumbo`.
 
 - Address it explicitly: `git -C ~/.gumbo …`. The shell cwd resets between commands, so a bare `git` from the working directory targets the code repo.
 - Scope every add and commit to this project's subdirectory: `git -C ~/.gumbo add projects/<name>/…`. The index is shared with concurrent sessions; never `add -A`.
