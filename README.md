@@ -24,13 +24,13 @@ When research reaches a conclusion worth recording, `/adr-create` turns the synt
 
 ### 2. Plan
 
-Run `/plan-create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and a `tasks/` directory with a file per task. Tasks are grouped into phases, with commits after each phase for more atomic changes. For large or multi-module plans, it can also write an `architecture-brief.md` (module map, task ownership, cross-task seams).
+Run `/plan-create` to create an implementation plan in `.gumbo/plans/`. Each plan gets its own subdirectory containing `implementation-plan.md`, `task-list.md`, and, for tasks that need more than a few lines, a `tasks/` directory. Before tasks are written the plan lists its unknowns (behavior that source cannot confirm) and the cheapest probe for each, and it states cross-cutting rules once in a load-bearing invariants section that task files reference rather than restate. Tasks are grouped into phases, with commits after each phase. For large or multi-module plans, it can also write an `architecture-brief.md` (module map, task ownership, cross-task seams).
 
 You can base a plan on previous research: `/plan-create research 0044`. `/plan-review` checks a plan for correctness, feasibility, and internal consistency before you implement it.
 
 ### 3. Implement
 
-Run `/plan-resume` to start implementation -- ideally from a fresh context, since it reads the plan from disk. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up.
+Run `/plan-resume` to start implementation -- ideally from a fresh context, since it reads the plan from disk. Along the way, it records findings in the plan's `findings/` subdirectory -- deviations from the plan, new information, things that came up -- and when live evidence supersedes tasks it amends the plan (decision recorded, invariants rewritten, tasks marked superseded) rather than improvising around it.
 
 ### 4. Triage findings
 
@@ -73,10 +73,11 @@ The data lives outside the code repo so it can be version-controlled separately:
 
 ```
 ~/.gumbo/                               # Data root (version-controllable)
+├── AGENTS.local.md                     # Shared conventions, refreshed from the plugin by init
 └── projects/
     └── myapp/
         ├── config.json                 # Project metadata and backlink
-        ├── AGENTS.local.md -> <plugin-root>/plugins/gumbo/AGENTS.local.md
+        ├── AGENTS.local.md -> ../../AGENTS.local.md
         ├── CLAUDE.local.md -> AGENTS.local.md
         ├── plans/
         ├── research/
@@ -116,7 +117,7 @@ This will:
 1. Create `~/.gumbo/projects/myapp/` (if it doesn't exist)
 2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `AGENTS.md` files and `CLAUDE.md` compatibility symlinks
 3. Write `config.json` with the project name, working directory, and data root
-4. Symlink `.gumbo/AGENTS.local.md` to the shared copy in the gumbo plugin
+4. Copy the plugin's `AGENTS.local.md` to `~/.gumbo/AGENTS.local.md` (refreshed on every run) and symlink `.gumbo/AGENTS.local.md` to it
 5. Create or update project-local `AGENTS.local.md`, with `CLAUDE.local.md` as a compatibility symlink
 6. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
 7. Add `/.gumbo`, `AGENTS.local.md`, and `CLAUDE.local.md` to the project's `.gitignore`
@@ -161,7 +162,7 @@ This will:
 
 ## AGENTS.local.md
 
-`plugins/gumbo/AGENTS.local.md` contains shared agent instructions (planning, research, and issue workflows) that apply to all projects. Each project gets a symlink at `.gumbo/AGENTS.local.md` pointing to this single source of truth, so updates propagate to every project automatically. `CLAUDE.local.md` is kept as a compatibility symlink for Claude-specific tooling.
+`plugins/gumbo/AGENTS.local.md` is the shared conventions reference: the gumbo git discipline, the single-source-then-propagate rule, the interface contract for parallel agents, the finding format, privacy of planning identifiers, and handoff record limits. Skills link to it instead of restating those rules. `/gumbo-init` copies it to `~/.gumbo/AGENTS.local.md` and each project symlinks `.gumbo/AGENTS.local.md` to that copy; rerun `/gumbo-init` on any project after updating the plugin to refresh it. `CLAUDE.local.md` is kept as a compatibility symlink for Claude-specific tooling.
 
 ## Directories
 
