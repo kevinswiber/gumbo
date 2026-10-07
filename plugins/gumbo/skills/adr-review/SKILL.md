@@ -3,50 +3,23 @@ name: adr-review
 description: Review a draft ADR or coupled ADR set for grounding, consistency, and readiness for owner approval.
 ---
 
-# ADR Review Skill
+# ADR Review
 
-Review an ADR the way a careful owner would before approving it: confirm the decision is grounded in current source, specific enough to implement from, honest about what it rejected, and internally consistent — across a coupled set and its cover. This is the **reactive net** for the drift that creeps in as an ADR is iterated (the proactive side is the anti-drift / propagate-on-revise rule in `adr-create`).
+Review an ADR, or a coupled set with its cover memo, as the owner who will approve it by editing its status line and then implement from it. Read every draft and the cover, the ADRs it cites, and the current source the decision rests on. A reviewer can be wrong and the ADR can be right: verify before reporting.
 
-## When to use
+## Checks
 
-- Before an owner approves an ADR (the status-line approval is the gate this review feeds).
-- After an ADR has been **iterated** — a review applied, a decision sharpened, a shared seam changed — the moment most likely to have left a sibling draft or the cover contradicting the anchor.
-- Before landing, as the **drift check**: confirm nothing decided since the draft was written has moved the substrate it depends on.
-- When asked to "review" or "sanity-check" an ADR or ADR set.
-
-## What to check
-
-Verify each load-bearing claim against the actual ADR and current source before reporting it — a reviewer can be wrong and an ADR can be right.
-
-1. **Internal consistency (the drift net — the highest-value pass).**
-   - **Coupled ADRs agree on their shared seam.** A vocabulary term, wire shape, field name, or predicate that both ADRs must honor reads **identically** in each. The interface contract is one contract, stated the same everywhere.
-   - **The cover matches its drafts.** The resolved-questions table, the "what each decides" list, and the cross-reference lines in `<topic>-adr-cover.md` agree with the drafts they describe. A cover that contradicts its drafts is the classic ADR-set defect.
-   - **No stale references.** Grep the whole ADR — and every sibling draft plus the cover — for any value changed during iteration (a renamed field, a superseded shape, an old number). A value changed in the anchor echoes in dependents' interface-contract references, the cover's table, and the `See also` lines; reconcile every occurrence.
-   - **Status lines and cross-refs are correct.** Each status line follows the lifecycle (`DRAFT — pending owner approval` / `Accepted (owner-approved <date>); pending … landing via <plan>`) and names the right landing plan; the cover's approval checklist matches the drafts' statuses; every `ADR-XXXX` / `See also` link resolves to an ADR that exists.
-2. **Grounding & current substrate.** Context claims are cited to source — `path:line` for codebase facts, precise citations for prior art. Crucially, the load-bearing substrate the decision rests on (a format, interface, or contract) is **still true now** — verify it against current source, not the source as it was when the draft was written. A decision approved against a moved foundation is a latent bug.
-3. **Decision quality & completeness.** The Decision section is **decisive and implementable** — exact field names, signatures, vocabularies, shapes — not a vague survey a reader can't build from. Consequences include **Rejected** alternatives with their reasons (this is half an ADR's value); Revisit Triggers are concrete conditions, not platitudes.
-4. **Faithfulness.** The ADR honors the decision it records (the research synthesis or stated design choice) — it does not invent, overstate, or quietly resolve a question the source left open. It honors, not contradicts, any ADR it cites.
-
-## Amendments — review against append-only discipline
-
-If the target is an **amendment** to a landed ADR: confirm it is *appended* as a `## Amendment: …` section and **the original text is untouched**, the top-level Status remains `Accepted`, and the amendment states whether the original decision still stands. A diff that rewrites the landed decision's original prose is itself a blocking finding — corrections to a landed ADR go through an amendment, never an edit.
-
-## How
-
-- Read the ADR top-to-bottom; for a set, read the cover and **every** sibling draft.
-- Build a small map of the shared interface contract (the terms/shapes/predicates the coupled ADRs share) and check each reads identically everywhere it appears, including the cover's table.
-- For each value changed in iteration, **grep all drafts + the cover** for the old form.
-- Verify each load-bearing substrate claim against **current** source; check ADR numbering doesn't collide and every cross-reference link resolves.
-- Ground every finding in a specific `file:line` and state the **minimal** remedy.
+1. **Substrate is current.** The formats, interfaces, and contracts the Context section relies on are true at the current head, not as of when the draft was written. Code claims cite `path:line`; prior art is cited precisely.
+2. **Decision is implementable.** Exact field names, signatures, vocabularies, shapes; one decision per `###`. A reader builds from it without guessing. Consequences name what is accepted and what was rejected and why; revisit triggers are observable conditions.
+3. **Set consistency.** Coupled ADRs state their shared seam identically. The cover's list, resolved-questions table, and approval checklist match the drafts. Every `ADR-XXXX` and See-also link resolves, the status line names a real landing plan, and no number collides.
+4. **Faithfulness.** The ADR records the decision its source (a synthesis or a stated choice) made, without inventing, overstating, or closing a question the source left open, and it does not contradict an ADR it cites.
+5. **Amendments.** An amendment is appended; the original text is unchanged; it names each decision it extends or supersedes and says whether the original stands.
+6. **Public surface.** Text that will land in a public repo does not depend on private artifacts: no plan numbers, task ids, research paths, or gumbo references.
 
 ## Output
 
-Report findings grouped by severity, each with location and a minimal fix — do **not** rewrite the ADR unless explicitly asked to apply fixes:
+One finding per issue, grounded in `file:line` (two locations for a seam or cover mismatch), with the minimal remedy. Severity: `blocking` (would be implemented wrong or approved against a moved foundation), `should-fix`, `nit`.
 
-```
-**[Blocking]** <seam disagreement / unsupported or moved-substrate claim> — `relay-adr-0004-…md:NN` vs `adr-cover.md:NN`. <why it matters> Fix: <minimal reconcile>.
-**[Should-fix]** …
-**[Nit]** …
-```
+Verdict: `approved` when no blocking or should-fix findings remain; `revise` when some do; `blocked` only when the review cannot be completed or a finding needs an owner decision.
 
-Close with a one-line verdict (approve / approve-with-fixes / needs-changes) — this feeds the owner's status-line approval. If asked to **apply** the fixes, make the minimal change and re-sweep the whole ADR, every sibling draft, and the cover (per `adr-create`'s anti-drift rule) so the fix propagates everywhere the value appears and doesn't introduce new drift. Never rewrite a **landed** ADR to apply a fix — route the correction through an amendment.
+Do not rewrite the ADR. If asked to apply fixes, make the minimal change and propagate it across every sibling draft and the cover. Never edit a landed ADR's original text; route corrections through an amendment.
