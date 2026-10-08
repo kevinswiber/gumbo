@@ -15,7 +15,7 @@ The gumbo data root is its own private git repo, separate from the code repo. Fi
 - Address it explicitly: `git -C <gumbo repo> …`. The shell cwd resets between commands, so a bare `git` from the working directory targets the code repo.
 - Scope every add and commit to this project's subdirectory, as a path relative to the gumbo repo (for the usual layout, `git -C ~/.gumbo add projects/<name>/…`). The index is shared with concurrent sessions; never `add -A`.
 - Commit at coherent boundaries without asking: a plan saved or revised, a phase done, a synthesis written, a landing recorded. Follow the gumbo repo's existing message style (`<project>: <what>`). No co-author or session trailers.
-- Push when asked or when the request implies it: `pull --rebase --autostash`, then push. On `index.lock`, wait a moment and retry once; another session holds it briefly.
+- Push when asked or when the request implies it: `git fetch`, then push directly unless `git status -sb` shows `behind`. Only when behind, `pull --rebase --autostash`; concurrent sessions keep uncommitted edits in the same tree, so if it reports "Applying autostash resulted in conflicts", run `git stash apply` at once to restore their edits, and never drop that stash yourself. On `index.lock`, wait a moment and retry once; another session holds it briefly.
 - Never commit to or push the code repo for a gumbo-only change, and never push the gumbo repo when the request was about the code repo.
 - Private identifiers stay out of public surfaces: plan and research numbers, task ids, finding names, loop dirs, and the word gumbo do not appear in commit messages, PR bodies, issue comments, code, tests, docs, or ADR text that lands in a repo. Record SHAs and PR numbers in the private state instead.
 
