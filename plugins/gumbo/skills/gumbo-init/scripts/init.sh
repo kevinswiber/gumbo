@@ -206,19 +206,32 @@ else
     fi
 fi
 
-# Keep one copy of the shared conventions at the gumbo root, refreshed from the plugin on every
-# run, and point each project at it with a relative symlink. (An absolute link into the plugin
-# cache breaks whenever the plugin is reinstalled or updated.)
+# Shared conventions at the gumbo root, with each project pointing at it by a relative symlink.
+# When the plugin runs from a source checkout (anywhere outside ~/.claude/plugins), the root
+# entry is itself a symlink into that checkout, so edits and branch switches apply at once.
+# When it runs from a managed install (marketplace or cache copy), the root entry is a copy
+# refreshed on every run, because managed paths move on every plugin update.
 SHARED_CONVENTIONS="$GUMBO_ROOT/AGENTS.local.md"
-if [[ -L "$SHARED_CONVENTIONS" ]]; then
-    # A symlink here (into a plugin cache, possibly dangling) is what this copy replaces.
-    rm "$SHARED_CONVENTIONS"
-    echo "Replaced the $SHARED_CONVENTIONS symlink with a regular copy"
-fi
-if [[ ! -f "$SHARED_CONVENTIONS" ]] || ! cmp -s "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"; then
-    cp "$PLUGIN_ROOT/AGENTS.local.md" "$SHARED_CONVENTIONS"
-    echo "Refreshed $SHARED_CONVENTIONS from the plugin"
-fi
+PLUGIN_CONVENTIONS="$PLUGIN_ROOT/AGENTS.local.md"
+case "$PLUGIN_ROOT" in
+    "$HOME/.claude/plugins/"*)
+        if [[ -L "$SHARED_CONVENTIONS" ]]; then
+            rm "$SHARED_CONVENTIONS"
+            echo "Replaced the $SHARED_CONVENTIONS symlink with a regular copy (plugin runs from a managed install)"
+        fi
+        if [[ ! -f "$SHARED_CONVENTIONS" ]] || ! cmp -s "$PLUGIN_CONVENTIONS" "$SHARED_CONVENTIONS"; then
+            cp "$PLUGIN_CONVENTIONS" "$SHARED_CONVENTIONS"
+            echo "Refreshed $SHARED_CONVENTIONS from the plugin"
+        fi
+        ;;
+    *)
+        if [[ -e "$SHARED_CONVENTIONS" && ! -L "$SHARED_CONVENTIONS" ]]; then
+            rm "$SHARED_CONVENTIONS"
+            echo "Replaced the $SHARED_CONVENTIONS copy with a symlink into the plugin checkout"
+        fi
+        ensure_relative_symlink "$SHARED_CONVENTIONS" "$PLUGIN_CONVENTIONS" "shared conventions (checkout)"
+        ;;
+esac
 if [[ -e "$GUMBO_PROJECT_DIR/AGENTS.local.md" && ! -L "$GUMBO_PROJECT_DIR/AGENTS.local.md" ]]; then
     echo "Warning: $GUMBO_PROJECT_DIR/AGENTS.local.md is a regular file; leaving it alone"
 else

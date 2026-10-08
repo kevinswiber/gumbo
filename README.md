@@ -73,7 +73,7 @@ The data lives outside the code repo so it can be version-controlled separately:
 
 ```
 ~/.gumbo/                               # Data root (version-controllable)
-├── AGENTS.local.md                     # Shared conventions, refreshed from the plugin by init
+├── AGENTS.local.md                     # Shared conventions: a symlink into a plugin checkout, or a copy refreshed by init
 └── projects/
     └── myapp/
         ├── config.json                 # Project metadata and backlink
@@ -117,7 +117,7 @@ This will:
 1. Create `~/.gumbo/projects/myapp/` (if it doesn't exist)
 2. Copy the template directories (`plans/`, `research/`, `issues/`) with their `AGENTS.md` files and `CLAUDE.md` compatibility symlinks
 3. Write `config.json` with the project name, working directory, and data root
-4. Copy the plugin's `AGENTS.local.md` to `~/.gumbo/AGENTS.local.md` (refreshed on every run) and symlink `.gumbo/AGENTS.local.md` to it
+4. Point `~/.gumbo/AGENTS.local.md` at the plugin's `AGENTS.local.md` (a symlink when the plugin runs from a checkout, a copy refreshed on every run when it runs from a managed install) and symlink `.gumbo/AGENTS.local.md` to it
 5. Create or update project-local `AGENTS.local.md`, with `CLAUDE.local.md` as a compatibility symlink
 6. Create a symlink at `~/src/myproject/.gumbo` pointing to the data directory
 7. Add `/.gumbo`, `AGENTS.local.md`, and `CLAUDE.local.md` to the project's `.gitignore`
@@ -162,7 +162,7 @@ This will:
 
 ## AGENTS.local.md
 
-`plugins/gumbo/AGENTS.local.md` is the shared conventions reference: the gumbo git discipline, the single-source-then-propagate rule, the interface contract for parallel agents, the finding format, privacy of planning identifiers, and handoff record limits. Skills link to it instead of restating those rules. `/gumbo-init` copies it to `~/.gumbo/AGENTS.local.md` and each project symlinks `.gumbo/AGENTS.local.md` to that copy; rerun `/gumbo-init` on any project after updating the plugin to refresh it. `CLAUDE.local.md` is kept as a compatibility symlink for Claude-specific tooling.
+`plugins/gumbo/AGENTS.local.md` is the shared conventions reference: the gumbo git discipline, the single-source-then-propagate rule, the interface contract for parallel agents, the finding format, privacy of planning identifiers, and handoff record limits. Skills link to it instead of restating those rules. `/gumbo-init` points `~/.gumbo/AGENTS.local.md` at it and each project symlinks `.gumbo/AGENTS.local.md` to that root entry. Loading the plugin from a checkout (`CLAUDE_CODE_PLUGIN_DIRS`) makes the root entry a symlink, so skills and conventions track the checkout with no reinstall; with a marketplace install it is a copy, and `/gumbo-init` on any project refreshes it after a plugin update. `CLAUDE.local.md` is kept as a compatibility symlink for Claude-specific tooling.
 
 ## Directories
 

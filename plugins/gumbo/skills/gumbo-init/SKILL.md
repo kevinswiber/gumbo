@@ -16,7 +16,7 @@ allowed-tools: Bash(*/gumbo-init/scripts/init.sh:*), Read, Write, Edit
 
 If `CLAUDE_PLUGIN_ROOT` is unset, use the path this skill was loaded from (`<plugin root>/skills/gumbo-init/scripts/init.sh`).
 
-The script is idempotent. Running it again on an initialized project refreshes the shared conventions copy at `~/.gumbo/AGENTS.local.md` (every project symlinks to it) and reports when a project's `plans/`, `research/`, or `issues/AGENTS.md` has drifted from the plugin template; it never overwrites those project copies.
+The script is idempotent. Every project symlinks its `AGENTS.local.md` to `~/.gumbo/AGENTS.local.md`. When the plugin runs from a source checkout, that root entry is a symlink into the checkout and tracks it live; when it runs from a managed install under `~/.claude/plugins`, it is a copy refreshed on every run, so rerun this skill after a plugin update. The script also reports when a project's `plans/`, `research/`, or `issues/AGENTS.md` has drifted from the plugin template; it never overwrites those project copies.
 
 3. After a first initialization, remind the user to add the gumbo data directory to their Claude Code context:
 

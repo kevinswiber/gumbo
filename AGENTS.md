@@ -41,7 +41,7 @@ The body of SKILL.md contains instructions the agent follows when the skill is i
 `plugins/gumbo/skills/gumbo-init/scripts/init.sh` takes `<gumbo-root> <project-path> [project-name]`. It:
 - Creates the project directory and copies template files (idempotent -- won't overwrite existing)
 - Writes `config.json` with name, workingDirectory, root
-- Copies AGENTS.local.md to `<gumbo-root>/AGENTS.local.md` (refreshed each run), symlinks each project to it relatively, creates CLAUDE compatibility symlinks, and creates the `.gumbo` symlink
+- Points `<gumbo-root>/AGENTS.local.md` at the plugin's AGENTS.local.md (a symlink when the plugin runs from a checkout, a refreshed copy when it runs from a managed install under `~/.claude/plugins`), symlinks each project to it relatively, creates CLAUDE compatibility symlinks, and creates the `.gumbo` symlink
 - Reports when a project's template AGENTS.md copies have drifted from the plugin template (it never overwrites them)
 - Uses `jq` for JSON manipulation
 
