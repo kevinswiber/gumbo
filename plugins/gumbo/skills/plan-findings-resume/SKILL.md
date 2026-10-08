@@ -4,15 +4,15 @@ description: Triage findings from a plan into issues and research. Reads finding
 allowed-tools: Bash(git log:*), Bash(git diff:*)
 ---
 
-# Plan Findings Resume Skill
+# Plan Findings Resume
 
-Triage findings recorded during plan implementation into issues and research updates.
+Triage findings recorded during plan implementation into issues and research updates. Shared rules are in `.gumbo/AGENTS.local.md`; finding and issue formats are there and in `.gumbo/issues/AGENTS.md`.
 
 ## Process
 
 1. **Identify the target plan:**
 
-   - If the user provides a plan number (e.g., `/plan-findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`
+   - If the user provides a plan number (e.g., `/plan-findings-resume 0018`), use that plan directly: `.gumbo/plans/NNNN-*/`, or `.gumbo/plans/archive/NNNN-*/` when it has been archived. The resolved directory is `<plan dir>` below: every read, link, and report path uses it, so an archived plan's links point into `archive/`
    - If no number is provided, scan for plans with findings:
      - Look for `.gumbo/plans/*/findings/` directories (exclude `.gumbo/plans/archive/`)
      - Read `.plan-state.json` for each to check status
@@ -29,13 +29,13 @@ Triage findings recorded during plan implementation into issues and research upd
      - If no plans have findings, report that and suggest `/plan-findings-create`
 
 2. **Read all findings:**
-   - Read every `.md` file in `.gumbo/plans/NNNN-name/findings/`
-   - Parse the finding metadata: Type, Task, Date
+   - Read every `.md` file in `<plan dir>/findings/`
+   - Parse the finding metadata: Type, Task, Date, Source
    - Group findings by type: discovery, diversion, plan-error, note, todo, cleanup
 
 3. **Present findings summary to the user:**
    ```
-   **Plan:** `.gumbo/plans/NNNN-feature-name/`
+   **Plan:** `<plan dir>`
    **Findings:** N total
 
    | # | Finding | Type | Task | Proposed Action |
@@ -56,7 +56,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
 5. **Create issues** from findings that warrant them:
 
-   - Find the next issue set number by checking `.gumbo/issues/` for the highest `NNNN-*` prefix
+   - Find the next issue set number by checking `.gumbo/issues/` for the highest `NNNN-*` prefix (issue sets are never archived)
    - Create `.gumbo/issues/NNNN-kebab-description/` directory
    - Write `issues.md` index file with:
      - Summary of how issues were identified (from plan findings)
@@ -68,7 +68,7 @@ Triage findings recorded during plan implementation into issues and research upd
      - Severity, category, status (Open)
      - Description derived from the finding
      - Reproduction steps (from finding details or plan context)
-     - Link back to the source finding: `.gumbo/plans/NNNN-name/findings/finding-name.md`
+     - Link back to the source finding: `<plan dir>/findings/finding-name.md`
    - Follow the format conventions in `.gumbo/issues/AGENTS.md`
 
 6. **Route research findings** to the appropriate location:
@@ -106,7 +106,7 @@ Triage findings recorded during plan implementation into issues and research upd
 
    **No action:** 2 findings (informational)
 
-   **Source:** `.gumbo/plans/MMMM-name/findings/` (N findings triaged)
+   **Source:** `<plan dir>/findings/` (N findings triaged)
    ```
 
 ## Finding Type → Action Mapping

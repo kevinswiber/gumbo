@@ -3,92 +3,15 @@ name: plan-cancel
 description: Cancel an implementation plan. Moves the plan to archive/ with CANCELLED status. Use when a plan is superseded, abandoned, or no longer needed.
 ---
 
-# Cancel Skill
+# Plan Cancel
 
-Cancel an implementation plan that is no longer being pursued.
+Cancel a plan that is no longer being pursued. Shared rules are in `.gumbo/AGENTS.local.md`.
 
-## Process
-
-1. **Identify the plan to cancel:**
-   - If the user specifies a plan number/name, use that
-   - Otherwise, list in-progress plans and ask user to choose
-   - Never auto-cancel - always require explicit identification
-
-2. **Ask for cancellation reason** (optional but recommended):
-   - "Why is this plan being cancelled?"
-   - Common reasons: superseded by another plan, requirements changed, no longer needed
-   - If superseded, ask which plan supersedes it
-
-3. **Update plan files:**
-
-   **Update `implementation-plan.md` status header:**
-   ```markdown
-   ## Status: ❌ CANCELLED
-
-   **Cancelled:** YYYY-MM-DD
-   **Reason:** [User's reason, if provided]
-   **Superseded by:** NNNN-other-plan (if applicable)
-   ```
-
-   **Update `task-list.md` status:**
-   ```markdown
-   ## Status: ❌ CANCELLED
-   ```
-
-   **Update `.plan-state.json`:**
-   ```json
-   {
-     "status": "cancelled",
-     "cancelled_at": "2026-01-25T10:30:00Z",
-     "updated_at": "2026-01-25T10:30:00Z",
-     "cancellation_reason": "Superseded by 0005-dagre-module",
-     "superseded_by": "0005-dagre-module",
-     ...existing fields...
-   }
-   ```
-
-4. **Move to archive:**
-   ```bash
-   mv .gumbo/plans/NNNN-feature-name .gumbo/plans/archive/
-   ```
-
-5. **Confirm to user:**
-   ```
-   **Cancelled:** `.gumbo/plans/archive/NNNN-feature-name/`
-   **Status:** ❌ CANCELLED
-   **Reason:** [reason]
-   **Progress at cancellation:** X/Y tasks (Z%)
-   ```
-
-## Example Usage
-
-### Cancel with reason
-```
-User: /plan-cancel 0004
-
-Claude: Why is plan 0004-declaration-order-layout being cancelled?
-
-User: Superseded by the dagre module plan
-
-Claude: Is this superseded by plan 0005-dagre-module? (y/n)
-
-User: yes
-
-**Cancelled:** `.gumbo/plans/archive/0004-declaration-order-layout/`
-**Status:** ❌ CANCELLED
-**Reason:** Superseded by 0005-dagre-module
-**Progress at cancellation:** 0/14 tasks (0%)
-```
-
-### Cancel already-archived plan (update status only)
-```
-User: /plan-cancel 0004
-
-Claude: Plan 0004 is already in archive/ but shows status IN PROGRESS.
-Update status to CANCELLED? (y/n)
-
-User: yes
-
-**Updated:** `.gumbo/plans/archive/0004-declaration-order-layout/`
-**Status:** ❌ CANCELLED
-```
+1. **Identify the plan.** Only the one the user named; never auto-cancel. If none was named, list in-progress plans and ask.
+2. **Ask for the reason** if not given, and which plan supersedes it if any.
+3. **Update the files.**
+   - `implementation-plan.md` header becomes `## Status: ❌ CANCELLED`, followed by `**Cancelled:** YYYY-MM-DD`, `**Reason:** …`, and `**Superseded by:** NNNN-name` when applicable.
+   - `task-list.md` header becomes `## Status: ❌ CANCELLED`.
+   - `.plan-state.json`: `status: "cancelled"`, `cancelled_at`, `updated_at`, `cancellation_reason`, `superseded_by` (or null); keep every other field.
+4. **Move** the directory to `.gumbo/plans/archive/` (if it is already there, update the status only) and commit to the gumbo repo.
+5. **Confirm** in a few lines: the archive path, the reason, progress at cancellation.

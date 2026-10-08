@@ -3,41 +3,24 @@ name: handoff
 description: Generate a paste-ready resume prompt for continuing work in a fresh session when context grows large. Use when wrapping up a long session so the next one picks up cleanly with one well-defined next action.
 ---
 
-# Handoff Skill
+# Handoff
 
-Produce a **paste-ready prompt** that lets a fresh session resume this work cleanly. Use it when context is running low and you want a deliberate clean break — not the harness's automatic in-session compaction (which preserves continuity in the *same* session), but a curated entry point for a *new* one.
+Produce a **paste-ready prompt** that lets a fresh session resume this work. Use it for a deliberate clean break into a new session, as opposed to the harness's in-session compaction. If a hook-driven `context-handoff` skill is installed, it performs the same steps with project auto-detection; the contract below is what either must produce.
 
-## The core principle: durable records first, then point at them
+## Durable records first, then point at them
 
-A handoff prompt should be **small and stable**, so it must not carry the state — the durable files do. Before writing the prompt:
+The prompt must be small and stable, so it carries pointers, not state:
 
-1. **Flush all in-flight state to disk.** Update the project's resume document (`HANDOFF.md`), the decision/deviation ledger (`findings.md`), and any plan/research state files so they reflect reality *now*. Record decisions made this session, mark what landed, note what's mid-flight.
-2. **Then write a prompt that points at those files** rather than restating their contents. A paraphrase in the prompt goes stale the moment the files move on; a pointer ("read `HANDOFF.md`, then the last 4 findings entries") always resolves to the truth.
+1. **Flush in-flight state to disk.** Plan work: `.plan-state.json` (`current_task`, `last_session_notes`, `progress`, `commits`) and a finding for any decision or deviation this session. Research work: `.research-state.json` and the Expected Outputs table. Coordinator work: `HANDOFF.md` and the ledger. A decision not yet recorded gets recorded now (a finding, or `/adr-create`), not restated in the prompt.
+2. **Write the handoff file** where the next session will look: an in-progress artifact gets `handoff-<topic>.md` in its directory; otherwise the project's `HANDOFF.md`. Keep it under about 300 lines, moving history to the ledger (AGENTS.local.md, Handoff records). This file is the durable copy; the prompt is its distilled pointer.
+3. **Commit** the records to the gumbo repo.
 
-If there is no durable record to point at, create one first — a handoff prompt over un-recorded state just moves the fragility into the prompt.
+## What the prompt contains
 
-## What a good handoff prompt contains
+- **Where to start:** the working directory and the read-first order by authority (memory keys, the handoff file, the artifact files, related ADRs or research).
+- **One next action:** a single concrete move, with the resume command (`/plan-resume`, `/research-resume`, a review loop), not a menu. The queue of later moves lives in the handoff file.
+- **Active constraints:** read-only directories, commit scope, branch and naming conventions, anything that causes harm if forgotten.
+- **What is decided:** pointers to the records that hold the detail, so the new session does not relitigate or redo.
+- **In-flight gotchas:** a stop rule, a gated dependency, a known fragile seam.
 
-- **Where to start** — the working directory, and the **read-first order** (which files, in what order of authority). The new session orients from records, not from the prompt.
-- **The single most important next action** — *one* concrete move, not a menu. "Create plan 0068 (it lands X)" beats "continue the M2 work."
-- **Active constraints** — read-only directories, commit scope, naming/branch conventions, anything that would cause harm if forgotten.
-- **What's already decided / done** — so the new session does not redo work or relitigate settled decisions. Reference the records that hold the detail.
-- **In-flight gotchas** — a STOP rule, a gated dependency ("blocked on X's approval"), a known-fragile seam.
-
-## What to avoid
-
-- **Dumping raw state into the prompt.** Point at files; don't transcribe them.
-- **A vague continuation** ("pick up where I left off"). Name the next action.
-- **Re-deriving decisions in the prompt.** If a decision isn't yet recorded, record it (e.g. via `adr-create` or a findings entry), then reference it.
-- **A long menu of options.** One clear next move; the queue of later moves lives in the resume document, not the prompt.
-
-## Process
-
-1. Flush in-flight state to the durable records (resume doc, ledger, state files).
-2. Draft the prompt with the five elements above — favor pointers over restated content.
-3. Present it as a clearly delimited, paste-ready block the user can drop into a new session verbatim.
-
-## Relationship to other skills
-
-- The **`coordinator`** role keeps its resume document (`HANDOFF.md`) continuously true; this skill turns that document plus the live state into the actual resume *prompt*.
-- An implementer mid-plan can hand off too: flush `.plan-state.json` `last_session_notes`, then point the prompt at the plan and the current task.
+Present it as one clearly delimited block the user can paste verbatim. Do not transcribe file contents into it, and do not write "pick up where I left off".

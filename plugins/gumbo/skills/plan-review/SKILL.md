@@ -3,43 +3,24 @@ name: plan-review
 description: Review an implementation plan for correctness, feasibility, completeness, and consistency.
 ---
 
-# Plan Review Skill
+# Plan Review
 
-Review a plan the way a careful implementer or reviewer would: read it top-to-bottom, and catch what would otherwise become a bug, a wasted review round, or a won't-compile surprise. This is the **reactive net** for the drift that creeps in as a plan is iterated (the proactive side is the propagate-on-edit rule in `plan-resume` and single-sourcing in `plan-create`).
+Review the plan as the implementer who will execute it from disk in a fresh session. Read the implementation plan, the architecture brief if present, every task file, and the state file, and ground findings against the live source tree. A reviewer can be wrong and a plan can be right: verify each claim before reporting it.
 
-## When to use
+## Checks
 
-- Before a plan is approved or handed to implementation.
-- After a plan has been **iterated** (a review applied, a task reworked, a decision changed) — the moment most likely to have left stale references behind.
-- When asked to "review" or "sanity-check" a plan.
-
-## What to check
-
-Verify each load-bearing claim against the actual plan and source before reporting it — a reviewer can be wrong and a plan can be right.
-
-1. **Internal consistency (the drift net — the highest-value pass).**
-   - **Shared symbols agree** across all task files: one name, one signature, one visibility, one file path. A symbol defined in one task and used in another must match exactly.
-   - **Every consumed symbol is defined** by some task (no "owned by an earlier phase" against a symbol no task creates).
-   - **Load-bearing invariants read the same everywhere** — for each invariant, search every task file for its *anti-pattern* (the wrong return type, a forbidden fallback, a private symbol called across a boundary, a test doing what a test rule forbids) and flag every hit. The rule must read identically in the Green snippet, the Context, and the acceptance criteria.
-   - **No stale references.** Grep the whole plan for any value that was changed during iteration (an old symbol name, a superseded decision, a renamed field) — these are the leftovers iteration leaves behind. The architecture brief's seams must match the current task files.
-2. **Feasibility.** Would the code plausibly compile? Check visibility across package/crate or binary↔library boundaries, argument arity, import paths, variant shapes. Is each task's Green achievable from its Red?
-3. **Completeness.** Every task-list item has a task file or a justified inline note; the plan actually covers the request; verification matches each task's behavior and repository gates; TDD phases are present where required or justified.
-4. **Alignment.** The plan honors the research and ADRs it cites and the constraints/invariants it declares; it doesn't quietly contradict an approved decision.
-
-## How
-
-- Read the plan top-to-bottom (implementation plan → architecture brief → every task file → state).
-- For each invariant, **grep for its anti-pattern** across the task files; for each shared symbol, confirm the producer and every consumer agree; for each value changed in iteration, grep for the old form.
-- Ground every finding in a specific `file:line` and state the **minimal** remedy.
+1. **Claims about existing code.** Every symbol, signature, path, line anchor, and "already handled" the plan asserts is true at the current head. Stale claims are the findings that survive the most review rounds.
+2. **Internal consistency.** Shared symbols agree across all files: one name, signature, visibility, path. The load-bearing invariants read the same wherever they are applied (a task's snippet, context, and acceptance criteria). No two invariants contradict each other, and none assumes data the plan never stores. Nothing states a value changed during iteration in its old form, including paraphrases such as counts and ownership claims in the brief or overview.
+3. **Feasibility and order.** Snippets would plausibly compile: visibility across package, crate, or binary boundaries; arity; imports; variant shapes. Every consumed symbol is defined by an earlier task, so each task is buildable on its own. Existing tests the change breaks are accounted for.
+4. **Test validity.** Each Red fails before the change for the stated reason and cannot pass vacuously; fixtures can be built; no race or ordering assumption hides in an assertion. Verification for non-TDD tasks is named and runnable.
+5. **Behavior.** Failure paths, edge cases, and conflicting requirements the tasks do not handle; a rule that cannot protect what it claims to protect; an ordering that leaves the system broken between phases.
+6. **Unknowns.** Anything the design rests on that source cannot confirm (host behavior, an external API, a UI) is listed under Unknowns and probes with a probe before the dependent tasks, not deferred to a final live check.
+7. **Completeness and alignment.** The plan covers the request; each task-list item has a file or an adequate inline spec; verification matches each task; the plan honors the research, ADRs, and owner decisions it cites and does not quietly contradict one.
 
 ## Output
 
-Report findings grouped by severity, each with location and a minimal fix — do **not** rewrite the plan unless explicitly asked to apply fixes:
+One finding per issue, grounded in `file:line`, with the minimal remedy. When the fix must land in several places, name them all. Severity: `blocking` (would not compile, run, or do what the request asks), `should-fix` (a real defect the implementer would otherwise reproduce), `nit` (optional).
 
-```
-**[Blocking]** <one-line issue> — `tasks/2.1-…md:NN`. <why it breaks> Fix: <minimal remedy>.
-**[Should-fix]** …
-**[Nit]** …
-```
+Verdict: `approved` when no blocking or should-fix findings remain; `revise` when some do; `blocked` only when the review cannot be completed or a finding needs a decision the author cannot make (an owner choice, missing access). A missing definition or an unresolved symbol is `revise`, not `blocked`.
 
-Close with a one-line verdict (approve / approve-with-fixes / needs-changes). If asked to **apply** the fixes, make the minimal change and re-run the consistency checks (per `plan-resume`'s propagate-on-edit rule) so the fix itself doesn't introduce new drift.
+Do not rewrite the plan. If asked to apply fixes, make the minimal change, propagate it everywhere the value appears, and re-run checks 1 to 3 on the edited regions.

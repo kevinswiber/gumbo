@@ -41,7 +41,8 @@ The body of SKILL.md contains instructions the agent follows when the skill is i
 `plugins/gumbo/skills/gumbo-init/scripts/init.sh` takes `<gumbo-root> <project-path> [project-name]`. It:
 - Creates the project directory and copies template files (idempotent -- won't overwrite existing)
 - Writes `config.json` with name, workingDirectory, root
-- Symlinks AGENTS.local.md, creates CLAUDE compatibility symlinks, and creates the `.gumbo` symlink
+- Points `<gumbo-root>/AGENTS.local.md` at the plugin's AGENTS.local.md (a symlink when the plugin runs from a checkout, a refreshed copy when it runs from a managed install under `~/.claude/plugins`), symlinks each project to it relatively, creates CLAUDE compatibility symlinks, and creates the `.gumbo` symlink
+- Reports when a project's template AGENTS.md copies have drifted from the plugin template (it never overwrites them)
 - Uses `jq` for JSON manipulation
 
 ## Template files
@@ -51,11 +52,11 @@ The body of SKILL.md contains instructions the agent follows when the skill is i
 ## Conventions
 
 - Plans and research use `NNNN-kebab-case` numbered directories
-- Plans define task-appropriate verification; use TDD for behavior changes when it adds useful evidence
+- Plans list unknowns and probes before tasks, state cross-cutting rules once in a load-bearing invariants section, and define task-appropriate verification; task files are optional for small plans
 - Research uses a where/what/how/why framework; independent questions may run concurrently when delegation is authorized
-- State tracked in `.plan-state.json` and `.research-state.json`
-- Draft files prefixed with `draft-` are gitignored
-- `AGENTS.local.md` is the single source of truth symlinked into all projects; `CLAUDE.local.md` is only a compatibility symlink
+- State tracked in `.plan-state.json` and `.research-state.json`; the skills read `status`, `current_task`, `last_session_notes`, `progress`, `commits`, and tolerate extra keys
+- The review skills (`plan-review`, `research-review`, `adr-review`) are embedded verbatim into Codex prompts by the owner's review-loop skills; keep them self-contained and keep the `blocking|should-fix|nit` severities and `approved|revise|blocked` verdicts
+- `AGENTS.local.md` is the shared conventions reference (git discipline, propagation, interface contracts, finding format, privacy); skills link to it instead of restating rules. `CLAUDE.local.md` is only a compatibility symlink
 
 ## Git
 

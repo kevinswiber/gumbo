@@ -3,56 +3,12 @@ name: research-archive
 description: Archive completed research. Moves the research to archive/ and updates its status.
 ---
 
-# Research Archive Skill
+# Research Archive
 
-Archive a completed research plan after findings have been synthesized and consumed.
+Archive research after its synthesis has been consumed. Shared rules are in `.gumbo/AGENTS.local.md`.
 
-## Process
-
-1. **Identify the research to archive:**
-   - If the user specifies a number/name, use that
-   - Otherwise, scan `.gumbo/research/NNNN-*/` (exclude `archive/` and unnumbered legacy directories) for research with status `"synthesized"` in `.research-state.json`
-   - If multiple candidates, ask user to choose
-
-2. **Verify completion:**
-   - Check that `synthesis.md` exists
-   - Check that findings files exist for each question
-   - If synthesis is missing, ask: "Research has no synthesis yet. Archive anyway?"
-
-3. **Update research files:**
-
-   **Update `research-plan.md` status:**
-   ```markdown
-   ## Status: ARCHIVED
-
-   **Archived:** YYYY-MM-DD
-   ```
-
-   **Update `.research-state.json`:**
-   ```json
-   {
-     "status": "archived",
-     "archived_at": "2026-01-28T10:30:00Z",
-     "updated_at": "2026-01-28T10:30:00Z",
-     ...existing fields...
-   }
-   ```
-
-4. **Move to archive:**
-   ```bash
-   mv .gumbo/research/NNNN-topic-name .gumbo/research/archive/
-   ```
-
-5. **Confirm to user:**
-   ```
-   **Archived:** `.gumbo/research/archive/NNNN-topic-name/`
-   **Status:** ARCHIVED
-   **Questions:** N answered
-   **Synthesis:** Yes/No
-   **Archived:** YYYY-MM-DD
-   ```
-
-## Notes
-
-- Research referenced by implementation plans (via relative paths like `../../.gumbo/research/NNNN-topic/`) will have broken links after archiving. The archive path becomes `../../.gumbo/research/archive/NNNN-topic/`. Consider this before archiving research that active plans reference.
-- Unnumbered legacy research directories (e.g., `dagre-layout/`, `edge-routing-deep-dive/`) should not be archived through this skill — they predate the numbering convention.
+1. **Identify the research.** The one the user named; otherwise scan `.gumbo/research/NNNN-*/` (not `archive/`, not unnumbered legacy directories) for state `synthesized`. Several candidates: ask.
+2. **Verify.** `synthesis.md` exists and each question has a findings file. If the synthesis is missing, ask "Research has no synthesis yet. Archive anyway?" and wait.
+3. **Update the files.** `research-plan.md` header becomes `## Status: ARCHIVED` with `**Archived:** YYYY-MM-DD`; `.research-state.json` gets `status: "archived"`, `archived_at`, `updated_at`, keeping every other field.
+4. **Move** the directory to `.gumbo/research/archive/`. Links from active plans, roadmaps, and handoffs that used the old path now break; grep the project for `research/NNNN-` and repoint them in the same commit.
+5. **Commit** to the gumbo repo and confirm in a few lines: the archive path, the question count, whether a synthesis exists.

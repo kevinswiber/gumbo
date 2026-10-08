@@ -4,9 +4,9 @@ description: Retroactively create findings for a plan by reviewing completed pha
 allowed-tools: Bash(git log:*), Bash(git diff:*), Bash(git show:*)
 ---
 
-# Plan Findings Create Skill
+# Plan Findings Create
 
-Retroactively extract findings from completed plan phases when findings weren't recorded during implementation.
+Retroactively extract findings from completed plan phases when they were not recorded during implementation. Shared rules are in `.gumbo/AGENTS.local.md`.
 
 ## Process
 
@@ -82,25 +82,7 @@ Retroactively extract findings from completed plan phases when findings weren't 
    - Create `.gumbo/plans/NNNN-name/findings/` directory if it doesn't exist
    - Write each finding as an individual markdown file
    - Use descriptive filenames: `findings/todo-cleanup-unused-helpers.md`
-   - Follow the standard finding format:
-
-     ```markdown
-     # Finding: Short Title
-
-     **Type:** discovery | diversion | plan-error | note | todo | cleanup
-     **Task:** 2.1
-     **Date:** YYYY-MM-DD
-     **Source:** Commit abc1234 | TODO in src/foo.rs:42 | Observed during review
-
-     ## Details
-     [What was found/changed/wrong]
-
-     ## Impact
-     [How this affects the current plan or future work]
-
-     ## Action Items
-     - [ ] Concrete next step (if any)
-     ```
+   - Use the finding format from `.gumbo/AGENTS.local.md`, with `**Source:**` set to the commit, TODO location, or review that surfaced it
 
 8. **Report results:**
    ```
